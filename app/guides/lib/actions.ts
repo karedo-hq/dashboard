@@ -15,8 +15,6 @@ export async function createGuide(
 
     const result = await response.json();
 
-    console.log({ result });
-
     revalidatePath('/guides');
 
     return { guide: result, message: 'Guide created successfully' };
