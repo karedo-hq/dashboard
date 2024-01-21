@@ -25,10 +25,7 @@ export default function Sidebar({ children }: React.ComponentProps<'aside'>) {
           <SidebarToggler mode="close" />
         </div>
 
-        <Link
-          href="/guides/create"
-          className={cn(buttonVariants({ variant: 'outline' }), 'space-x-2')}
-        >
+        <Link href="/create" className={cn(buttonVariants({ variant: 'outline' }), 'space-x-2')}>
           <PlusIcon size={8} />
 
           <p>New guide</p>

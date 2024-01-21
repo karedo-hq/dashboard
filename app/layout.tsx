@@ -23,8 +23,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <main className="group w-full pl-0 md:pl-[280px] overflow-auto">
               <Header />
               {children}
-              <Toaster />
             </main>
+            <Toaster />
           </div>
         </Providers>
       </body>

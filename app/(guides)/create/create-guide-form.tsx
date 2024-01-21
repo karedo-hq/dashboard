@@ -5,6 +5,8 @@ import { useFormState } from 'react-dom';
 import { useFormStatus } from 'react-dom';
 import { CreateGuideResponse } from '../lib/types';
 import GuideRenderer from '../components/guide-renderer';
+import { Button } from '@/components/ui/button';
+import { typographyVariants } from '@/components/ui/typography';
 
 const initialState: CreateGuideResponse = {
   message: '',
@@ -19,11 +21,13 @@ export function CreateGuideForm() {
 
   return (
     <form action={formAction} className="flex flex-col">
-      <label htmlFor="file">Video:</label>
+      <label htmlFor="file" className={typographyVariants({ variant: 'paragraph' })}>
+        Video:
+      </label>
       <input type="file" id="file" name="file" required />
-      <button type="submit" aria-disabled={pending}>
+      <Button type="submit" variant="default" disabled={pending}>
         {pending ? 'Creating...' : 'Create'}
-      </button>
+      </Button>
       <p aria-live="polite" role="status">
         {state?.message}
       </p>
