@@ -1,6 +1,6 @@
 'use client';
 
-import { createGuide } from '@/guides/lib/actions';
+import { createGuide } from '@/(guides)/lib/actions';
 import { useFormState } from 'react-dom';
 import { useFormStatus } from 'react-dom';
 import { CreateGuideResponse } from '../lib/types';
