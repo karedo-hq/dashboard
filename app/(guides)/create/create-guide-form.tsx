@@ -8,8 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Guide } from '../lib/types';
 import GuideRenderer from '../components/guide-renderer';
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
-import { DialogTrigger } from '@radix-ui/react-dialog';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import FramedArrowIcon from '@/components/icons/framed-arrow-icon';
 import { useToast } from '@/lib/hooks/use-toast';
 
