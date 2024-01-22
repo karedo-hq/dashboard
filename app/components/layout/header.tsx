@@ -1,5 +1,6 @@
 import Logo from '@/components/logo';
 import SidebarToggler from './sidebar-toggler';
+import UserOrLogin from '@/(auth)/components/user-or-login';
 
 export function Header() {
   return (
@@ -10,7 +11,7 @@ export function Header() {
         <Logo size={24} />
       </div>
 
-      <div className="flex space-x-12">login</div>
+      <UserOrLogin />
     </header>
   );
 }
