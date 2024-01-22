@@ -7,7 +7,7 @@ type SidebarListProps = {
 
 const loadGuides = async (userId: string) => {
   // @todo - load guides from the server with getGuides server action.
-  return [{ id: '1', title: 'Getting started' }];
+  return [];
 };
 
 export async function SidebarList({ userId }: SidebarListProps) {
@@ -24,7 +24,7 @@ export async function SidebarList({ userId }: SidebarListProps) {
           ))
         ) : (
           <div className="p-8 text-center">
-            <p className="text-sm text-muted-foreground">No chat history</p>
+            <p className="text-sm text-muted-foreground">No saved guides</p>
           </div>
         )}
       </div>

@@ -7,6 +7,7 @@ import SidebarToggler from './sidebar-toggler';
 import { buttonVariants } from '../ui/button';
 import { cn } from '@/lib/utils';
 import PlusIcon from '../icons/plus-icon';
+import Footer from './footer';
 
 export default function Sidebar({ children }: React.ComponentProps<'aside'>) {
   const { isSidebarOpen, isLoading } = useSidebar();
@@ -34,7 +35,7 @@ export default function Sidebar({ children }: React.ComponentProps<'aside'>) {
 
       {children}
 
-      <div className="flex items-center justify-between p-4">footer</div>
+      <Footer />
     </aside>
   );
 }
