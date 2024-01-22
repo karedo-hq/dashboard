@@ -1,25 +1,23 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { CreateGuideResponse } from './types';
+import { Guide } from './types';
 
-export async function createGuide(
-  prevState: CreateGuideResponse,
-  formData: FormData,
-): Promise<CreateGuideResponse> {
+export async function createGuide(formData: FormData): Promise<Guide> {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/guides`, {
       method: 'POST',
       body: formData,
     });
 
-    const result = await response.json();
+    const guide = await response.json();
+
+    console.log('guide: ', guide);
 
     revalidatePath('/guides');
 
-    return { guide: result, message: 'Guide created successfully' };
+    return guide;
   } catch (error) {
-    console.log('error is:', error);
-    return { message: 'Failed to create guide', guide: null };
+    throw error;
   }
 }

@@ -17,7 +17,7 @@ const typographyVariants = cva('', {
       title4: 'scroll-m-20 text-xl font-semibold tracking-tight',
       paragraph: 'leading-7 [&:not(:first-child)]:mt-6',
       blockquote: 'mt-6 border-l-2 pl-6 italic',
-      small: 'text-sm font-medium leading-none',
+      small: 'text-sm leading-none',
       muted: 'text-sm text-muted-foreground',
     },
   },

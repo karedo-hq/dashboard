@@ -1,38 +1,45 @@
 'use client';
 
 import { createGuide } from '@/(guides)/lib/actions';
-import { useFormState } from 'react-dom';
-import { useFormStatus } from 'react-dom';
-import { CreateGuideResponse } from '../lib/types';
-import GuideRenderer from '../components/guide-renderer';
+import { useForm } from 'react-hook-form';
+import { Form, FormItem, FormLabel } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { typographyVariants } from '@/components/ui/typography';
+import { useState } from 'react';
+import { Guide } from '../lib/types';
+import GuideRenderer from '../components/guide-renderer';
 
-const initialState: CreateGuideResponse = {
-  message: '',
-  guide: null,
+type CreateGuideFormValues = {
+  file?: FileList;
 };
 
 export function CreateGuideForm() {
-  const [state, formAction] = useFormState(createGuide, initialState);
-  const { pending } = useFormStatus();
+  const form = useForm<CreateGuideFormValues>();
+  const [guide, setGuide] = useState<Guide>();
 
-  console.log({ pending });
+  const onSubmit = async (values: CreateGuideFormValues) => {
+    console.log(values);
+    if (values.file) {
+      const formData = new FormData();
+      formData.append('file', values.file[0]);
+      const res = await createGuide(formData);
+
+      setGuide(res);
+    }
+  };
 
   return (
-    <form action={formAction} className="flex flex-col">
-      <label htmlFor="file" className={typographyVariants({ variant: 'paragraph' })}>
-        Video:
-      </label>
-      <input type="file" id="file" name="file" required />
-      <Button type="submit" variant="default" disabled={pending}>
-        {pending ? 'Creating...' : 'Create'}
-      </Button>
-      <p aria-live="polite" role="status">
-        {state?.message}
-      </p>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-8 w-96 mx-auto">
+        <FormItem>
+          <FormLabel htmlFor="file">Video recording</FormLabel>
 
-      {state?.guide && <GuideRenderer {...state.guide} />}
-    </form>
+          <Input {...form.register('file')} type="file" name="file" />
+        </FormItem>
+
+        <Button variant="default">Create</Button>
+      </form>
+      {guide && <GuideRenderer {...guide} />}
+    </Form>
   );
 }
