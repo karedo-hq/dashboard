@@ -8,6 +8,8 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Guide } from '../lib/types';
 import GuideRenderer from '../components/guide-renderer';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { DialogTrigger } from '@radix-ui/react-dialog';
 
 type CreateGuideFormValues = {
   file?: FileList;
@@ -44,8 +46,17 @@ export function CreateGuideForm() {
         <Button variant="default" disabled={isSubmitting}>
           {isSubmitting ? 'Loading...' : 'Create'}
         </Button>
+        {guide && (
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline">Open result</Button>
+            </DialogTrigger>
+            <DialogContent className="max-h-[80vh] min-w-[70vw] overflow-hidden overflow-y-scroll">
+              <GuideRenderer guide={guide} />
+            </DialogContent>
+          </Dialog>
+        )}
       </form>
-      {guide && <GuideRenderer {...guide} />}
     </Form>
   );
 }

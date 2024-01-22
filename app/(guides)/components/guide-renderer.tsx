@@ -1,19 +1,32 @@
 import { Fragment } from 'react';
 import { Guide } from '../lib/types';
+import { Typography } from '@/components/ui/typography';
+import { cn } from '@/lib/utils';
 
-export default function GuideRenderer({ title, steps }: Guide) {
+type GuideRendererProps = React.HTMLAttributes<'section'> & { guide: Guide };
+
+export default function GuideRenderer({ guide, className }: GuideRendererProps) {
   return (
-    <section>
-      <h1>{title}</h1>
+    <section className={cn('flex flex-col overflow-hidden', className)}>
+      <Typography as="h1" variant="title3">
+        {guide.title}
+      </Typography>
 
-      {steps.map(({ title, description, videoUrl }, index) => (
-        <Fragment key={index}>
-          <h2>{title}</h2>
-          <p>{description}</p>
+      <div className="mt-6">
+        {guide.steps.map(({ title, description, videoUrl }, index) => (
+          <Fragment key={index}>
+            <Typography as="h2" variant="title4" className="[&:not(:first-child)]:mt-16">
+              {title}
+            </Typography>
 
-          <video src={videoUrl} controls />
-        </Fragment>
-      ))}
+            <Typography as="p" variant="paragraph" className="mb-4">
+              {description}
+            </Typography>
+
+            <video src={videoUrl} controls className="rounded-xl" />
+          </Fragment>
+        ))}
+      </div>
     </section>
   );
 }
