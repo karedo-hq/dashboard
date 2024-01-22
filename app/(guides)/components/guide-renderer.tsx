@@ -7,7 +7,7 @@ type GuideRendererProps = React.HTMLAttributes<'section'> & { guide: Guide };
 
 export default function GuideRenderer({ guide, className }: GuideRendererProps) {
   return (
-    <section className={cn('flex flex-col overflow-hidden', className)}>
+    <section className={cn('flex flex-col', className)}>
       <Typography as="h1" variant="title3">
         {guide.title}
       </Typography>
