@@ -1,8 +1,3 @@
-export type CreateGuideResponse = {
-  message: string;
-  guide: Guide | null;
-};
-
 export type GuideStep = {
   title: string;
   description: string;

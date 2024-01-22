@@ -1,11 +1,11 @@
 'use client';
 
-import { createGuide } from '@/(guides)/lib/actions';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { createGuide } from '@/(guides)/lib/actions';
 import { Form, FormItem, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
 import { Guide } from '../lib/types';
 import GuideRenderer from '../components/guide-renderer';
 
@@ -18,15 +18,19 @@ export function CreateGuideForm() {
   const [guide, setGuide] = useState<Guide>();
 
   const onSubmit = async (values: CreateGuideFormValues) => {
-    console.log(values);
+    if (guide) {
+      setGuide(undefined);
+    }
+
     if (values.file) {
       const formData = new FormData();
       formData.append('file', values.file[0]);
       const res = await createGuide(formData);
-
       setGuide(res);
     }
   };
+
+  const isSubmitting = form.formState.isSubmitting;
 
   return (
     <Form {...form}>
@@ -34,10 +38,12 @@ export function CreateGuideForm() {
         <FormItem>
           <FormLabel htmlFor="file">Video recording</FormLabel>
 
-          <Input {...form.register('file')} type="file" name="file" />
+          <Input {...form.register('file')} type="file" name="file" accept="video/mp4" />
         </FormItem>
 
-        <Button variant="default">Create</Button>
+        <Button variant="default" disabled={isSubmitting}>
+          {isSubmitting ? 'Loading...' : 'Create'}
+        </Button>
       </form>
       {guide && <GuideRenderer {...guide} />}
     </Form>
