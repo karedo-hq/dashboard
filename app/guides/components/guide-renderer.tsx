@@ -23,7 +23,7 @@ export default function GuideRenderer({ guide, className }: GuideRendererProps) 
               {description}
             </Typography>
 
-            <video src={videoUrl} controls className="rounded-xl" />
+            <video src={videoUrl} controls className="rounded-xl" muted />
           </Fragment>
         ))}
       </div>
