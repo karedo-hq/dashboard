@@ -1,20 +1,19 @@
-'use server';
-
 import { revalidatePath } from 'next/cache';
-import { Guide } from './types';
 
-export async function createGuide(formData: FormData): Promise<Guide> {
+export async function POST(req: Request) {
   try {
+    const formData = await req.formData();
+
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/guides`, {
       method: 'POST',
       body: formData,
     });
 
-    const guide = await response.json();
+    const data = await response.json();
 
     revalidatePath('/guides');
 
-    return guide;
+    return Response.json(data);
   } catch (error) {
     throw error;
   }

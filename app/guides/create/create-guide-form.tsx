@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { createGuide } from '@/guides/lib/actions';
 import { Form, FormItem, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -29,12 +28,35 @@ export function CreateGuideForm() {
     if (values.file) {
       const formData = new FormData();
       formData.append('file', values.file[0]);
-      const res = await createGuide(formData);
-      setGuide(res);
-      toast({
-        title: 'Guide created',
-        description: '🎉 Your guide has been created successfully.',
-      });
+
+      try {
+        const res = await fetch('/api/guides', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!res.ok) {
+          toast({
+            title: 'Error creating guide',
+            description: 'We were unable to create your guide. Please try again.',
+            variant: 'destructive',
+          });
+        } else {
+          const createdGuide = await res.json();
+
+          setGuide(createdGuide);
+          toast({
+            title: 'Guide created',
+            description: '🎉 Your guide has been created successfully.',
+          });
+        }
+      } catch (error) {
+        toast({
+          title: 'Error creating guide',
+          description: 'We were unable to create your guide. Please try again.',
+          variant: 'destructive',
+        });
+      }
     }
   };
 
@@ -49,7 +71,7 @@ export function CreateGuideForm() {
         <FormItem>
           <FormLabel htmlFor="file">Video recording</FormLabel>
 
-          <Input {...form.register('file')} type="file" name="file" accept="video/mp4" />
+          <Input {...form.register('file')} type="file" name="file" accept="video" />
         </FormItem>
 
         <Button variant="default" disabled={isSubmitting}>
