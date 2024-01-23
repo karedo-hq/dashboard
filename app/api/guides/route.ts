@@ -4,12 +4,12 @@ export async function POST(req: Request) {
   try {
     const formData = await req.formData();
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/guides`, {
+    const res = await fetch(`${process.env.API_URL}/guides`, {
       method: 'POST',
       body: formData,
     });
 
-    const data = await response.json();
+    const data = await res.json();
 
     revalidatePath('/guides');
 
