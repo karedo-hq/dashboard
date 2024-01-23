@@ -9,6 +9,9 @@ export async function POST(req: Request) {
       body: formData,
     });
 
+    console.log('process.env.API_URL: ', process.env.API_URL);
+    console.log('res: ', res);
+
     const data = await res.json();
 
     revalidatePath('/guides');
