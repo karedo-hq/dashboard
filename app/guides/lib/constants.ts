@@ -1,0 +1,1 @@
+export const MAX_GUIDE_VIDEO_SIZE = 10485760; // 10 MB

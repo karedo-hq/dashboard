@@ -5,7 +5,7 @@ import { useSidebar } from '@/lib/hooks/use-sidebar';
 import Logo from '@/components/logo';
 import SidebarToggler from './sidebar-toggler';
 import { buttonVariants } from '../ui/button';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/cn';
 import PlusIcon from '../icons/plus-icon';
 import Footer from './footer';
 

@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import { Guide } from '../lib/types';
 import { Typography } from '@/components/ui/typography';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/cn';
 
 type GuideRendererProps = React.HTMLAttributes<'section'> & { guide: Guide };
 
