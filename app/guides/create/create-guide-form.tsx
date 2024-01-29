@@ -126,7 +126,7 @@ export function CreateGuideForm() {
                 Open preview
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-h-[80vh] md:min-w-[70vw] overflow-hidden overflow-y-scroll">
+            <DialogContent className="max-h-[80vh] md:min-w-[50vw] overflow-hidden overflow-y-scroll">
               <GuideRenderer guide={guide} />
             </DialogContent>
           </Dialog>
