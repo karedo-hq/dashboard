@@ -5,7 +5,7 @@ export default function Footer() {
 
   return (
     <footer className="flex flex-col">
-      <Typography variant="small">© {year} Wizy</Typography>
+      <Typography variant="small">© {year} Karedo</Typography>
     </footer>
   );
 }

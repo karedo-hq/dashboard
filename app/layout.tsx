@@ -9,8 +9,8 @@ import Sidebar from '@/components/layout/sidebar-wrapper';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Wizy',
-  description: 'AI-powered product documentation',
+  title: 'Karedo',
+  description: 'Die neue Software für Berufsbetreuer',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
