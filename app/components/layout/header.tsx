@@ -1,11 +1,11 @@
-import Logo from '@/components/logo';
+import Logo from '@/components/ui/logo';
 import SidebarToggler from './sidebar-toggler';
 import UserOrLogin from '@/(auth)/components/user-or-login';
 
 export function Header() {
   return (
-    <header className="flex justify-between lg:md:justify-end items-center p-4 border-b border-slate-200">
-      <div className="md:hidden space-x-4 flex items-center ">
+    <header className="flex items-center justify-between border-b border-slate-200 p-4 lg:md:justify-end">
+      <div className="flex items-center space-x-4 md:hidden ">
         <SidebarToggler />
 
         <Logo size={24} />

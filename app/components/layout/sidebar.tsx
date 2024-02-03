@@ -2,41 +2,42 @@
 
 import Link from 'next/link';
 import { useSidebar } from '@/lib/hooks/use-sidebar';
-import Logo from '@/components/logo';
+import Logo from '@/components/ui/logo';
 import SidebarToggler from './sidebar-toggler';
-import { buttonVariants } from '../ui/button';
-import { cn } from '@/lib/utils/cn';
-import PlusIcon from '../icons/plus-icon';
 import Footer from './footer';
+import { SidebarLink } from '@/lib/types';
+import SidebarItem from './sidebar-item';
+import HomeIcon from '../icons/home-icon';
+import ContactsIcon from '../icons/contacts-icon';
 
-export default function Sidebar({ children }: React.ComponentProps<'aside'>) {
+const LINKS: SidebarLink[] = [
+  { href: '/', label: 'Home', icon: HomeIcon },
+  { href: '/clients', label: 'Clients', icon: ContactsIcon },
+];
+
+export default function Sidebar() {
   const { isSidebarOpen, isLoading } = useSidebar();
 
   return (
     <aside
       data-state={isSidebarOpen && !isLoading ? 'open' : 'closed'}
-      className="bg-white dark:bg-slate-800 peer absolute w-full md:w-[280px] inset-y-0 z-30 -translate-x-full md:-translate-x-0 duration-300 ease-in-out data-[state=open]:translate-x-0 flex flex-col justify-between p-8 border-r border-slate-200 space-y-8"
+      className="peer absolute inset-y-0 z-30 flex w-full -translate-x-full flex-col justify-between space-y-8 border-r border-slate-200 bg-white p-8 duration-300 ease-in-out data-[state=open]:translate-x-0 dark:bg-slate-800 md:w-[280px] md:-translate-x-0"
     >
-      <header className="flex flex-col">
-        <div className="flex justify-between items-center mb-8 text-lights-0">
+      <div className="flex flex-col">
+        <header className="mb-8 flex items-center justify-between">
           <Link href="/">
             <Logo />
           </Link>
 
           <SidebarToggler mode="close" />
-        </div>
+        </header>
 
-        <Link
-          href="/guides/create"
-          className={cn(buttonVariants({ variant: 'outline' }), 'space-x-2')}
-        >
-          <PlusIcon size={8} />
-
-          <p>New guide</p>
-        </Link>
-      </header>
-
-      {children}
+        <ul>
+          {LINKS.map((link) => (
+            <SidebarItem key={link.href} {...link} />
+          ))}
+        </ul>
+      </div>
 
       <Footer />
     </aside>

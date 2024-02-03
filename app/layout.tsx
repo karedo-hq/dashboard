@@ -4,7 +4,7 @@ import { Header } from '@/components/layout/header';
 import { Toaster } from '@/components/ui/toaster';
 import { Providers } from '@/components/providers';
 import './globals.css';
-import Sidebar from '@/components/layout/sidebar-wrapper';
+import Sidebar from '@/components/layout/sidebar';
 
 const inter = Inter({ subsets: ['latin'] });
 
