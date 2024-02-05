@@ -1,6 +1,6 @@
 import { Typography } from '@/components/ui/typography';
-import OPTAuthForm from '@/(auth)/components/opt-auth-form';
-import { OAuthForm } from './components/oauth-form';
+import MagicLinkAuthForm from '@/(auth)/components/magic-link-auth-form';
+import OAuthForm from '@/(auth)/components/oauth-form';
 
 export default function AuthPage() {
   return (
@@ -19,7 +19,7 @@ export default function AuthPage() {
         <div className="h-px flex-grow bg-gray-200" />
       </div>
 
-      <OPTAuthForm />
+      <MagicLinkAuthForm />
     </section>
   );
 }

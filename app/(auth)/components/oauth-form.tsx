@@ -6,13 +6,10 @@ import { Button } from '@/components/ui/button';
 import { Database } from '@/lib/database.types';
 import GoogleIcon from '@/components/icons/google-icon';
 
-export function OAuthForm() {
+export default function OAuthForm() {
   const supabase = createClientComponentClient<Database>();
 
-  const redirectUrl =
-    process.env.NODE_ENV === 'production'
-      ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/auth/callback`
-      : 'http://localhost:3000/auth/callback';
+  const redirectUrl = `${process.env.NEXT_PUBLIC_URL}/auth/callback`;
 
   console.log({ redirectUrl });
 

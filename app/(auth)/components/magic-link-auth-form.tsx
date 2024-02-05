@@ -13,18 +13,18 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Typography } from '@/components/ui/typography';
 import { useToast } from '@/lib/hooks/use-toast';
 
-type AuthFormValues = { email: string };
+type MagicLinkAuthFormValues = { email: string };
 
 const formSchema = z.object({
   email: z.string().email('Please enter a valid email address.'),
 });
 
-export default function OPTAuthForm() {
+export default function MagicLinkAuthForm() {
   const supabase = createClientComponentClient<Database>();
 
   const [isSubmitSuccessful, setIsSubmitSuccessful] = useState<boolean | undefined>();
 
-  const form = useForm<AuthFormValues>({
+  const form = useForm<MagicLinkAuthFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: '',
@@ -33,12 +33,9 @@ export default function OPTAuthForm() {
 
   const { toast } = useToast();
 
-  const redirectUrl =
-    process.env.NODE_ENV === 'production'
-      ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/auth/callback`
-      : 'http://localhost:3000/auth/callback';
+  const redirectUrl = `${process.env.NEXT_PUBLIC_URL}/auth/callback`;
 
-  const handleMagicLinkSubmit = async (values: AuthFormValues) => {
+  const handleMagicLinkSubmit = async (values: MagicLinkAuthFormValues) => {
     if (isSubmitSuccessful) setIsSubmitSuccessful(undefined);
 
     const { error } = await supabase.auth.signInWithOtp({
