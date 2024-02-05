@@ -1,6 +1,6 @@
 import Logo from '@/components/ui/logo';
 import SidebarToggler from './sidebar-toggler';
-import UserOrLogin from '@/(auth)/components/profile-badge';
+import ProfileBadge from '@/(auth)/components/profile-badge';
 
 export default function Header() {
   return (
@@ -11,7 +11,7 @@ export default function Header() {
         <Logo size={24} />
       </div>
 
-      <UserOrLogin />
+      <ProfileBadge />
     </header>
   );
 }

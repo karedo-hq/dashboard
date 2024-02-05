@@ -5,23 +5,30 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Button } from '@/components/ui/button';
 import { Database } from '@/lib/database.types';
 import GoogleIcon from '@/components/icons/google-icon';
+import { useToast } from '@/lib/hooks/use-toast';
 
 export default function OAuthForm() {
   const supabase = createClientComponentClient<Database>();
 
+  const { toast } = useToast();
+
   const redirectUrl = `${process.env.NEXT_PUBLIC_URL}/auth/callback`;
 
-  console.log({ redirectUrl });
-
   const handleLoginWithGoogle = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: redirectUrl,
       },
     });
 
-    console.log({ data, error });
+    if (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Error signing in with Google',
+        description: error.message,
+      });
+    }
   };
 
   return (

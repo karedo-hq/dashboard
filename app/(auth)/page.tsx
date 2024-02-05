@@ -1,25 +1,41 @@
+import Image from 'next/image';
+
 import { Typography } from '@/components/ui/typography';
 import MagicLinkAuthForm from '@/(auth)/components/magic-link-auth-form';
 import OAuthForm from '@/(auth)/components/oauth-form';
+import authBgImg from '../../public/auth-bg-img.png';
+import AuthMethodSeparator from './components/auth-method-separator';
+import Logo from '@/components/ui/logo';
 
 export default function AuthPage() {
   return (
-    <section className="mx-auto max-w-lg space-y-4 p-16">
-      <Typography as="h1" variant="title3">
-        Login to Karedo
-      </Typography>
+    <section className="flex min-h-screen bg-white">
+      <div className="flex flex-1 flex-col justify-center px-8 lg:flex-none lg:px-20 xl:px-24">
+        <div className="mx-auto w-full max-w-sm lg:w-96">
+          <div className="mb-8 flex flex-col items-center">
+            <Logo size={48} variant="isotype" />
 
-      <OAuthForm />
+            <Typography as="h1" variant="title3" className="mt-4">
+              Login to Karedo
+            </Typography>
+          </div>
 
-      <div className="my-4 flex items-center justify-center space-x-2">
-        <div className="h-px flex-grow bg-gray-200" />
-        <Typography variant="small" className="text-gray-400">
-          oder
-        </Typography>
-        <div className="h-px flex-grow bg-gray-200" />
+          <OAuthForm />
+
+          <AuthMethodSeparator />
+
+          <MagicLinkAuthForm />
+        </div>
       </div>
-
-      <MagicLinkAuthForm />
+      <div className="relative hidden w-0 flex-1 lg:block">
+        <Image
+          src={authBgImg}
+          alt="Login to Karedo"
+          width={1236}
+          height={718}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      </div>
     </section>
   );
 }
