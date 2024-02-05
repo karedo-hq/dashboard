@@ -19,6 +19,10 @@ export default async function ProfileBadge() {
     .eq('id', user?.id)
     .single();
 
+  if (error && status !== 406) {
+    throw error;
+  }
+
   console.log({ user, data });
 
   return (

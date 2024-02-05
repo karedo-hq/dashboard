@@ -1,6 +1,6 @@
 import { IconProps } from '@/lib/types';
 
-type LogoProps = IconProps & {
+type LogoProps = Omit<IconProps, 'variant'> & {
   variant?: 'full' | 'isotype';
 };
 
