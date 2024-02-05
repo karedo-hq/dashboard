@@ -1,6 +1,6 @@
 import Logo from '@/components/ui/logo';
 import SidebarToggler from './sidebar-toggler';
-import ProfileBadge from '@/(auth)/components/profile-badge';
+import ProfileBadge from '@/auth/components/profile-badge';
 
 export default function Header() {
   return (

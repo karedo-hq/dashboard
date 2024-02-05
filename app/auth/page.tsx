@@ -1,11 +1,11 @@
 import Image from 'next/image';
 
 import { Typography } from '@/components/ui/typography';
-import MagicLinkAuthForm from '@/(auth)/components/magic-link-auth-form';
-import OAuthForm from '@/(auth)/components/oauth-form';
-import authBgImg from '../../public/auth-bg-img.png';
-import AuthMethodSeparator from './components/auth-method-separator';
+import MagicLinkAuthForm from '@/auth/components/magic-link-auth-form';
+import OAuthForm from '@/auth/components/oauth-form';
+import AuthMethodSeparator from '@/auth/components/auth-method-separator';
 import Logo from '@/components/ui/logo';
+import authBgImg from '../../public/auth-bg-img.png';
 
 export default function AuthPage() {
   return (
