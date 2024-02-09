@@ -1,29 +1,29 @@
-import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs';
+import { getToken } from 'next-auth/jwt';
 import { NextResponse } from 'next/server';
-
 import type { NextRequest } from 'next/server';
 
 export async function middleware(req: NextRequest) {
-  const res = NextResponse.next();
-  const supabase = createMiddlewareClient({ req, res });
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  // Check if the request is for a page within the /dashboard route.
+  const isProtectedRoute = req.nextUrl.pathname.startsWith('/dashboard');
 
-  // if user is signed in and the current path is / redirect the user to /account
-  if (user && req.nextUrl.pathname === '/auth') {
-    return NextResponse.redirect(new URL('/dashboard', req.url));
+  // Check if the request is for a page within the /auth route.
+  const isAuthRoute = req.nextUrl.pathname.startsWith('/auth');
+
+  if (isProtectedRoute && !token) {
+    // User is not logged in and trying to access a protected route, redirect them to the login page
+    const loginUrl = new URL('/auth/login', req.nextUrl.origin);
+    return NextResponse.redirect(loginUrl);
+  } else if (isAuthRoute && token) {
+    // User is logged in and trying to access an auth route, redirect them to the dashboard
+    const dashboardUrl = new URL('/dashboard', req.nextUrl.origin);
+    return NextResponse.redirect(dashboardUrl);
   }
 
-  // if user is not signed in and the current path is not / redirect the user to /
-  if (!user && req.nextUrl.pathname !== '/auth') {
-    return NextResponse.redirect(new URL('/auth', req.url));
-  }
-
-  return res;
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/auth', '/dashboard'],
+  matcher: ['/dashboard/:path*', '/auth/:path*'],
 };
