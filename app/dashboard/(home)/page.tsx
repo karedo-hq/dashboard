@@ -1,9 +1,8 @@
-import { authOptions } from '@/api/auth/[...nextauth]/route';
+import { auth } from '@/auth/lib/auth';
 import { AuthProfile } from '@/auth/lib/types/profile.types';
-import { getServerSession } from 'next-auth';
 
 export default async function Homepage() {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   const usersRes = await fetch(`${process.env.API_URL}/users`, {
     headers: {
