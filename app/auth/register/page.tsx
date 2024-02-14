@@ -8,7 +8,6 @@ export default function RegisterPage() {
     <section className="mx-auto w-full max-w-sm space-y-8 lg:w-96">
       <header className="flex flex-col items-center">
         <Logo size={48} variant="isotype" />
-
         <Typography as="h1" variant="title3" className="mt-4">
           Register to Karedo
         </Typography>
@@ -18,7 +17,7 @@ export default function RegisterPage() {
 
       <Typography variant="small" className="flex flex-1 justify-center">
         Already registered?{' '}
-        <Link href="/auth/login" className="ml-1 font-medium text-blue-500">
+        <Link href="/auth/login" className="ml-1 font-medium text-blue-600">
           Login here
         </Link>
       </Typography>
