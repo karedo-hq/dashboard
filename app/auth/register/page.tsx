@@ -1,6 +1,6 @@
+import Link from 'next/link';
 import { Typography } from '@/components/ui/typography';
 import Logo from '@/components/ui/logo';
-import Link from 'next/link';
 import RegisterForm from '../components/register-form';
 
 export default function RegisterPage() {

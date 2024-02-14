@@ -28,8 +28,10 @@ export const authOptions: NextAuthOptions = {
           body: JSON.stringify({ email, password }),
         });
 
-        if (loginRes.status === 401) {
-          throw new Error('Invalid credentials');
+        if (!loginRes.ok) {
+          const resJSON = await loginRes.json();
+          const errorMessage = resJSON.message;
+          throw new Error(errorMessage);
         }
 
         const tokens: AuthTokens = await loginRes.json();
