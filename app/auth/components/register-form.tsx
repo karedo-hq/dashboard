@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signIn } from 'next-auth/react';
 import {
   Form,
   FormControl,
@@ -16,8 +15,11 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { RegisterDto } from '@/auth/lib/types/register.types';
-import { register } from '../lib/actions/register.action';
+import { register } from '../lib/actions/register';
 import { useToast } from '@/lib/hooks/use-toast';
+import { getErrorMessage } from '@/lib/utils/get-error-message';
+import { Typography } from '@/components/ui/typography';
+import EnvelopeBadgeIcon from '@/components/icons/envelope-badge-icon';
 
 type RegisterFormValues = RegisterDto & {
   confirmPassword: string;
@@ -63,6 +65,7 @@ export default function RegisterForm() {
   });
   const { toast } = useToast();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const togglePasswordVisibility = () => setIsPasswordVisible((prev) => !prev);
 
   const handleSubmit: SubmitHandler<RegisterFormValues> = async (values) => {
@@ -71,22 +74,29 @@ export default function RegisterForm() {
     try {
       await register(dto);
 
-      await signIn('credentials', {
-        email: values.email,
-        password: values.password,
-        redirect: true,
-        callbackUrl: '/dashboard',
-      });
-    } catch (error: any) {
+      setIsSuccess(true);
+    } catch (error) {
       toast({
         variant: 'destructive',
         title: 'Error registering',
-        description: error?.message,
+        description: getErrorMessage(error),
       });
     }
   };
 
   const isSubmitting = form.formState.isSubmitting;
+
+  if (isSuccess) {
+    return (
+      <div className="flex flex-col items-center space-y-2">
+        <EnvelopeBadgeIcon className="text-blue-600" size={32} />
+        <Typography as="p" variant="paragraph" className="text-center">
+          We have sent you an email to activate your account. Please check your email and click on
+          the activation link.
+        </Typography>
+      </div>
+    );
+  }
 
   return (
     <Form {...form}>

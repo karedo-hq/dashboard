@@ -1,5 +1,5 @@
 import SessionExpiredDialog from '@/auth/components/session-expired-dialog';
-import { auth } from '@/auth/lib/auth';
+import { auth } from '@/auth/lib/utils/auth';
 import Header from '@/components/layout/header';
 import Sidebar from '@/components/layout/sidebar';
 

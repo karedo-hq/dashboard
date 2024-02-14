@@ -1,4 +1,4 @@
-import { auth } from '@/auth/lib/auth';
+import { auth } from '@/auth/lib/utils/auth';
 import { AuthProfile } from '@/auth/lib/types/profile.types';
 
 export default async function Homepage() {

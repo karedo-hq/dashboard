@@ -9,7 +9,6 @@ import { AuthTokens } from '@/auth/lib/types/tokens.types';
 export const authOptions: NextAuthOptions = {
   pages: {
     signIn: '/auth/login',
-    // signOut: '/auth/logout',
   },
   providers: [
     CredentialsProvider({
@@ -112,7 +111,6 @@ async function refreshToken(token: JWT): Promise<JWT> {
   };
 }
 
-// Use it in server contexts
 export function auth(
   ...args:
     | [GetServerSidePropsContext['req'], GetServerSidePropsContext['res']]
