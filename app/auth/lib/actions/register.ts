@@ -3,7 +3,7 @@
 import { RegisterDto } from '@/auth/lib/types/register.types';
 import { User } from '@/auth/lib/types/user.types';
 
-export async function register(dto: RegisterDto): Promise<User> {
+export async function registerAction(dto: RegisterDto): Promise<User> {
   const res = await fetch(`${process.env.API_URL}/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

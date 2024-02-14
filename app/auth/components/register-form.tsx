@@ -15,7 +15,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { RegisterDto } from '@/auth/lib/types/register.types';
-import { register } from '../lib/actions/register';
+import { registerAction } from '../lib/actions/register';
 import { useToast } from '@/lib/hooks/use-toast';
 import { getErrorMessage } from '@/lib/utils/get-error-message';
 import { Typography } from '@/components/ui/typography';
@@ -72,7 +72,7 @@ export default function RegisterForm() {
     const { confirmPassword, ...dto } = values;
 
     try {
-      await register(dto);
+      await registerAction(dto);
 
       setIsSuccess(true);
     } catch (error) {

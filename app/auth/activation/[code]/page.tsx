@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { activateAccount } from '@/auth/lib/actions/activate-account';
+import { activateAccountAction } from '@/auth/lib/actions/activate-account';
 import { buttonVariants } from '@/components/ui/button';
 import { Typography } from '@/components/ui/typography';
 import CheckCircledIcon from '@/components/icons/check-circled-icon';
@@ -13,7 +13,7 @@ type ActivationPageProps = {
 export default async function ActivationPage(props: ActivationPageProps) {
   const { code } = props.params;
 
-  const { isError, error } = await activateAccount(code);
+  const { isError, error } = await activateAccountAction(code);
 
   if (isError) {
     return (

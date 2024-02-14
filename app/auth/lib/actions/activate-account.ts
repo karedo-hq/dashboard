@@ -6,7 +6,7 @@ type ActivateAccountResult = {
   error: Error | null;
 };
 
-export async function activateAccount(code: string): Promise<ActivateAccountResult> {
+export async function activateAccountAction(code: string): Promise<ActivateAccountResult> {
   const res = await fetch(`${process.env.API_URL}/auth/activate-account`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },

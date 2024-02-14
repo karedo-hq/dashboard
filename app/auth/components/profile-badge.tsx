@@ -1,14 +1,10 @@
-'use client';
-
-import { signOut, useSession } from 'next-auth/react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
 import { Typography } from '@/components/ui/typography';
+import LogoutButton from './logout-button';
+import { auth } from '../lib/utils/auth';
 
-export default function ProfileBadge() {
-  const { data: session } = useSession();
-
-  const handleLogout = () => signOut({ callbackUrl: '/auth/login' });
+export default async function ProfileBadge() {
+  const session = await auth();
 
   if (!session) {
     return null;
@@ -23,9 +19,7 @@ export default function ProfileBadge() {
         <AvatarImage src="https://github.com/you.png" alt="User avatar" />
         <AvatarFallback>...</AvatarFallback>
       </Avatar>
-      <Button onClick={handleLogout} variant="outline" size="sm">
-        Logout
-      </Button>
+      <LogoutButton />
     </div>
   );
 }
