@@ -5,14 +5,14 @@ import { Button } from '@/components/ui/button';
 import { logoutAction } from '@/auth/lib/actions/logout';
 
 export default function LogoutButton() {
-  const handleLogout = () => {
+  const handleClick = () => {
     logoutAction();
 
     signOut({ callbackUrl: '/auth/login' });
   };
 
   return (
-    <Button onClick={handleLogout} variant="outline" size="sm">
+    <Button onClick={handleClick} variant="outline" size="sm">
       Logout
     </Button>
   );

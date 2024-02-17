@@ -14,50 +14,40 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { registerAction } from '../lib/actions/register';
 import { useToast } from '@/lib/hooks/use-toast';
 import { getErrorMessage } from '@/lib/utils/get-error-message';
 import { Typography } from '@/components/ui/typography';
 import EnvelopeBadgeIcon from '@/components/icons/envelope-badge-icon';
+import { resetPasswordAction } from '../lib/actions/reset-password';
 
 const formSchema = z
   .object({
-    firstname: z
-      .string()
-      .min(2, 'First name must be atleast 2 characters')
-      .max(45, 'First name must be less than 45 characters')
-      .regex(new RegExp('^[a-zA-Z]+$'), 'No special character allowed!'),
-    lastname: z
-      .string()
-      .min(2, 'Last name must be atleast 2 characters')
-      .max(45, 'Last name must be less than 45 characters')
-      .regex(new RegExp('^[a-zA-Z]+$'), 'No special character allowed!'),
-    email: z.string().email('Please enter a valid email address'),
-    password: z
+    newPassword: z
       .string()
       .min(6, 'Password must be at least 6 characters ')
       .max(50, 'Password must be less than 50 characters'),
-    confirmPassword: z
+    confirmNewPassword: z
       .string()
       .min(6, 'Password must be at least 6 characters ')
       .max(50, 'Password must be less than 50 characters'),
   })
-  .refine((data) => data.password === data.confirmPassword, {
+  .refine((data) => data.newPassword === data.confirmNewPassword, {
     message: "Password and confirm password doesn't match!",
     path: ['confirmPassword'],
   });
 
-type RegisterFormValues = z.infer<typeof formSchema>;
+type ResetPasswordFormProps = {
+  userId: string;
+  userEmail: string;
+};
+type ResetPasswordFormValues = z.infer<typeof formSchema>;
 
-export default function RegisterForm() {
-  const form = useForm<RegisterFormValues>({
+export default function ResetPasswordForm({ userId, userEmail }: ResetPasswordFormProps) {
+  const form = useForm<ResetPasswordFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      firstname: '',
-      lastname: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
+      newPassword: '',
+      confirmNewPassword: '',
     },
   });
   const { toast } = useToast();
@@ -65,11 +55,15 @@ export default function RegisterForm() {
   const [isSuccess, setIsSuccess] = useState(false);
   const togglePasswordVisibility = () => setIsPasswordVisible((prev) => !prev);
 
-  const handleSubmit: SubmitHandler<RegisterFormValues> = async (values) => {
-    const { confirmPassword, ...dto } = values;
+  const handleSubmit: SubmitHandler<ResetPasswordFormValues> = async (values) => {
+    const { newPassword } = values;
 
     try {
-      await registerAction(dto);
+      const res = await resetPasswordAction(userId, newPassword);
+
+      if (!res.isSuccess) {
+        throw res.error;
+      }
 
       setIsSuccess(true);
     } catch (error) {
@@ -88,8 +82,7 @@ export default function RegisterForm() {
       <div className="flex flex-col items-center space-y-2">
         <EnvelopeBadgeIcon className="text-blue-600" size={32} />
         <Typography as="p" variant="paragraph" className="text-center">
-          We have sent you an email to activate your account. Please check your email and click on
-          the activation link.
+          Your password has been reset. You can now login with your new credentials.
         </Typography>
       </div>
     );
@@ -100,53 +93,11 @@ export default function RegisterForm() {
       <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col space-y-4">
         <FormField
           control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter your email address..." {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="firstname"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Firstname</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter your firstname..." {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="lastname"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Lastname</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter your lastname..." {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="password"
+          name="newPassword"
           render={({ field }) => (
             <FormItem>
               <div className="flex items-center justify-between">
-                <FormLabel>Password</FormLabel>
+                <FormLabel>New password</FormLabel>
 
                 <Button type="button" variant="ghost" size="sm" onClick={togglePasswordVisibility}>
                   {isPasswordVisible ? 'Hide' : 'Show'}
@@ -155,7 +106,7 @@ export default function RegisterForm() {
               <FormControl>
                 <Input
                   type={isPasswordVisible ? 'text' : 'password'}
-                  placeholder="Enter your password..."
+                  placeholder="Enter your new password..."
                   {...field}
                 />
               </FormControl>
@@ -166,15 +117,15 @@ export default function RegisterForm() {
 
         <FormField
           control={form.control}
-          name="confirmPassword"
+          name="confirmNewPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Confirm password</FormLabel>
+              <FormLabel>Confirm new password</FormLabel>
 
               <FormControl>
                 <Input
                   type={isPasswordVisible ? 'text' : 'password'}
-                  placeholder="Type again your password..."
+                  placeholder="Type again your new password..."
                   {...field}
                 />
               </FormControl>
@@ -184,7 +135,7 @@ export default function RegisterForm() {
         />
 
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Loading...' : 'Register'}
+          {isSubmitting ? 'Loading...' : 'Reset password'}
         </Button>
       </form>
     </Form>

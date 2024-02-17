@@ -17,15 +17,9 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/lib/hooks/use-toast';
 import { signIn } from 'next-auth/react';
-
-type LoginFormProps = {
-  callbackUrl?: string;
-};
-
-type LoginFormValues = {
-  email: string;
-  password: string;
-};
+import Link from 'next/link';
+import { cn } from '@/lib/utils/cn';
+import { typographyVariants } from '@/components/ui/typography';
 
 const formSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -34,6 +28,12 @@ const formSchema = z.object({
     .min(6, 'Password must be at least 6 characters ')
     .max(50, 'Password must be less than 50 characters'),
 });
+
+type LoginFormProps = {
+  callbackUrl?: string;
+};
+
+type LoginFormValues = z.infer<typeof formSchema>;
 
 export default function LoginForm(props: LoginFormProps) {
   const form = useForm<LoginFormValues>({
@@ -61,6 +61,7 @@ export default function LoginForm(props: LoginFormProps) {
         title: 'Error logging in',
         description: response?.error,
       });
+      return;
     }
 
     router.push(props.callbackUrl || '/dashboard');
@@ -105,6 +106,17 @@ export default function LoginForm(props: LoginFormProps) {
                 />
               </FormControl>
               <FormMessage />
+              <div className="flex flex-col items-end">
+                <Link
+                  href="/auth/forgot-password"
+                  className={cn(
+                    typographyVariants({ variant: 'small' }),
+                    'font-medium text-blue-600',
+                  )}
+                >
+                  Forgot password?
+                </Link>
+              </div>
             </FormItem>
           )}
         />

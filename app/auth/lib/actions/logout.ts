@@ -26,7 +26,5 @@ export async function logoutAction(): Promise<LogoutResult> {
     return { isError: true, error: new Error('Failed to logout'), isSuccess: false };
   }
 
-  console.log(res);
-
   return { isSuccess: true, isError: false, error: null };
 }
