@@ -121,8 +121,8 @@ export default function LoginForm(props: LoginFormProps) {
           )}
         />
 
-        <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Lädt...' : 'Anmelden'}
+        <Button type="submit" disabled={isSubmitting} isLoading={isSubmitting}>
+          Anmelden
         </Button>
       </form>
     </Form>

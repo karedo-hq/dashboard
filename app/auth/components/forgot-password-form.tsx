@@ -88,8 +88,8 @@ export default function ForgotPasswordForm() {
           )}
         />
 
-        <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Lädt...' : 'Passwortzurücksetzung anfordern'}
+        <Button type="submit" disabled={isSubmitting} isLoading={isSubmitting}>
+          Passwortzurücksetzung anfordern
         </Button>
 
         <Link

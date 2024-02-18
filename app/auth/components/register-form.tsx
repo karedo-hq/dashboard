@@ -185,8 +185,8 @@ export default function RegisterForm() {
           )}
         />
 
-        <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Lädt...' : 'Registrieren'}
+        <Button type="submit" disabled={isSubmitting} isLoading={isSubmitting}>
+          Registrieren
         </Button>
 
         <Typography as="p" variant="small">

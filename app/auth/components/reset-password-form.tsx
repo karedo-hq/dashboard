@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import Link from 'next/link';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -19,7 +20,6 @@ import { getErrorMessage } from '@/lib/utils/get-error-message';
 import { Typography, typographyVariants } from '@/components/ui/typography';
 import { resetPasswordAction } from '../lib/actions/reset-password';
 import { cn } from '@/lib/utils/cn';
-import Link from 'next/link';
 import CheckCircledIcon from '@/components/icons/check-circled-icon';
 
 const formSchema = z
@@ -137,8 +137,8 @@ export default function ResetPasswordForm({ userId, userEmail }: ResetPasswordFo
           )}
         />
 
-        <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Lädt...' : 'Passwort zurücksetzen'}
+        <Button type="submit" disabled={isSubmitting} isLoading={isSubmitting}>
+          Passwort zurücksetzen
         </Button>
 
         <Link
