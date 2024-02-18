@@ -23,7 +23,7 @@ import { requestResetPasswordAction } from '../lib/actions/request-password-rese
 import Link from 'next/link';
 
 const formSchema = z.object({
-  email: z.string().email('Please enter a valid email address'),
+  email: z.string().email('Bitte gib eine gültige E-Mail-Adresse ein'),
 });
 
 type ForgotPasswordFormValues = z.infer<typeof formSchema>;
@@ -46,7 +46,7 @@ export default function ForgotPasswordForm() {
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Error requesting password reset',
+        title: 'Fehler bei der Anforderung der Passwortzurücksetzung',
         description: getErrorMessage(error),
       });
     }
@@ -59,7 +59,8 @@ export default function ForgotPasswordForm() {
       <div className="flex flex-col items-center space-y-2">
         <EnvelopeBadgeIcon className="text-blue-600" size={32} />
         <Typography as="p" variant="paragraph" className="text-center">
-          Email sent. Please check your email and click on the password change link.
+          E-Mail gesendet. Bitte überprüfe deine E-Mails und klicke auf den Link zur
+          Passwortänderung.
         </Typography>
       </div>
     );
@@ -69,7 +70,8 @@ export default function ForgotPasswordForm() {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col space-y-4">
         <Typography variant="paragraph">
-          Enter your email address and we will send you a link to reset your password.
+          Gib deine E-Mail-Adresse ein, und wir senden dir einen Link zum Zurücksetzen deines
+          Passworts.
         </Typography>
 
         <FormField
@@ -79,7 +81,7 @@ export default function ForgotPasswordForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your email address..." {...field} />
+                <Input placeholder="Gib deine E-Mail-Adresse ein..." {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -87,7 +89,7 @@ export default function ForgotPasswordForm() {
         />
 
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Loading...' : 'Request password reset'}
+          {isSubmitting ? 'Lädt...' : 'Passwortzurücksetzung anfordern'}
         </Button>
 
         <Link
@@ -97,7 +99,7 @@ export default function ForgotPasswordForm() {
             'w-full text-center font-medium text-blue-600',
           )}
         >
-          Back to login
+          Zurück zur Anmeldung
         </Link>
       </form>
     </Form>

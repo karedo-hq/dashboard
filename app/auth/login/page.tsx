@@ -15,16 +15,16 @@ export default function LoginPage(props: LoginPageProps) {
       <header className="mb-8 flex flex-col items-center">
         <Logo size={48} variant="isotype" />
         <Typography as="h1" variant="title3" className="mt-4">
-          Login to Karedo
+          Anmelden bei Karedo
         </Typography>
       </header>
 
       <LoginForm callbackUrl={props.searchParams.callbackUrl} />
 
       <Typography variant="small" className="flex flex-1 justify-center">
-        You do not have an account yet?{' '}
+        Du hast noch kein Konto?{' '}
         <Link href="/auth/register" className="ml-1 font-medium text-blue-600">
-          Register here
+          Hier registrieren
         </Link>
       </Typography>
     </section>

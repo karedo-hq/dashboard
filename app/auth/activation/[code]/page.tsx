@@ -19,7 +19,7 @@ export default async function ActivationPage(props: ActivationPageProps) {
     return (
       <section className="flex flex-col justify-center space-y-4">
         <Typography as="h1" variant="title3" className="text-center">
-          Something went wrong!
+          Etwas ist schiefgelaufen!
         </Typography>
 
         <Typography variant="paragraph" className="text-center">
@@ -34,16 +34,16 @@ export default async function ActivationPage(props: ActivationPageProps) {
       <header className="flex flex-col items-center space-y-2">
         <CheckCircledIcon className="text-blue-600" size={32} />
         <Typography as="h1" variant="title3" className="text-center">
-          Account activated
+          Konto aktiviert
         </Typography>
       </header>
 
       <Typography variant="paragraph" className="text-center">
-        Your account has been successfully activated.
+        Dein Konto wurde erfolgreich aktiviert.
       </Typography>
 
       <Link href="/auth/login" className={buttonVariants({ variant: 'default' })}>
-        Login to your account
+        Melde dich bei deinem Konto an
       </Link>
     </section>
   );

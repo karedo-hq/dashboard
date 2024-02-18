@@ -11,7 +11,7 @@ export async function registerAction(dto: RegisterDto): Promise<User> {
   });
 
   if (!res.ok) {
-    throw new Error('Failed to register');
+    throw new Error('Registrierung fehlgeschlagen');
   }
 
   const createdUser: Promise<User> = await res.json();

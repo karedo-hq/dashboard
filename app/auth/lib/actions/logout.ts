@@ -12,7 +12,7 @@ export async function logoutAction(): Promise<LogoutResult> {
   const session = await auth();
 
   if (!session) {
-    return { isError: true, error: new Error('No session found'), isSuccess: false };
+    return { isError: true, error: new Error('Keine Sitzung gefunden'), isSuccess: false };
   }
 
   const res = await fetch(`${process.env.API_URL}/auth/logout`, {
@@ -23,7 +23,7 @@ export async function logoutAction(): Promise<LogoutResult> {
   });
 
   if (!res.ok) {
-    return { isError: true, error: new Error('Failed to logout'), isSuccess: false };
+    return { isError: true, error: new Error('Abmeldung fehlgeschlagen'), isSuccess: false };
   }
 
   return { isSuccess: true, isError: false, error: null };

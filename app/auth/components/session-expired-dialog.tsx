@@ -17,11 +17,13 @@ export default function SessionExpiredDialog() {
     <Dialog defaultOpen onOpenChange={handleClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Your session has expired</DialogTitle>
-          <DialogDescription>Please authenticate again to continue using Karedo.</DialogDescription>
+          <DialogTitle>Deine Sitzung ist abgelaufen</DialogTitle>
+          <DialogDescription>
+            Bitte authentifiziere dich erneut, um Karedo weiter zu nutzen.
+          </DialogDescription>
         </DialogHeader>
         <Button variant="outline" onClick={handleClose}>
-          Authenticate
+          Erneut anmelden
         </Button>
       </DialogContent>
     </Dialog>

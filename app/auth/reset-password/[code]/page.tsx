@@ -18,11 +18,12 @@ export default async function ResetPasswordPage(props: ResetPasswordPageProps) {
     return (
       <section className="mx-auto w-full max-w-sm space-y-8 lg:w-96">
         <Typography as="h1" variant="title3" className="text-center">
-          Invalid reset password link
+          Ungültiger Link zum Zurücksetzen des Passworts
         </Typography>
 
         <Typography variant="paragraph" className="text-center">
-          We where unable to verify your reset password link. Please try again or request a new one.
+          Wir konnten deinen Link zum Zurücksetzen des Passworts nicht überprüfen. Bitte versuche es
+          erneut oder fordere einen neuen an.
         </Typography>
       </section>
     );
@@ -33,7 +34,7 @@ export default async function ResetPasswordPage(props: ResetPasswordPageProps) {
       <header className="mb-8 flex flex-col items-center">
         <Logo size={48} variant="isotype" />
         <Typography as="h1" variant="title3" className="mt-4">
-          Reset password
+          Passwort zurücksetzen
         </Typography>
       </header>
 

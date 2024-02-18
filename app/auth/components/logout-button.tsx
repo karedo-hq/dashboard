@@ -13,7 +13,7 @@ export default function LogoutButton() {
 
   return (
     <Button onClick={handleClick} variant="outline" size="sm">
-      Logout
+      Abmelden
     </Button>
   );
 }

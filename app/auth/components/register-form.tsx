@@ -24,26 +24,26 @@ const formSchema = z
   .object({
     firstname: z
       .string()
-      .min(2, 'First name must be atleast 2 characters')
-      .max(45, 'First name must be less than 45 characters')
-      .regex(new RegExp('^[a-zA-Z]+$'), 'No special character allowed!'),
+      .min(2, 'Der Vorname muss mindestens 2 Zeichen lang sein')
+      .max(45, 'Der Vorname muss weniger als 45 Zeichen lang sein')
+      .regex(new RegExp('^[a-zA-Z]+$'), 'Keine Sonderzeichen erlaubt!'),
     lastname: z
       .string()
-      .min(2, 'Last name must be atleast 2 characters')
-      .max(45, 'Last name must be less than 45 characters')
-      .regex(new RegExp('^[a-zA-Z]+$'), 'No special character allowed!'),
-    email: z.string().email('Please enter a valid email address'),
+      .min(2, 'Der Nachname muss mindestens 2 Zeichen lang sein')
+      .max(45, 'Der Nachname muss weniger als 45 Zeichen lang sein')
+      .regex(new RegExp('^[a-zA-Z]+$'), 'Keine Sonderzeichen erlaubt!'),
+    email: z.string().email('Bitte gib eine gültige E-Mail-Adresse ein'),
     password: z
       .string()
-      .min(6, 'Password must be at least 6 characters ')
-      .max(50, 'Password must be less than 50 characters'),
+      .min(6, 'Das Passwort muss mindestens 6 Zeichen lang sein ')
+      .max(50, 'Das Passwort muss weniger als 50 Zeichen lang sein'),
     confirmPassword: z
       .string()
-      .min(6, 'Password must be at least 6 characters ')
-      .max(50, 'Password must be less than 50 characters'),
+      .min(6, 'Das Passwort muss mindestens 6 Zeichen lang sein ')
+      .max(50, 'Das Passwort muss weniger als 50 Zeichen lang sein'),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Password and confirm password doesn't match!",
+    message: 'Passwort und Passwortbestätigung stimmen nicht überein!',
     path: ['confirmPassword'],
   });
 
@@ -75,7 +75,7 @@ export default function RegisterForm() {
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Error registering',
+        title: 'Fehler bei der Registrierung',
         description: getErrorMessage(error),
       });
     }
@@ -88,8 +88,8 @@ export default function RegisterForm() {
       <div className="flex flex-col items-center space-y-2">
         <EnvelopeBadgeIcon className="text-blue-600" size={32} />
         <Typography as="p" variant="paragraph" className="text-center">
-          We have sent you an email to activate your account. Please check your email and click on
-          the activation link.
+          E-Mail gesendet. Bitte überprüfe deine E-Mails und klicke auf den Link zur
+          Passwortänderung.
         </Typography>
       </div>
     );
@@ -105,7 +105,7 @@ export default function RegisterForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your email address..." {...field} />
+                <Input placeholder="Gib deine E-Mail-Adresse ein..." {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -117,9 +117,9 @@ export default function RegisterForm() {
           name="firstname"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Firstname</FormLabel>
+              <FormLabel>Vorname</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your firstname..." {...field} />
+                <Input placeholder="Gib deinen Vornamen ein..." {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -131,9 +131,9 @@ export default function RegisterForm() {
           name="lastname"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Lastname</FormLabel>
+              <FormLabel>Nachname</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your lastname..." {...field} />
+                <Input placeholder="Gib deinen Nachnamen ein..." {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -146,16 +146,16 @@ export default function RegisterForm() {
           render={({ field }) => (
             <FormItem>
               <div className="flex items-center justify-between">
-                <FormLabel>Password</FormLabel>
+                <FormLabel>Passwort</FormLabel>
 
                 <Button type="button" variant="ghost" size="sm" onClick={togglePasswordVisibility}>
-                  {isPasswordVisible ? 'Hide' : 'Show'}
+                  {isPasswordVisible ? 'Verbergen' : 'Anzeigen'}
                 </Button>
               </div>
               <FormControl>
                 <Input
                   type={isPasswordVisible ? 'text' : 'password'}
-                  placeholder="Enter your password..."
+                  placeholder="Gib dein Passwort ein..."
                   {...field}
                 />
               </FormControl>
@@ -169,12 +169,12 @@ export default function RegisterForm() {
           name="confirmPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Confirm password</FormLabel>
+              <FormLabel>Passwort bestätigen</FormLabel>
 
               <FormControl>
                 <Input
                   type={isPasswordVisible ? 'text' : 'password'}
-                  placeholder="Type again your password..."
+                  placeholder="Gib dein Passwort erneut ein..."
                   {...field}
                 />
               </FormControl>
@@ -184,7 +184,7 @@ export default function RegisterForm() {
         />
 
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Loading...' : 'Register'}
+          {isSubmitting ? 'Lädt...' : 'Registrieren'}
         </Button>
       </form>
     </Form>

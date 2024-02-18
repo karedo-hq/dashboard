@@ -14,11 +14,11 @@ export async function activateAccountAction(code: string): Promise<ActivateAccou
   });
 
   if (res.status === 404) {
-    return { isError: true, error: new Error('User not found'), isSuccess: false };
+    return { isError: true, error: new Error('Konto nicht gefunden'), isSuccess: false };
   }
 
   if (res.status === 409) {
-    return { isError: true, error: new Error('Account already activated'), isSuccess: false };
+    return { isError: true, error: new Error('Konto bereits aktiviert'), isSuccess: false };
   }
 
   return { isSuccess: true, isError: false, error: null };

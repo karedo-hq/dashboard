@@ -43,7 +43,7 @@ export const authOptions: NextAuthOptions = {
         });
 
         if (profileRes.status !== 200) {
-          throw new Error('Failed to fetch profile');
+          throw new Error('Profil konnte nicht abgerufen werden.');
         }
 
         const profile: AuthProfile = await profileRes.json();

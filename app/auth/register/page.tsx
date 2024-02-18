@@ -9,16 +9,16 @@ export default function RegisterPage() {
       <header className="flex flex-col items-center">
         <Logo size={48} variant="isotype" />
         <Typography as="h1" variant="title3" className="mt-4">
-          Register to Karedo
+          Registriere dich bei Karedo
         </Typography>
       </header>
 
       <RegisterForm />
 
       <Typography variant="small" className="flex flex-1 justify-center">
-        Already registered?{' '}
+        Schon registriert?{' '}
         <Link href="/auth/login" className="ml-1 font-medium text-blue-600">
-          Login here
+          Hier einloggen
         </Link>
       </Typography>
     </section>

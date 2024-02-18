@@ -8,7 +8,7 @@ export default function ForgotPasswordPage() {
       <header className="mb-8 flex flex-col items-center">
         <Logo size={48} variant="isotype" />
         <Typography as="h1" variant="title3" className="mt-4">
-          Reset password
+          Passwort zurücksetzen
         </Typography>
       </header>
 

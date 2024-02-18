@@ -26,15 +26,15 @@ const formSchema = z
   .object({
     newPassword: z
       .string()
-      .min(6, 'Password must be at least 6 characters ')
-      .max(50, 'Password must be less than 50 characters'),
+      .min(6, 'Das Passwort muss mindestens 6 Zeichen lang sein ')
+      .max(50, 'Das Passwort muss weniger als 50 Zeichen lang sein'),
     confirmNewPassword: z
       .string()
-      .min(6, 'Password must be at least 6 characters ')
-      .max(50, 'Password must be less than 50 characters'),
+      .min(6, 'Das Passwort muss mindestens 6 Zeichen lang sein ')
+      .max(50, 'Das Passwort muss weniger als 50 Zeichen lang sein'),
   })
   .refine((data) => data.newPassword === data.confirmNewPassword, {
-    message: "Password and confirm password doesn't match!",
+    message: 'Passwort und Passwortbestätigung stimmen nicht überein!',
     path: ['confirmPassword'],
   });
 
@@ -71,7 +71,7 @@ export default function ResetPasswordForm({ userId, userEmail }: ResetPasswordFo
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Error registering',
+        title: 'Fehler beim Zurücksetzen des Passworts',
         description: getErrorMessage(error),
       });
     }
@@ -84,7 +84,8 @@ export default function ResetPasswordForm({ userId, userEmail }: ResetPasswordFo
       <div className="flex flex-col items-center space-y-2">
         <CheckCircledIcon className="text-blue-600" size={32} />
         <Typography as="p" variant="paragraph" className="text-center">
-          Your password has been reset. You can now login with your new credentials.
+          Dein Passwort wurde zurückgesetzt. Du kannst dich jetzt mit deinen neuen Zugangsdaten
+          anmelden.
         </Typography>
       </div>
     );
@@ -99,16 +100,16 @@ export default function ResetPasswordForm({ userId, userEmail }: ResetPasswordFo
           render={({ field }) => (
             <FormItem>
               <div className="flex items-center justify-between">
-                <FormLabel>New password</FormLabel>
+                <FormLabel>Neues Passwort</FormLabel>
 
                 <Button type="button" variant="ghost" size="sm" onClick={togglePasswordVisibility}>
-                  {isPasswordVisible ? 'Hide' : 'Show'}
+                  {isPasswordVisible ? 'Verbergen' : 'Anzeigen'}
                 </Button>
               </div>
               <FormControl>
                 <Input
                   type={isPasswordVisible ? 'text' : 'password'}
-                  placeholder="Enter your new password..."
+                  placeholder="Gib dein neues Passwort ein..."
                   {...field}
                 />
               </FormControl>
@@ -122,12 +123,12 @@ export default function ResetPasswordForm({ userId, userEmail }: ResetPasswordFo
           name="confirmNewPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Confirm new password</FormLabel>
+              <FormLabel>Bestätige dein neues Passwort</FormLabel>
 
               <FormControl>
                 <Input
                   type={isPasswordVisible ? 'text' : 'password'}
-                  placeholder="Type again your new password..."
+                  placeholder="Gib dein neues Passwort erneut ein..."
                   {...field}
                 />
               </FormControl>
@@ -137,7 +138,7 @@ export default function ResetPasswordForm({ userId, userEmail }: ResetPasswordFo
         />
 
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Loading...' : 'Reset password'}
+          {isSubmitting ? 'Lädt...' : 'Passwort zurücksetzen'}
         </Button>
 
         <Link
@@ -147,7 +148,7 @@ export default function ResetPasswordForm({ userId, userEmail }: ResetPasswordFo
             'w-full text-center font-medium text-blue-600',
           )}
         >
-          Back to login
+          Zurück zur Anmeldung
         </Link>
       </form>
     </Form>

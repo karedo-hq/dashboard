@@ -22,11 +22,11 @@ import { cn } from '@/lib/utils/cn';
 import { typographyVariants } from '@/components/ui/typography';
 
 const formSchema = z.object({
-  email: z.string().email('Please enter a valid email address'),
+  email: z.string().email('Bitte gib eine gültige E-Mail-Adresse ein'),
   password: z
     .string()
-    .min(6, 'Password must be at least 6 characters ')
-    .max(50, 'Password must be less than 50 characters'),
+    .min(6, 'Das Passwort muss mindestens 6 Zeichen lang sein')
+    .max(50, 'Das Passwort muss weniger als 50 Zeichen lang sein'),
 });
 
 type LoginFormProps = {
@@ -58,7 +58,7 @@ export default function LoginForm(props: LoginFormProps) {
     if (!response?.ok) {
       toast({
         variant: 'destructive',
-        title: 'Error logging in',
+        title: 'Fehler beim Einloggen',
         description: response?.error,
       });
       return;
@@ -79,7 +79,7 @@ export default function LoginForm(props: LoginFormProps) {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your email address..." {...field} />
+                <Input placeholder="Gib deine E-Mail-Adresse ein..." {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -92,16 +92,16 @@ export default function LoginForm(props: LoginFormProps) {
           render={({ field }) => (
             <FormItem>
               <div className="flex items-center justify-between">
-                <FormLabel>Password</FormLabel>
+                <FormLabel>Passwort</FormLabel>
 
                 <Button type="button" variant="ghost" size="sm" onClick={togglePasswordVisibility}>
-                  {isPasswordVisible ? 'Hide' : 'Show'}
+                  {isPasswordVisible ? 'Verbergen' : 'Anzeigen'}
                 </Button>
               </div>
               <FormControl>
                 <Input
                   type={isPasswordVisible ? 'text' : 'password'}
-                  placeholder="Enter your password..."
+                  placeholder="Gib dein Passwort ein..."
                   {...field}
                 />
               </FormControl>
@@ -114,7 +114,7 @@ export default function LoginForm(props: LoginFormProps) {
                     'font-medium text-blue-600',
                   )}
                 >
-                  Forgot password?
+                  Passwort vergessen?
                 </Link>
               </div>
             </FormItem>
@@ -122,7 +122,7 @@ export default function LoginForm(props: LoginFormProps) {
         />
 
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Loading...' : 'Login'}
+          {isSubmitting ? 'Lädt...' : 'Anmelden'}
         </Button>
       </form>
     </Form>
