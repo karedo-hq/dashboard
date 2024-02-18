@@ -16,9 +16,11 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/lib/hooks/use-toast';
 import { getErrorMessage } from '@/lib/utils/get-error-message';
-import { Typography } from '@/components/ui/typography';
-import EnvelopeBadgeIcon from '@/components/icons/envelope-badge-icon';
+import { Typography, typographyVariants } from '@/components/ui/typography';
 import { resetPasswordAction } from '../lib/actions/reset-password';
+import { cn } from '@/lib/utils/cn';
+import Link from 'next/link';
+import CheckCircledIcon from '@/components/icons/check-circled-icon';
 
 const formSchema = z
   .object({
@@ -80,7 +82,7 @@ export default function ResetPasswordForm({ userId, userEmail }: ResetPasswordFo
   if (isSuccess) {
     return (
       <div className="flex flex-col items-center space-y-2">
-        <EnvelopeBadgeIcon className="text-blue-600" size={32} />
+        <CheckCircledIcon className="text-blue-600" size={32} />
         <Typography as="p" variant="paragraph" className="text-center">
           Your password has been reset. You can now login with your new credentials.
         </Typography>
@@ -137,6 +139,16 @@ export default function ResetPasswordForm({ userId, userEmail }: ResetPasswordFo
         <Button type="submit" disabled={isSubmitting}>
           {isSubmitting ? 'Loading...' : 'Reset password'}
         </Button>
+
+        <Link
+          href="/auth/login"
+          className={cn(
+            typographyVariants({ variant: 'small' }),
+            'w-full text-center font-medium text-blue-600',
+          )}
+        >
+          Back to login
+        </Link>
       </form>
     </Form>
   );

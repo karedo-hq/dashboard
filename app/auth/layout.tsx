@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import authBgImg from '../../public/auth-bg-img.png';
 
 export default async function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -9,7 +8,7 @@ export default async function AuthLayout({ children }: { children: React.ReactNo
       </div>
       <div className="relative hidden w-0 flex-1 lg:block">
         <Image
-          src={authBgImg}
+          src="/auth-bg-img.png"
           alt="Login to Karedo"
           width={1236}
           height={718}

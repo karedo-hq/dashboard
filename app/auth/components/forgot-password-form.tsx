@@ -15,10 +15,12 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/lib/hooks/use-toast';
+import { cn } from '@/lib/utils/cn';
 import { getErrorMessage } from '@/lib/utils/get-error-message';
-import { Typography } from '@/components/ui/typography';
+import { Typography, typographyVariants } from '@/components/ui/typography';
 import EnvelopeBadgeIcon from '@/components/icons/envelope-badge-icon';
 import { requestResetPasswordAction } from '../lib/actions/request-password-reset';
+import Link from 'next/link';
 
 const formSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -87,6 +89,16 @@ export default function ForgotPasswordForm() {
         <Button type="submit" disabled={isSubmitting}>
           {isSubmitting ? 'Loading...' : 'Request password reset'}
         </Button>
+
+        <Link
+          href="/auth/login"
+          className={cn(
+            typographyVariants({ variant: 'small' }),
+            'w-full text-center font-medium text-blue-600',
+          )}
+        >
+          Back to login
+        </Link>
       </form>
     </Form>
   );

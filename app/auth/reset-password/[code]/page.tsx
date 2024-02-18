@@ -1,8 +1,6 @@
-import { Typography, typographyVariants } from '@/components/ui/typography';
+import { Typography } from '@/components/ui/typography';
 import ResetPasswordForm from '@/auth/components/reset-password-form';
 import { verifyResetPasswordCode } from '@/auth/lib/utils/verify-reset-password-code';
-import Link from 'next/link';
-import { cn } from '@/lib/utils/cn';
 import Logo from '@/components/ui/logo';
 
 type ResetPasswordPageProps = {
@@ -40,15 +38,6 @@ export default async function ResetPasswordPage(props: ResetPasswordPageProps) {
       </header>
 
       <ResetPasswordForm userId={decodedCode._id} userEmail={decodedCode.email} />
-
-      <footer className="flex flex-col items-center">
-        <Link
-          href="/auth/login"
-          className={cn(typographyVariants({ variant: 'small' }), 'font-medium text-blue-600')}
-        >
-          Back to login
-        </Link>
-      </footer>
     </section>
   );
 }
