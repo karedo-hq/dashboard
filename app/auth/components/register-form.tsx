@@ -17,8 +17,10 @@ import { Button } from '@/components/ui/button';
 import { registerAction } from '../lib/actions/register';
 import { useToast } from '@/lib/hooks/use-toast';
 import { getErrorMessage } from '@/lib/utils/get-error-message';
-import { Typography } from '@/components/ui/typography';
+import { Typography, typographyVariants } from '@/components/ui/typography';
 import EnvelopeBadgeIcon from '@/components/icons/envelope-badge-icon';
+import Link from 'next/link';
+import { cn } from '@/lib/utils/cn';
 
 const formSchema = z
   .object({
@@ -186,6 +188,28 @@ export default function RegisterForm() {
         <Button type="submit" disabled={isSubmitting}>
           {isSubmitting ? 'Lädt...' : 'Registrieren'}
         </Button>
+
+        <Typography as="p" variant="small">
+          Durch Anmeldung erklären Sie sich mit unseren{' '}
+          <Link
+            href="https://www.karedo.io/terms"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={cn(typographyVariants({ variant: 'small' }), 'font-medium text-blue-600')}
+          >
+            Nutzungsbedingungen
+          </Link>{' '}
+          und{' '}
+          <Link
+            href="https://www.karedo.io/privacy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={cn(typographyVariants({ variant: 'small' }), 'font-medium text-blue-600')}
+          >
+            Datenschutzerklärung
+          </Link>{' '}
+          einverstanden.
+        </Typography>
       </form>
     </Form>
   );
