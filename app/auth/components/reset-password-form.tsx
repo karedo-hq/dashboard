@@ -87,6 +87,16 @@ export default function ResetPasswordForm({ userId, userEmail }: ResetPasswordFo
           Dein Passwort wurde zurückgesetzt. Du kannst dich jetzt mit deinen neuen Zugangsdaten
           anmelden.
         </Typography>
+
+        <Link
+          href="/auth/login"
+          className={cn(
+            typographyVariants({ variant: 'small' }),
+            'w-full text-center font-medium text-blue-600',
+          )}
+        >
+          Zurück zur Anmeldung
+        </Link>
       </div>
     );
   }
