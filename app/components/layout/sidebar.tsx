@@ -11,8 +11,8 @@ import HomeIcon from '../icons/home-icon';
 import ContactsIcon from '../icons/contacts-icon';
 
 const LINKS: SidebarLink[] = [
-  { href: '/dashboard', label: 'Home', icon: HomeIcon },
-  { href: '/dashboard/customers', label: 'Clients', icon: ContactsIcon },
+  { href: '/dashboard', label: 'Übersicht', icon: HomeIcon },
+  { href: '/dashboard/customers', label: 'Betreute', icon: ContactsIcon },
 ];
 
 export default function Sidebar() {

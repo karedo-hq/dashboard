@@ -34,7 +34,7 @@ export default async function ActivationPage(props: ActivationPageProps) {
       <header className="flex flex-col items-center space-y-2">
         <CheckCircledIcon className="text-blue-600" size={32} />
         <Typography as="h1" variant="title3" className="text-center">
-          Konto aktiviert
+          Geschafft
         </Typography>
       </header>
 
@@ -43,7 +43,7 @@ export default async function ActivationPage(props: ActivationPageProps) {
       </Typography>
 
       <Link href="/auth/login" className={buttonVariants({ variant: 'default' })}>
-        Melde dich bei deinem Konto an
+        Jetzt einloggen
       </Link>
     </section>
   );
