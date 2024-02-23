@@ -2,27 +2,23 @@
 
 import { auth } from '@/auth/lib/utils/auth';
 import { Client } from '../types/client.type';
+import { PaginationOptions, PaginatedResponse } from '@/lib/types/pagination.types';
+import { preparePaginationParams } from '@/lib/utils/prepare-pagination-params';
 
-type FindAllClientsActionResult = {
-  data: Client[] | null;
+type FindAllClientsActionResult = Partial<PaginatedResponse<Client>> & {
   isSuccess: boolean;
   isError: boolean;
   error: Error | null;
 };
 
-type FindAllClientsDto = {
-  page?: number;
-  limit?: number;
-  searchQuery?: string;
-  sortBy?:
-    | 'firstname'
-    | 'lastname'
-    | 'birthday'
-    | 'isGuardianshipTakenOver'
-    | 'startDateOfGuardianship'
-    | 'creationDate';
-  sortOrder?: 'asc' | 'desc';
-};
+type FindAllClientsDto = PaginationOptions<
+  | 'firstname'
+  | 'lastname'
+  | 'birthday'
+  | 'isGuardianshipTakenOver'
+  | 'startDateOfGuardianship'
+  | 'creationDate'
+>;
 
 export async function findAllClientsAction(
   dto?: FindAllClientsDto,
@@ -34,19 +30,10 @@ export async function findAllClientsAction(
       isSuccess: false,
       isError: true,
       error: new Error('Not authenticated'),
-      data: null,
     };
   }
 
-  const { page = 1, limit = 10, searchQuery, sortBy, sortOrder } = dto || {};
-
-  const params = new URLSearchParams({
-    page: page.toString(),
-    limit: limit.toString(),
-    ...(searchQuery && { searchQuery }),
-    ...(sortBy && { sortBy }),
-    ...(sortOrder && { sortOrder }),
-  }).toString();
+  const params = preparePaginationParams(dto || {});
 
   const url = `${process.env.API_URL}/clients?${params}`;
 
@@ -62,11 +49,10 @@ export async function findAllClientsAction(
       isSuccess: false,
       isError: true,
       error: new Error('Error fetching clients'),
-      data: null,
     };
   }
 
-  const clients: Client[] = await res.json();
+  const resJSON: PaginatedResponse<Client> = await res.json();
 
-  return { isSuccess: true, isError: false, error: null, data: clients };
+  return { isSuccess: true, isError: false, error: null, ...resJSON };
 }

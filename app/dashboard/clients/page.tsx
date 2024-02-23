@@ -4,7 +4,7 @@ export default async function ClientsPage() {
   const clientsRes = await findAllClientsAction();
 
   if (clientsRes.isError || !clientsRes.data) {
-    return <div>Something went wrong</div>;
+    return <div>{clientsRes.error?.message}</div>;
   }
 
   const clients = clientsRes.data;

@@ -5,6 +5,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { JWT } from 'next-auth/jwt';
 import { AuthProfile } from '@/auth/lib/types/profile.types';
 import { AuthTokens } from '@/auth/lib/types/tokens.types';
+import { APIResponse } from '@/lib/types/api-response.types';
 
 export const authOptions: NextAuthOptions = {
   pages: {
@@ -34,7 +35,8 @@ export const authOptions: NextAuthOptions = {
           throw new Error(errorMessage);
         }
 
-        const tokens: AuthTokens = await loginRes.json();
+        const loginResJSON: APIResponse<AuthTokens> = await loginRes.json();
+        const tokens = loginResJSON.data;
 
         const profileRes = await fetch(`${process.env.API_URL}/auth/profile`, {
           headers: {
@@ -46,7 +48,8 @@ export const authOptions: NextAuthOptions = {
           throw new Error('Profil konnte nicht abgerufen werden.');
         }
 
-        const profile: AuthProfile = await profileRes.json();
+        const profileResJSON: APIResponse<AuthProfile> = await profileRes.json();
+        const profile = profileResJSON.data;
 
         const user = { user: profile, tokens } as unknown as Awaitable<User>;
 
@@ -105,7 +108,8 @@ async function refreshToken(token: JWT): Promise<JWT> {
     };
   }
 
-  const refreshedTokens = await refreshTokenRes.json();
+  const refreshTokenResJSON: APIResponse<AuthTokens> = await refreshTokenRes.json();
+  const refreshedTokens = refreshTokenResJSON.data;
 
   return {
     ...token,

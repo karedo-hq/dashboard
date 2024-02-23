@@ -2,8 +2,9 @@
 
 import { RegisterDto } from '@/auth/lib/types/register.types';
 import { User } from '@/auth/lib/types/user.types';
+import { APIResponse } from '@/lib/types/api-response.types';
 
-export async function registerAction(dto: RegisterDto): Promise<User> {
+export async function registerAction(dto: RegisterDto): Promise<APIResponse<User>> {
   const res = await fetch(`${process.env.API_URL}/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -14,7 +15,7 @@ export async function registerAction(dto: RegisterDto): Promise<User> {
     throw new Error('Registrierung fehlgeschlagen');
   }
 
-  const createdUser: Promise<User> = await res.json();
+  const createdUser: Promise<APIResponse<User>> = await res.json();
 
   return createdUser;
 }
