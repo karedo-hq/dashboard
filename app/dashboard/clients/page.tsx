@@ -1,19 +1,23 @@
+import { Typography } from '@/components/ui/typography';
+import { ClientsTable } from './components/clients-table';
+import { clientsCols } from './components/clients-table-cols';
 import { findAllClientsAction } from './lib/actions/find-all-clients';
 
 export default async function ClientsPage() {
   const clientsRes = await findAllClientsAction();
 
   if (clientsRes.isError || !clientsRes.data) {
-    return <div>{clientsRes.error?.message}</div>;
+    return <section className="flex flex-col space-y-4 p-8">{clientsRes.error?.message}</section>;
   }
 
   const clients = clientsRes.data;
 
   return (
-    <section>
-      {clients.map((client) => (
-        <div key={client._id}>{client.firstname}</div>
-      ))}
+    <section className="flex flex-col space-y-4 p-8">
+      <Typography as="h1" variant="title3">
+        Betreute
+      </Typography>
+      <ClientsTable columns={clientsCols} data={clients} />
     </section>
   );
 }
