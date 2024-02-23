@@ -15,7 +15,7 @@ export default async function ClientsPage() {
   return (
     <section className="flex flex-col space-y-4 p-8">
       <Typography as="h1" variant="title3">
-        Betreute
+        Betreuungen
       </Typography>
       <ClientsTable columns={clientsCols} data={clients} />
     </section>

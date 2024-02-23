@@ -16,6 +16,7 @@ export type Client = {
   courtRefNumber?: string;
   scopeOfDuties?: string[];
   guardianshipStartedAt: string;
+  guardianshipEndedAt?: string;
   livingArrangement?: LivingArrangements;
   wealthStatus?: WealthStatus;
   typeOfGuardianship?: TypeOfGuardianship;
@@ -24,4 +25,5 @@ export type Client = {
   prevGuardianshipStartedAt?: string;
   createdAt?: string;
   updatedAt?: string;
+  status: 'active' | 'inactive' | 'deleted';
 };

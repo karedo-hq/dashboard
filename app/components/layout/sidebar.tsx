@@ -12,7 +12,7 @@ import ContactsIcon from '../icons/contacts-icon';
 
 const LINKS: SidebarLink[] = [
   { href: '/dashboard', label: 'Übersicht', icon: HomeIcon },
-  { href: '/dashboard/clients', label: 'Betreute', icon: ContactsIcon },
+  { href: '/dashboard/clients', label: 'Betreuungen', icon: ContactsIcon },
 ];
 
 export default function Sidebar() {
