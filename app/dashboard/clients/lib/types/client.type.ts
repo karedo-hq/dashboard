@@ -1,3 +1,4 @@
+import { ClientStatus } from './client-status.type';
 import { LivingArrangements } from './living-arragements.type';
 import { TypeOfGuardianship } from './type-of-guardianship.type';
 import { UserGender } from './user-gender.type';
@@ -25,5 +26,5 @@ export type Client = {
   prevGuardianshipStartedAt?: string;
   createdAt?: string;
   updatedAt?: string;
-  status: 'active' | 'inactive' | 'deleted';
+  status: ClientStatus;
 };
