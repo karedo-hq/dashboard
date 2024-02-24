@@ -10,10 +10,18 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, startAdornment, endAdornment, ...props }, ref) => {
+  ({ className, type, startAdornment, endAdornment, onFocus, onBlur, ...props }, ref) => {
     const [isFocused, setIsFocused] = React.useState(false);
-    const handleFocus = () => setIsFocused(true);
-    const handleBlur = () => setIsFocused(false);
+
+    const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+      setIsFocused(true);
+      if (onFocus) onFocus(e);
+    };
+
+    const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+      setIsFocused(false);
+      if (onBlur) onBlur(e);
+    };
 
     return (
       <div
