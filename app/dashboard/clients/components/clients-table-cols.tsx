@@ -6,13 +6,32 @@ import { LIVING_ARRANGEMENTS_LABELS } from '../lib/consts/living-arrangements-la
 import { WEALTH_STATUS_LABELS } from '../lib/consts/wealth-status-labels';
 import { Typography } from '@/components/ui/typography';
 import { Badge } from '@/components/ui/badge';
+import { ArrowUpDown } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { CLIENTS_TABLE_COL_LABELS } from '../lib/consts/clients-table-col-labels';
 
 export const clientsCols: ColumnDef<Client>[] = [
   {
-    accessorKey: 'mainInfo',
-    header: 'Betreute Person',
+    accessorKey: 'firstname',
+    header: ({ column }) => {
+      return (
+        <div className="flex items-center space-x-1">
+          <Typography variant="paragraph" color="slate-500">
+            {CLIENTS_TABLE_COL_LABELS.firstname}
+          </Typography>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            <ArrowUpDown className="h-4 w-4" />
+          </Button>
+        </div>
+      );
+    },
     cell: ({ row }) => {
       const { firstname, lastname, birthday } = row.original;
+
       return (
         <div className="flex flex-col">
           <Typography variant="paragraph">
@@ -28,7 +47,22 @@ export const clientsCols: ColumnDef<Client>[] = [
   },
   {
     accessorKey: 'guardianshipStartedAt',
-    header: 'Betreuungsbeginn',
+    header: ({ column }) => {
+      return (
+        <div className="flex items-center space-x-1">
+          <Typography variant="paragraph" color="slate-500">
+            {CLIENTS_TABLE_COL_LABELS.guardianshipStartedAt}
+          </Typography>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            <ArrowUpDown className="h-4 w-4" />
+          </Button>
+        </div>
+      );
+    },
     cell: ({ row }) => {
       const { guardianshipStartedAt } = row.original;
       return new Date(guardianshipStartedAt).toLocaleDateString('de-DE');
@@ -36,7 +70,22 @@ export const clientsCols: ColumnDef<Client>[] = [
   },
   {
     accessorKey: 'guardianshipEndedAt',
-    header: 'Betreuungsende',
+    header: ({ column }) => {
+      return (
+        <div className="flex items-center space-x-1">
+          <Typography variant="paragraph" color="slate-500">
+            {CLIENTS_TABLE_COL_LABELS.guardianshipEndedAt}
+          </Typography>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            <ArrowUpDown className="h-4 w-4" />
+          </Button>
+        </div>
+      );
+    },
     cell: ({ row }) => {
       const { guardianshipEndedAt } = row.original;
       return guardianshipEndedAt ? new Date(guardianshipEndedAt).toLocaleDateString('de-DE') : '-';
@@ -44,7 +93,22 @@ export const clientsCols: ColumnDef<Client>[] = [
   },
   {
     accessorKey: 'livingArrangement',
-    header: 'Aufenthalt',
+    header: ({ column }) => {
+      return (
+        <div className="flex items-center space-x-1">
+          <Typography variant="paragraph" color="slate-500">
+            {CLIENTS_TABLE_COL_LABELS.livingArrangement}
+          </Typography>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            <ArrowUpDown className="h-4 w-4" />
+          </Button>
+        </div>
+      );
+    },
     cell: ({ row }) => {
       const { livingArrangement } = row.original;
       return livingArrangement ? LIVING_ARRANGEMENTS_LABELS[livingArrangement] : '-';
@@ -52,7 +116,22 @@ export const clientsCols: ColumnDef<Client>[] = [
   },
   {
     accessorKey: 'wealthStatus',
-    header: 'Vermögensstatus',
+    header: ({ column }) => {
+      return (
+        <div className="flex items-center space-x-1">
+          <Typography variant="paragraph" color="slate-500">
+            {CLIENTS_TABLE_COL_LABELS.wealthStatus}
+          </Typography>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            <ArrowUpDown className="h-4 w-4" />
+          </Button>
+        </div>
+      );
+    },
     cell: ({ row }) => {
       const { wealthStatus } = row.original;
       return wealthStatus ? WEALTH_STATUS_LABELS[wealthStatus] : '-';
@@ -60,7 +139,22 @@ export const clientsCols: ColumnDef<Client>[] = [
   },
   {
     accessorKey: 'status',
-    header: 'Status',
+    header: ({ column }) => {
+      return (
+        <div className="flex items-center space-x-1">
+          <Typography variant="paragraph" color="slate-500">
+            {CLIENTS_TABLE_COL_LABELS.status}
+          </Typography>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            <ArrowUpDown className="h-4 w-4" />
+          </Button>
+        </div>
+      );
+    },
     cell: ({ row }) => {
       const { status } = row.original;
       return status === 'active' ? (
