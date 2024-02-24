@@ -1,7 +1,6 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { Client } from '../lib/types/client.type';
 import { LIVING_ARRANGEMENTS_LABELS } from '../lib/consts/living-arrangements-labels';
 import { WEALTH_STATUS_LABELS } from '../lib/consts/wealth-status-labels';
 import { Typography } from '@/components/ui/typography';
@@ -9,15 +8,16 @@ import { Badge } from '@/components/ui/badge';
 import { ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CLIENTS_TABLE_COL_LABELS } from '../lib/consts/clients-table-col-labels';
+import { ParsedClientForTable } from '../lib/utils/parse-clients-for-table';
 
-export const clientsCols: ColumnDef<Client>[] = [
+export const clientsCols: ColumnDef<ParsedClientForTable>[] = [
   {
-    accessorKey: 'firstname',
+    accessorKey: 'fullname',
     header: ({ column }) => {
       return (
         <div className="flex items-center space-x-1">
           <Typography variant="paragraph" color="slate-500">
-            {CLIENTS_TABLE_COL_LABELS.firstname}
+            {CLIENTS_TABLE_COL_LABELS.fullname}
           </Typography>
           <Button
             variant="ghost"
@@ -30,13 +30,11 @@ export const clientsCols: ColumnDef<Client>[] = [
       );
     },
     cell: ({ row }) => {
-      const { firstname, lastname, birthday } = row.original;
+      const { fullname, birthday } = row.original;
 
       return (
         <div className="flex flex-col">
-          <Typography variant="paragraph">
-            {firstname} {lastname}
-          </Typography>
+          <Typography variant="paragraph">{fullname}</Typography>
 
           <Typography variant="small" color="slate-400">
             {new Date(birthday).toLocaleDateString('de-DE')}

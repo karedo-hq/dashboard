@@ -67,8 +67,8 @@ export function ClientsTable<TData, TValue>({ columns, data }: ClientsTableProps
       <header className="mb-4 flex items-center justify-between space-x-4">
         <Input
           placeholder="Namen..."
-          value={(table.getColumn('firstname')?.getFilterValue() as string) ?? ''}
-          onChange={(event) => table.getColumn('firstname')?.setFilterValue(event.target.value)}
+          value={(table.getColumn('fullname')?.getFilterValue() as string) ?? ''}
+          onChange={(event) => table.getColumn('fullname')?.setFilterValue(event.target.value)}
           className="max-w-xs"
           startAdornment={<SearchIcon size={12} />}
         />

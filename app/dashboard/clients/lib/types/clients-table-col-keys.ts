@@ -1,5 +1,5 @@
 export type ClientTableColKey =
-  | 'firstname'
+  | 'fullname'
   | 'guardianshipStartedAt'
   | 'guardianshipEndedAt'
   | 'livingArrangement'
