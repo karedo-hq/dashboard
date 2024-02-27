@@ -16,7 +16,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from './popover';
 import { Typography } from './typography';
 
-type Option = {
+export type MultiSelectOption = {
   label: string;
   value: string;
   icon?: React.ComponentType<{ className?: string }>;
@@ -27,7 +27,7 @@ type MultiSelectProps = {
   onValueChange: (newValue: string[]) => void;
   className?: string;
   placeholder?: string;
-  options: Option[];
+  options: MultiSelectOption[];
 };
 
 export function MultiSelect({
@@ -54,18 +54,17 @@ export function MultiSelect({
   };
 
   return (
-    <Popover>
+    <Popover modal>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          size="sm"
           className={cn(
-            'flex h-10 w-full items-center justify-between rounded-md border border-gray-200 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-800 dark:bg-gray-950 dark:ring-offset-gray-950 dark:placeholder:text-gray-400 dark:focus:ring-gray-300 [&>span]:line-clamp-1',
+            'flex h-[unset] min-h-10 w-full items-center justify-between rounded-md border border-gray-200 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-800 dark:bg-gray-950 dark:ring-offset-gray-950 dark:placeholder:text-gray-400 dark:focus:ring-gray-300 [&>span]:line-clamp-1',
             className,
           )}
         >
           {selectedValues.size > 0 ? (
-            <div className="space-x-1">
+            <div className="flex flex-1 flex-wrap gap-1">
               {options
                 .filter((option) => selectedValues.has(option.value))
                 .map((option) => (
@@ -75,7 +74,7 @@ export function MultiSelect({
                 ))}
             </div>
           ) : (
-            <Typography variant="paragraph" color="slate-500" className="font-normal">
+            <Typography variant="paragraph" color="slate-500" className="leading-0 font-normal">
               {placeholder || 'Select options...'}
             </Typography>
           )}
@@ -83,7 +82,7 @@ export function MultiSelect({
           <ChevronDown className="h-4 w-4 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0" align="start">
+      <PopoverContent className="p-0" align="start">
         <Command>
           <CommandInput placeholder="Search..." />
           <CommandList>
