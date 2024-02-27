@@ -34,15 +34,7 @@ import ColumnsIcon from '@/components/icons/columns-icon';
 import { CLIENTS_TABLE_COL_LABELS } from '../lib/consts/clients-table-col-labels';
 import { ClientTableColKey } from '../lib/types/clients-table-col-keys';
 import SearchIcon from '@/components/icons/search-icon';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTrigger,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog';
-import CreateClientForm from './create-client-form';
+import CreateClientDialog from './create-client-dialog';
 
 type ClientsTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
@@ -106,19 +98,7 @@ export function ClientsTable<TData, TValue>({ columns, data }: ClientsTableProps
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="default">+ Create client</Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-3xl">
-              <DialogHeader>
-                <DialogTitle>Create client</DialogTitle>
-                <DialogDescription>Fields with (*) are required.</DialogDescription>
-              </DialogHeader>
-
-              <CreateClientForm />
-            </DialogContent>
-          </Dialog>
+          <CreateClientDialog />
         </div>
       </header>
       <div className="rounded-md border">

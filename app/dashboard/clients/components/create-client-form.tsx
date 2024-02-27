@@ -36,6 +36,8 @@ import { LIVING_ARRANGEMENT_LABELS } from '../lib/consts/living-arrangement-labe
 import { WEALTH_STATUS_LABELS } from '../lib/consts/wealth-status-labels';
 import { TYPE_OF_GUARDIANSHIP_LABELS } from '../lib/consts/type-of-guardianship-labels';
 import { PREV_GUARDIAN_TYPE_LABELS } from '../lib/consts/prev-guardian-type-labels';
+import { CreateClientActionResult, createClientAction } from '../lib/actions/create-client';
+import { useRouter } from 'next/navigation';
 
 const formSchema = z.object({
   gender: z.enum(['male', 'female', 'other']),
@@ -78,9 +80,13 @@ const formSchema = z.object({
   prevGuardianshipStartedAt: z.date().optional(),
 });
 
+type CreateClientFormProps = {
+  onSuccess?: (data: CreateClientActionResult['data']) => void;
+};
+
 type CreateClientFormValues = z.infer<typeof formSchema>;
 
-export default function CreateClientForm() {
+export default function CreateClientForm(props: CreateClientFormProps) {
   const form = useForm<CreateClientFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -92,16 +98,42 @@ export default function CreateClientForm() {
       isGuardianshipTakenOver: 'false',
     },
   });
+  const router = useRouter();
   const { toast } = useToast();
 
-  const handleSubmit: SubmitHandler<CreateClientFormValues> = async (values) => {
-    console.log({ values });
+  const handleSubmit: SubmitHandler<CreateClientFormValues> = async ({
+    isGuardianshipTakenOver,
+    ...values
+  }) => {
     try {
-      // await registerAction(dto);
+      const parsedIsGuardianshipTakenOver = isGuardianshipTakenOver === 'true' ? true : false;
+
+      const res = await createClientAction({
+        ...values,
+        isGuardianshipTakenOver: parsedIsGuardianshipTakenOver,
+      });
+
+      if (res.isError) {
+        throw res.error;
+      }
+
+      if (res.isSuccess) {
+        toast({
+          variant: 'default',
+          title: 'Client created',
+          description: 'Client has been successfully created',
+        });
+      }
+
+      if (props.onSuccess) {
+        props.onSuccess(res.data);
+      }
+
+      router.push('/dashboard/clients');
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Fehler bei der Registrierung',
+        title: 'Error creating client',
         description: getErrorMessage(error),
       });
     }
@@ -184,7 +216,7 @@ export default function CreateClientForm() {
                 name="birthday"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel>Date of birth</FormLabel>
+                    <FormLabel>Date of birth*</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
