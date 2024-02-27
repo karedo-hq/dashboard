@@ -11,6 +11,8 @@ const badgeVariants = cva(
       variant: {
         primary:
           'border-transparent bg-blue-100 text-blue-600 hover:bg-blue-200/80 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/80',
+        secondary:
+          'border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80',
         slate:
           'border-transparent bg-slate-100 text-slate-900 hover:bg-slate-100/80 dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-800/80',
         error:

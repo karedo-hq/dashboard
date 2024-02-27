@@ -14,7 +14,7 @@ export type Client = {
   birthday: string;
   avatar?: string;
   localCourt?: string;
-  courtRefNumber?: string;
+  caseNumber?: string;
   scopeOfDuties?: string[];
   guardianshipStartedAt: string;
   guardianshipEndedAt?: string;

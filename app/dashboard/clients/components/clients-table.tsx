@@ -34,6 +34,15 @@ import ColumnsIcon from '@/components/icons/columns-icon';
 import { CLIENTS_TABLE_COL_LABELS } from '../lib/consts/clients-table-col-labels';
 import { ClientTableColKey } from '../lib/types/clients-table-col-keys';
 import SearchIcon from '@/components/icons/search-icon';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTrigger,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog';
+import CreateClientForm from './create-client-form';
 
 type ClientsTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
@@ -72,30 +81,45 @@ export function ClientsTable<TData, TValue>({ columns, data }: ClientsTableProps
           className="max-w-xs"
           startAdornment={<SearchIcon size={12} />}
         />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline">
-              <ColumnsIcon size={14} className="mr-2" /> Spalten
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) => column.toggleVisibility(!!value)}
-                  >
-                    {CLIENTS_TABLE_COL_LABELS[column.id as ClientTableColKey]}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex items-center space-x-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline">
+                <ColumnsIcon className="mr-2 h-4 w-4" /> Spalten
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {table
+                .getAllColumns()
+                .filter((column) => column.getCanHide())
+                .map((column) => {
+                  return (
+                    <DropdownMenuCheckboxItem
+                      key={column.id}
+                      className="capitalize"
+                      checked={column.getIsVisible()}
+                      onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                    >
+                      {CLIENTS_TABLE_COL_LABELS[column.id as ClientTableColKey]}
+                    </DropdownMenuCheckboxItem>
+                  );
+                })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="default">+ Create client</Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-3xl">
+              <DialogHeader>
+                <DialogTitle>Create client</DialogTitle>
+                <DialogDescription>Fields with (*) are required.</DialogDescription>
+              </DialogHeader>
+
+              <CreateClientForm />
+            </DialogContent>
+          </Dialog>
+        </div>
       </header>
       <div className="rounded-md border">
         <Table>
@@ -136,7 +160,7 @@ export function ClientsTable<TData, TValue>({ columns, data }: ClientsTableProps
         </Table>
       </div>
 
-      <div className="flex items-center justify-end space-x-2 py-4">
+      <footer className="flex items-center justify-end space-x-2 py-4">
         <Button
           variant="outline"
           size="sm"
@@ -153,7 +177,7 @@ export function ClientsTable<TData, TValue>({ columns, data }: ClientsTableProps
         >
           Next
         </Button>
-      </div>
+      </footer>
     </div>
   );
 }

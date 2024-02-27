@@ -9,6 +9,7 @@ const typographyVariants = cva('', {
       title2: 'scroll-m-20 pb-2 text-2xl font-semibold tracking-tight first:mt-0',
       title3: 'scroll-m-20 text-xl font-semibold tracking-tight',
       title4: 'scroll-m-20 text-lg font-semibold tracking-tight',
+      title5: 'scroll-m-20 text-md font-semibold tracking-tight',
       paragraph: 'leading-7 [&:not(:first-child)]:mt-4',
       label: 'leading-7',
       blockquote: 'mt-6 border-l-2 pl-6 italic',
@@ -87,7 +88,7 @@ const typographyVariants = cva('', {
 export interface TypographyProps
   extends Omit<React.HTMLAttributes<HTMLElement>, 'color'>,
     VariantProps<typeof typographyVariants> {
-  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'label' | 'div' | 'span';
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'label' | 'div' | 'span' | 'legend';
 }
 
 const Typography: React.FC<TypographyProps> = ({
