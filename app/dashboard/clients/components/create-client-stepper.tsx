@@ -52,22 +52,29 @@ function CreateClientStepperFooter({ submitButton }: { submitButton: React.React
   };
 
   return (
-    <div className="flex items-center justify-end gap-2">
+    <footer className="mt-8 flex items-center justify-end gap-2">
       {activeStep === steps.length ? (
         <Button onClick={resetSteps}>Reset</Button>
       ) : (
         <>
-          <Button disabled={isDisabledStep} onClick={handlePrevStep}>
+          <Button
+            variant="ghost"
+            disabled={isDisabledStep}
+            onClick={handlePrevStep}
+            className="min-w-40"
+          >
             Prev
           </Button>
 
           {isLastStep ? (
             submitButton
           ) : (
-            <Button onClick={handleNextStep}>{isOptionalStep ? 'Skip' : 'Next'}</Button>
+            <Button onClick={handleNextStep} className="min-w-40">
+              {isOptionalStep ? 'Skip' : 'Next'}
+            </Button>
           )}
         </>
       )}
-    </div>
+    </footer>
   );
 }

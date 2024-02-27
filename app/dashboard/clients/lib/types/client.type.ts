@@ -1,5 +1,5 @@
 import { ClientStatus } from './client-status.type';
-import { LivingArrangements } from './living-arragements.type';
+import { LivingArrangements } from './living-arrangements.type';
 import { TypeOfGuardianship } from './type-of-guardianship.type';
 import { UserGender } from './user-gender.type';
 import { WealthStatus } from './wealth-status.type';
