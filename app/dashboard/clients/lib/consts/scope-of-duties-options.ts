@@ -1,6 +1,6 @@
-import { MultiSelectOption } from '@/components/ui/multi-select';
+import { CreatableSelectOption } from '@/components/ui/creatable-select';
 
-export const SCOPE_OF_DUTIES_OPTIONS: Omit<MultiSelectOption, 'icon'>[] = [
+export const SCOPE_OF_DUTIES_OPTIONS: CreatableSelectOption[] = [
   {
     label: 'Client Management',
     value: 'client-management',

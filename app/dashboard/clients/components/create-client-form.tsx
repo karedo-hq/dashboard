@@ -30,7 +30,6 @@ import { Calendar } from '@/components/ui/calendar';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import CreateClientStepper from './create-client-stepper';
 import { LOCAL_COURTS_LABELS } from '../lib/consts/local-courts-labels';
-import { MultiSelect } from '@/components/ui/multi-select';
 import { SCOPE_OF_DUTIES_OPTIONS } from '../lib/consts/scope-of-duties-options';
 import { LIVING_ARRANGEMENT_LABELS } from '../lib/consts/living-arrangement-labels';
 import { WEALTH_STATUS_LABELS } from '../lib/consts/wealth-status-labels';
@@ -38,6 +37,7 @@ import { TYPE_OF_GUARDIANSHIP_LABELS } from '../lib/consts/type-of-guardianship-
 import { PREV_GUARDIAN_TYPE_LABELS } from '../lib/consts/prev-guardian-type-labels';
 import { CreateClientActionResult, createClientAction } from '../lib/actions/create-client';
 import { useRouter } from 'next/navigation';
+import { CreatableSelect } from '@/components/ui/creatable-select';
 
 const formSchema = z.object({
   gender: z.enum(['male', 'female', 'other']),
@@ -300,10 +300,10 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                 render={({ field }) => (
                   <FormItem className="flex-1">
                     <FormLabel>Scope of duties</FormLabel>
-                    <MultiSelect
-                      selected={field.value}
+                    <CreatableSelect
                       onValueChange={field.onChange}
                       options={SCOPE_OF_DUTIES_OPTIONS}
+                      isMulti
                     />
                     <FormMessage />
                   </FormItem>
