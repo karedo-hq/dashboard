@@ -1,10 +1,13 @@
 'use client';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
+import { useToast } from '@/lib/hooks/use-toast';
+import { getErrorMessage } from '@/lib/utils/get-error-message';
 import { cn } from '@/lib/utils/cn';
 import {
   Form,
@@ -16,8 +19,6 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { useToast } from '@/lib/hooks/use-toast';
-import { getErrorMessage } from '@/lib/utils/get-error-message';
 import {
   Select,
   SelectContent,
@@ -28,6 +29,8 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { CreatableSelect } from '@/components/ui/creatable-select';
+import { Typography } from '@/components/ui/typography';
 import CreateClientStepper from './create-client-stepper';
 import { LOCAL_COURTS_LABELS } from '../lib/consts/local-courts-labels';
 import { SCOPE_OF_DUTIES_OPTIONS } from '../lib/consts/scope-of-duties-options';
@@ -36,9 +39,6 @@ import { WEALTH_STATUS_LABELS } from '../lib/consts/wealth-status-labels';
 import { TYPE_OF_GUARDIANSHIP_LABELS } from '../lib/consts/type-of-guardianship-labels';
 import { PREV_GUARDIAN_TYPE_LABELS } from '../lib/consts/prev-guardian-type-labels';
 import { CreateClientActionResult, createClientAction } from '../lib/actions/create-client';
-import { useRouter } from 'next/navigation';
-import { CreatableSelect } from '@/components/ui/creatable-select';
-import { Typography } from '@/components/ui/typography';
 
 const formSchema = z.object({
   gender: z.enum(['male', 'female', 'other']),
@@ -121,8 +121,8 @@ export default function CreateClientForm(props: CreateClientFormProps) {
       if (res.isSuccess) {
         toast({
           variant: 'default',
-          title: 'Client created',
-          description: 'Client has been successfully created',
+          title: 'Kunde erstellt',
+          description: 'Kunde wurde erfolgreich erstellt!',
         });
       }
 
@@ -134,7 +134,7 @@ export default function CreateClientForm(props: CreateClientFormProps) {
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Error creating client',
+        title: 'Fehler beim Erstellen des Kunden',
         description: getErrorMessage(error),
       });
     }
@@ -155,17 +155,17 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                   name="gender"
                   render={({ field }) => (
                     <FormItem className="flex-1">
-                      <FormLabel>Saludation*</FormLabel>
+                      <FormLabel>Anrede*</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select client saludation" />
+                            <SelectValue placeholder="bitte wählen" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="male">Mr.</SelectItem>
-                          <SelectItem value="female">Mrs.</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
+                          <SelectItem value="male">Herr</SelectItem>
+                          <SelectItem value="female">Frau</SelectItem>
+                          <SelectItem value="other">Andere</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -177,9 +177,9 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                   name="title"
                   render={({ field }) => (
                     <FormItem className="flex-1">
-                      <FormLabel>Title</FormLabel>
+                      <FormLabel>Titel</FormLabel>
                       <FormControl>
-                        <Input placeholder="Client's title" {...field} />
+                        <Input placeholder="Titel des Kunden" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -191,9 +191,9 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                 name="firstname"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Firstname*</FormLabel>
+                    <FormLabel>Vorname*</FormLabel>
                     <FormControl>
-                      <Input placeholder="Client's firstname" {...field} />
+                      <Input placeholder="Vorname des Kunden" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -204,9 +204,9 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                 name="lastname"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Lastname*</FormLabel>
+                    <FormLabel>Nachname*</FormLabel>
                     <FormControl>
-                      <Input placeholder="Client's lastname" {...field} />
+                      <Input placeholder="Nachname des Kunden" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -217,7 +217,7 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                 name="birthday"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel>Date of birth*</FormLabel>
+                    <FormLabel>Geboren am*</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
@@ -232,7 +232,7 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                               format(field.value, 'PPP')
                             ) : (
                               <Typography variant="small" color="slate-500">
-                                Pick a date
+                                TT.MM.JJJJ
                               </Typography>
                             )}
                             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
@@ -268,11 +268,11 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                   name="localCourt"
                   render={({ field }) => (
                     <FormItem className="flex-1">
-                      <FormLabel>Local court</FormLabel>
+                      <FormLabel>Amtsgericht</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select a local court" />
+                            <SelectValue placeholder="bitte wählen" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -292,9 +292,9 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                   name="caseNumber"
                   render={({ field }) => (
                     <FormItem className="flex-1">
-                      <FormLabel>Case number</FormLabel>
+                      <FormLabel>Aktenzeichen d. Gerichts</FormLabel>
                       <FormControl>
-                        <Input placeholder="Case number..." {...field} />
+                        <Input placeholder="AktZ" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -306,11 +306,12 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                 name="scopeOfDuties"
                 render={({ field }) => (
                   <FormItem className="flex-1">
-                    <FormLabel>Scope of duties</FormLabel>
+                    <FormLabel>Aufgabenkreise</FormLabel>
                     <CreatableSelect
                       onValueChange={field.onChange}
                       options={SCOPE_OF_DUTIES_OPTIONS}
                       isMulti
+                      placeholder="bitte wählen"
                     />
                     <FormMessage />
                   </FormItem>
@@ -321,7 +322,7 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                 name="guardianshipStartedAt"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel>Guardianship start date*</FormLabel>
+                    <FormLabel>Betreuungsbeginn*</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
@@ -336,7 +337,7 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                               format(field.value, 'PPP')
                             ) : (
                               <Typography variant="small" color="slate-500">
-                                Pick a date
+                                TT.MM.JJJJ
                               </Typography>
                             )}
                             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
@@ -372,11 +373,11 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                   name="livingArrangement"
                   render={({ field }) => (
                     <FormItem className="flex-1">
-                      <FormLabel>Living arrangement</FormLabel>
+                      <FormLabel>Wohnform</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select a living arrangement" />
+                            <SelectValue placeholder="bitte wählen" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -396,11 +397,11 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                   name="wealthStatus"
                   render={({ field }) => (
                     <FormItem className="flex-1">
-                      <FormLabel>Wealth status</FormLabel>
+                      <FormLabel>Vermögensstatus</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select a wealth status" />
+                            <SelectValue placeholder="bitte wählen" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -421,11 +422,11 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                 name="typeOfGuardianship"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Type of guardianship</FormLabel>
+                    <FormLabel>Art der Betreuung</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a type of guardianship" />
+                          <SelectValue placeholder="bitte wählen" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -440,13 +441,12 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                   </FormItem>
                 )}
               />
-              {/* @todo - parse this field value to boolean on submit */}
               <FormField
                 control={form.control}
                 name="isGuardianshipTakenOver"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Is guardianship taken over?*</FormLabel>
+                    <FormLabel>Hast du die Betreuung von jemand anderem übernommen?*</FormLabel>
                     <FormControl>
                       <ToggleGroup
                         type="single"
@@ -476,13 +476,13 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                 )}
               />
               {isGuardianshipTakenOver && (
-                <div className="flex items-center space-x-2">
+                <>
                   <FormField
                     control={form.control}
                     name="prevGuardianType"
                     render={({ field }) => (
                       <FormItem className="flex-1">
-                        <FormLabel>From whom did you take over guardianship?</FormLabel>
+                        <FormLabel>Von wem hast du die Betreuung übernommen?</FormLabel>
                         <FormControl>
                           <ToggleGroup
                             type="single"
@@ -516,7 +516,9 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                     name="prevGuardianshipStartedAt"
                     render={({ field }) => (
                       <FormItem className="flex-1">
-                        <FormLabel>Previous guardianship start date</FormLabel>
+                        <FormLabel>
+                          Seit wann ist die betreute Person in rechtlicher Betreuung?
+                        </FormLabel>
                         <Popover>
                           <FormControl>
                             <PopoverTrigger asChild>
@@ -531,7 +533,7 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                                   format(field.value, 'PPP')
                                 ) : (
                                   <Typography variant="small" color="slate-500">
-                                    Pick a date
+                                    TT.MM.JJJJ
                                   </Typography>
                                 )}
                                 <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
@@ -561,7 +563,7 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                       </FormItem>
                     )}
                   />
-                </div>
+                </>
               )}
             </fieldset>,
           ]}
@@ -572,7 +574,7 @@ export default function CreateClientForm(props: CreateClientFormProps) {
               isLoading={isSubmitting}
               className="min-w-40"
             >
-              Create client
+              Betreuung hinzufügen
             </Button>
           }
         />

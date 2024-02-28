@@ -10,9 +10,17 @@ type CreatableSelectProps = {
   options: CreatableSelectOption[];
   onValueChange: (newValue: string[] | string) => void;
   isMulti?: boolean;
+  placeholder?: string;
+  closeMenuOnSelect?: boolean;
 };
 
-export function CreatableSelect({ options, onValueChange, isMulti }: CreatableSelectProps) {
+export function CreatableSelect({
+  options,
+  onValueChange,
+  isMulti,
+  placeholder,
+  closeMenuOnSelect = false,
+}: CreatableSelectProps) {
   const handleChange = (newValue: CreatableSelectOption[] | CreatableSelectOption | null) => {
     if (newValue === null) {
       onValueChange(isMulti ? [] : '');
@@ -30,6 +38,8 @@ export function CreatableSelect({ options, onValueChange, isMulti }: CreatableSe
       isMulti={isMulti}
       options={options}
       onChange={handleChange as any}
+      placeholder={placeholder}
+      closeMenuOnSelect={closeMenuOnSelect}
       unstyled
       styles={{
         option: (base) => ({

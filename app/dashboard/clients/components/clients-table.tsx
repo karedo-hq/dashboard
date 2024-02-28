@@ -30,11 +30,11 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import ColumnsIcon from '@/components/icons/columns-icon';
 import { CLIENTS_TABLE_COL_LABELS } from '../lib/consts/clients-table-col-labels';
 import { ClientTableColKey } from '../lib/types/clients-table-col-keys';
 import SearchIcon from '@/components/icons/search-icon';
 import CreateClientDialog from './create-client-dialog';
+import { Columns3Icon } from 'lucide-react';
 
 type ClientsTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
@@ -77,7 +77,7 @@ export function ClientsTable<TData, TValue>({ columns, data }: ClientsTableProps
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline">
-                <ColumnsIcon className="mr-2 h-4 w-4" /> Spalten
+                <Columns3Icon className="mr-2 h-4 w-4" /> Spalten
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">

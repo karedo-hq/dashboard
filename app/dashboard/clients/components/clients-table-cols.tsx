@@ -9,26 +9,14 @@ import { ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CLIENTS_TABLE_COL_LABELS } from '../lib/consts/clients-table-col-labels';
 import { ParsedClientForTable } from '../lib/utils/parse-clients-for-table';
+import { TableColumnHeader } from '@/components/ui/table';
 
 export const clientsCols: ColumnDef<ParsedClientForTable>[] = [
   {
     accessorKey: 'fullname',
-    header: ({ column }) => {
-      return (
-        <div className="flex items-center space-x-1">
-          <Typography variant="paragraph" color="slate-500">
-            {CLIENTS_TABLE_COL_LABELS.fullname}
-          </Typography>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          >
-            <ArrowUpDown className="h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
+    header: ({ column }) => (
+      <TableColumnHeader column={column} title={CLIENTS_TABLE_COL_LABELS.fullname} />
+    ),
     cell: ({ row }) => {
       const { fullname, birthday } = row.original;
 
@@ -45,22 +33,9 @@ export const clientsCols: ColumnDef<ParsedClientForTable>[] = [
   },
   {
     accessorKey: 'guardianshipStartedAt',
-    header: ({ column }) => {
-      return (
-        <div className="flex items-center space-x-1">
-          <Typography variant="paragraph" color="slate-500">
-            {CLIENTS_TABLE_COL_LABELS.guardianshipStartedAt}
-          </Typography>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          >
-            <ArrowUpDown className="h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
+    header: ({ column }) => (
+      <TableColumnHeader column={column} title={CLIENTS_TABLE_COL_LABELS.guardianshipStartedAt} />
+    ),
     cell: ({ row }) => {
       const { guardianshipStartedAt } = row.original;
       return new Date(guardianshipStartedAt).toLocaleDateString('de-DE');
@@ -68,22 +43,9 @@ export const clientsCols: ColumnDef<ParsedClientForTable>[] = [
   },
   {
     accessorKey: 'guardianshipEndedAt',
-    header: ({ column }) => {
-      return (
-        <div className="flex items-center space-x-1">
-          <Typography variant="paragraph" color="slate-500">
-            {CLIENTS_TABLE_COL_LABELS.guardianshipEndedAt}
-          </Typography>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          >
-            <ArrowUpDown className="h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
+    header: ({ column }) => (
+      <TableColumnHeader column={column} title={CLIENTS_TABLE_COL_LABELS.guardianshipEndedAt} />
+    ),
     cell: ({ row }) => {
       const { guardianshipEndedAt } = row.original;
       return guardianshipEndedAt ? new Date(guardianshipEndedAt).toLocaleDateString('de-DE') : '-';
@@ -91,22 +53,9 @@ export const clientsCols: ColumnDef<ParsedClientForTable>[] = [
   },
   {
     accessorKey: 'livingArrangement',
-    header: ({ column }) => {
-      return (
-        <div className="flex items-center space-x-1">
-          <Typography variant="paragraph" color="slate-500">
-            {CLIENTS_TABLE_COL_LABELS.livingArrangement}
-          </Typography>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          >
-            <ArrowUpDown className="h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
+    header: ({ column }) => (
+      <TableColumnHeader column={column} title={CLIENTS_TABLE_COL_LABELS.livingArrangement} />
+    ),
     cell: ({ row }) => {
       const { livingArrangement } = row.original;
       return livingArrangement ? LIVING_ARRANGEMENTS_LABELS[livingArrangement] : '-';
@@ -114,22 +63,9 @@ export const clientsCols: ColumnDef<ParsedClientForTable>[] = [
   },
   {
     accessorKey: 'wealthStatus',
-    header: ({ column }) => {
-      return (
-        <div className="flex items-center space-x-1">
-          <Typography variant="paragraph" color="slate-500">
-            {CLIENTS_TABLE_COL_LABELS.wealthStatus}
-          </Typography>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          >
-            <ArrowUpDown className="h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
+    header: ({ column }) => (
+      <TableColumnHeader column={column} title={CLIENTS_TABLE_COL_LABELS.wealthStatus} />
+    ),
     cell: ({ row }) => {
       const { wealthStatus } = row.original;
       return wealthStatus ? WEALTH_STATUS_LABELS[wealthStatus] : '-';
@@ -137,22 +73,9 @@ export const clientsCols: ColumnDef<ParsedClientForTable>[] = [
   },
   {
     accessorKey: 'status',
-    header: ({ column }) => {
-      return (
-        <div className="flex items-center space-x-1">
-          <Typography variant="paragraph" color="slate-500">
-            {CLIENTS_TABLE_COL_LABELS.status}
-          </Typography>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          >
-            <ArrowUpDown className="h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
+    header: ({ column }) => (
+      <TableColumnHeader column={column} title={CLIENTS_TABLE_COL_LABELS.status} />
+    ),
     cell: ({ row }) => {
       const { status } = row.original;
       return status === 'active' ? (

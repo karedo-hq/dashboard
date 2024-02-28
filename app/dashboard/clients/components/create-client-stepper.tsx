@@ -63,14 +63,14 @@ function CreateClientStepperFooter({ submitButton }: { submitButton: React.React
             onClick={handlePrevStep}
             className="min-w-40"
           >
-            Prev
+            Zurück
           </Button>
 
           {isLastStep ? (
             submitButton
           ) : (
             <Button onClick={handleNextStep} className="min-w-40">
-              {isOptionalStep ? 'Skip' : 'Next'}
+              {isOptionalStep ? 'Überspringen' : 'Weiter'}
             </Button>
           )}
         </>
