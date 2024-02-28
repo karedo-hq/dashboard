@@ -32,10 +32,10 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { CLIENTS_TABLE_COL_LABELS } from '../lib/consts/clients-table-col-labels';
 import { ClientTableColKey } from '../lib/types/clients-table-col-keys';
-import SearchIcon from '@/components/icons/search-icon';
 import CreateClientDialog from './create-client-dialog';
-import { Columns3Icon } from 'lucide-react';
+import { Columns3Icon, SearchIcon, UsersIcon } from 'lucide-react';
 import { TablePagination } from '@/components/ui/pagination';
+import { Typography } from '@/components/ui/typography';
 
 type ClientsTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
@@ -46,6 +46,7 @@ export function ClientsTable<TData, TValue>({ columns, data }: ClientsTableProps
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
 
   const table = useReactTable({
     data,
@@ -57,12 +58,41 @@ export function ClientsTable<TData, TValue>({ columns, data }: ClientsTableProps
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
+      rowSelection,
     },
   });
+
+  if (data.length === 0) {
+    return (
+      <div className="flex h-96 w-full flex-col justify-center gap-4">
+        <header className="mx-auto">
+          <div className="flex items-center justify-center rounded-2xl bg-blue-600/10 p-4">
+            <UsersIcon size={48} className="text-blue-600" />
+          </div>
+        </header>
+        <div className="flex flex-col items-center justify-center">
+          <Typography variant="title5" className="text-center">
+            Betreuungen
+          </Typography>
+          <Typography
+            variant="paragraph"
+            className="mb-4 max-w-sm text-center [&:not(:first-child)]:mt-2"
+            color="slate-500"
+          >
+            Leg los und füg deinen ersten Klienten hinzu, um alles rund um die Betreuung easy zu
+            organisieren.
+          </Typography>
+
+          <CreateClientDialog />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -72,7 +102,7 @@ export function ClientsTable<TData, TValue>({ columns, data }: ClientsTableProps
           value={(table.getColumn('fullname')?.getFilterValue() as string) ?? ''}
           onChange={(event) => table.getColumn('fullname')?.setFilterValue(event.target.value)}
           className="max-w-xs"
-          startAdornment={<SearchIcon size={12} />}
+          startAdornment={<SearchIcon size={16} />}
         />
         <div className="flex items-center space-x-2">
           <DropdownMenu>
@@ -133,7 +163,7 @@ export function ClientsTable<TData, TValue>({ columns, data }: ClientsTableProps
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No results.
+                  Keine Ergebnisse.
                 </TableCell>
               </TableRow>
             )}

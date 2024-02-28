@@ -5,13 +5,33 @@ import { LIVING_ARRANGEMENTS_LABELS } from '../lib/consts/living-arrangements-la
 import { WEALTH_STATUS_LABELS } from '../lib/consts/wealth-status-labels';
 import { Typography } from '@/components/ui/typography';
 import { Badge } from '@/components/ui/badge';
-import { ArrowUpDown } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { CLIENTS_TABLE_COL_LABELS } from '../lib/consts/clients-table-col-labels';
 import { ParsedClientForTable } from '../lib/utils/parse-clients-for-table';
 import { TableColumnHeader } from '@/components/ui/table';
 
 export const clientsCols: ColumnDef<ParsedClientForTable>[] = [
+  {
+    id: 'select',
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     accessorKey: 'fullname',
     header: ({ column }) => (

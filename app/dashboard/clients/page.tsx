@@ -14,7 +14,7 @@ export default async function ClientsPage() {
   const clients = clientsRes.data;
 
   return (
-    <section className="flex flex-col space-y-4 p-8">
+    <section className="flex flex-1 flex-col space-y-4 p-8">
       <Typography as="h1" variant="title3">
         Betreuungen
       </Typography>

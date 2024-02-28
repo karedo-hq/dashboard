@@ -43,8 +43,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           type={type}
           className={cn(
             'block w-full rounded-md bg-transparent px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none',
-            startAdornment ? 'pl-8' : 'pl-3',
-            endAdornment ? 'pr-8' : 'pr-3',
+            startAdornment ? 'pl-10' : 'pl-3',
+            endAdornment ? 'pr-10' : 'pr-3',
           )}
           ref={ref}
           onFocus={handleFocus}
