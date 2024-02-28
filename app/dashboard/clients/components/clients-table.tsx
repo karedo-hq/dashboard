@@ -35,6 +35,7 @@ import { ClientTableColKey } from '../lib/types/clients-table-col-keys';
 import SearchIcon from '@/components/icons/search-icon';
 import CreateClientDialog from './create-client-dialog';
 import { Columns3Icon } from 'lucide-react';
+import { TablePagination } from '@/components/ui/pagination';
 
 type ClientsTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
@@ -64,8 +65,8 @@ export function ClientsTable<TData, TValue>({ columns, data }: ClientsTableProps
   });
 
   return (
-    <div>
-      <header className="mb-4 flex items-center justify-between space-x-4">
+    <div className="flex flex-col gap-4">
+      <header className="flex items-center justify-between space-x-4">
         <Input
           placeholder="Namen..."
           value={(table.getColumn('fullname')?.getFilterValue() as string) ?? ''}
@@ -140,24 +141,7 @@ export function ClientsTable<TData, TValue>({ columns, data }: ClientsTableProps
         </Table>
       </div>
 
-      <footer className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
-      </footer>
+      <TablePagination table={table} />
     </div>
   );
 }
