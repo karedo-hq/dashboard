@@ -15,12 +15,12 @@ type TablePaginationProps<TData> = {
 
 export function TablePagination<TData>({ table }: TablePaginationProps<TData>) {
   return (
-    <div className="flex flex-col items-center justify-between space-y-2 px-2 sm:flex-row">
+    <div className="flex flex-col items-center justify-between gap-2 px-2 sm:flex-row">
       <div className="text-muted-foreground flex-1 text-sm">
         {table.getFilteredSelectedRowModel().rows.length} von{' '}
         {table.getFilteredRowModel().rows.length} Zeile(n) ausgewählt.
       </div>
-      <div className="flex flex-col items-center space-y-2 sm:flex-row sm:space-x-6 lg:space-x-8">
+      <div className="flex flex-col items-center space-y-2 sm:flex-row sm:space-x-6 sm:space-y-0 lg:space-x-8">
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium">Zeilen pro Seite</p>
           <Select
