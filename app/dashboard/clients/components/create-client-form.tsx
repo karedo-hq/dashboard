@@ -38,6 +38,7 @@ import { PREV_GUARDIAN_TYPE_LABELS } from '../lib/consts/prev-guardian-type-labe
 import { CreateClientActionResult, createClientAction } from '../lib/actions/create-client';
 import { useRouter } from 'next/navigation';
 import { CreatableSelect } from '@/components/ui/creatable-select';
+import { Typography } from '@/components/ui/typography';
 
 const formSchema = z.object({
   gender: z.enum(['male', 'female', 'other']),
@@ -227,7 +228,13 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                               !field.value && 'text-muted-foreground',
                             )}
                           >
-                            {field.value ? format(field.value, 'PPP') : <span>Pick a date</span>}
+                            {field.value ? (
+                              format(field.value, 'PPP')
+                            ) : (
+                              <Typography variant="small" color="slate-500">
+                                Pick a date
+                              </Typography>
+                            )}
                             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                           </Button>
                         </FormControl>
@@ -325,7 +332,13 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                               !field.value && 'text-muted-foreground',
                             )}
                           >
-                            {field.value ? format(field.value, 'PPP') : <span>Pick a date</span>}
+                            {field.value ? (
+                              format(field.value, 'PPP')
+                            ) : (
+                              <Typography variant="small" color="slate-500">
+                                Pick a date
+                              </Typography>
+                            )}
                             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                           </Button>
                         </FormControl>
@@ -517,7 +530,9 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                                 {field.value ? (
                                   format(field.value, 'PPP')
                                 ) : (
-                                  <span>Pick a date</span>
+                                  <Typography variant="small" color="slate-500">
+                                    Pick a date
+                                  </Typography>
                                 )}
                                 <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                               </Button>
