@@ -1,21 +1,62 @@
+'use client';
+
 import * as React from 'react';
 
 import { cn } from '@/lib/utils/cn';
 
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  startAdornment?: React.ReactNode;
+  endAdornment?: React.ReactNode;
+}
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, ...props }, ref) => {
+  ({ className, type, startAdornment, endAdornment, onFocus, onBlur, ...props }, ref) => {
+    const [isFocused, setIsFocused] = React.useState(false);
+
+    const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+      setIsFocused(true);
+      if (onFocus) onFocus(e);
+    };
+
+    const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+      setIsFocused(false);
+      if (onBlur) onBlur(e);
+    };
+
     return (
-      <input
-        type={type}
+      <div
         className={cn(
-          'flex h-10 w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-800 dark:bg-gray-950 dark:ring-offset-gray-950 dark:placeholder:text-gray-400 dark:focus-visible:ring-gray-300',
+          'relative flex w-full items-center rounded-md border bg-white transition duration-150 ease-in-out',
+          isFocused
+            ? 'border-blue-400 ring ring-blue-400 ring-opacity-50'
+            : 'border-gray-200 dark:border-gray-800',
+          'dark:bg-gray-950',
           className,
         )}
-        ref={ref}
-        {...props}
-      />
+      >
+        {startAdornment && (
+          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+            {startAdornment}
+          </div>
+        )}
+        <input
+          type={type}
+          className={cn(
+            'block w-full rounded-md bg-transparent px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none',
+            startAdornment ? 'pl-10' : 'pl-3',
+            endAdornment ? 'pr-10' : 'pr-3',
+          )}
+          ref={ref}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          {...props}
+        />
+        {endAdornment && (
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+            {endAdornment}
+          </div>
+        )}
+      </div>
     );
   },
 );

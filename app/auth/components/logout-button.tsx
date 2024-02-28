@@ -1,8 +1,8 @@
 'use client';
 // @todo - make this a RSC on next-auth v5 and handle better server logout API call.
 import { signOut } from 'next-auth/react';
-import { Button } from '@/components/ui/button';
 import { logoutAction } from '@/auth/lib/actions/logout';
+import { LogOutIcon } from 'lucide-react';
 
 export default function LogoutButton() {
   const handleClick = () => {
@@ -12,8 +12,8 @@ export default function LogoutButton() {
   };
 
   return (
-    <Button onClick={handleClick} variant="outline" size="sm">
-      Abmelden
-    </Button>
+    <button onClick={handleClick} className="flex items-center">
+      <LogOutIcon size={16} className="mr-2" /> Abmelden
+    </button>
   );
 }

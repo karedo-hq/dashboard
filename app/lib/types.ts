@@ -1,4 +1,6 @@
-export type IconProps = React.ComponentProps<'svg'> & {
+import { LucideIcon, LucideProps } from 'lucide-react';
+
+export type IconProps = LucideProps & {
   size?: number;
   color?: string;
   variant?: 'outline' | 'fill';
@@ -7,5 +9,5 @@ export type IconProps = React.ComponentProps<'svg'> & {
 export type SidebarLink = {
   href: string;
   label: string;
-  icon: (props: IconProps) => JSX.Element;
+  icon: LucideIcon;
 };

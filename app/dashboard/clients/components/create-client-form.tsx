@@ -1,0 +1,584 @@
+'use client';
+
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { format } from 'date-fns';
+import { CalendarIcon } from 'lucide-react';
+import { useToast } from '@/lib/hooks/use-toast';
+import { getErrorMessage } from '@/lib/utils/get-error-message';
+import { cn } from '@/lib/utils/cn';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { CreatableSelect } from '@/components/ui/creatable-select';
+import { Typography } from '@/components/ui/typography';
+import CreateClientStepper from './create-client-stepper';
+import { LOCAL_COURTS_LABELS } from '../lib/consts/local-courts-labels';
+import { SCOPE_OF_DUTIES_OPTIONS } from '../lib/consts/scope-of-duties-options';
+import { LIVING_ARRANGEMENT_LABELS } from '../lib/consts/living-arrangement-labels';
+import { WEALTH_STATUS_LABELS } from '../lib/consts/wealth-status-labels';
+import { TYPE_OF_GUARDIANSHIP_LABELS } from '../lib/consts/type-of-guardianship-labels';
+import { PREV_GUARDIAN_TYPE_LABELS } from '../lib/consts/prev-guardian-type-labels';
+import { CreateClientActionResult, createClientAction } from '../lib/actions/create-client';
+
+const formSchema = z.object({
+  gender: z.enum(['male', 'female', 'other']),
+  title: z.string().optional(),
+  firstname: z
+    .string()
+    .min(2, 'Der Vorname muss mindestens 2 Zeichen lang sein')
+    .max(45, 'Der Vorname muss weniger als 45 Zeichen lang sein')
+    .regex(new RegExp('^[a-zA-Z\\s]+$'), 'Keine Sonderzeichen erlaubt!'),
+  lastname: z
+    .string()
+    .min(2, 'Der Nachname muss mindestens 2 Zeichen lang sein')
+    .max(45, 'Der Nachname muss weniger als 45 Zeichen lang sein')
+    .regex(new RegExp('^[a-zA-Z\\s]+$'), 'Keine Sonderzeichen erlaubt!'),
+  birthday: z.date(),
+  localCourt: z.string().optional(),
+  caseNumber: z.string().optional(),
+  scopeOfDuties: z.array(z.string()),
+  guardianshipStartedAt: z.date(),
+  livingArrangement: z
+    .enum(['inpatient', 'outpatientEquivalent', 'otherLivingArrangement'])
+    .optional(),
+  wealthStatus: z.enum(['indigent', 'notIndigent']).optional(),
+  typeOfGuardianship: z
+    .enum([
+      'professionalGuardianship',
+      'voluntaryGuardianship',
+      'supplementaryGuardianship',
+      'estateCustodianship',
+      'contactCustodianship',
+      'proceedingsGuardianship',
+      'proceduralAssistant',
+      'executorOfAWill',
+      'guardianship',
+      'healthcareProxy',
+    ])
+    .optional(),
+  isGuardianshipTakenOver: z.enum(['true', 'false']),
+  prevGuardianType: z.enum(['professionalGuardianship', 'voluntaryGuardianship']).optional(),
+  prevGuardianshipStartedAt: z.date().optional(),
+});
+
+type CreateClientFormProps = {
+  onSuccess?: (data: CreateClientActionResult['data']) => void;
+};
+
+type CreateClientFormValues = z.infer<typeof formSchema>;
+
+export default function CreateClientForm(props: CreateClientFormProps) {
+  const form = useForm<CreateClientFormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      title: '',
+      firstname: '',
+      lastname: '',
+      caseNumber: '',
+      scopeOfDuties: [],
+      isGuardianshipTakenOver: 'false',
+    },
+  });
+  const router = useRouter();
+  const { toast } = useToast();
+
+  const handleSubmit: SubmitHandler<CreateClientFormValues> = async ({
+    isGuardianshipTakenOver,
+    ...values
+  }) => {
+    try {
+      const parsedIsGuardianshipTakenOver = isGuardianshipTakenOver === 'true' ? true : false;
+
+      const res = await createClientAction({
+        ...values,
+        isGuardianshipTakenOver: parsedIsGuardianshipTakenOver,
+      });
+
+      if (res.isError) {
+        throw res.error;
+      }
+
+      if (res.isSuccess) {
+        toast({
+          variant: 'default',
+          title: 'Kunde erstellt',
+          description: 'Kunde wurde erfolgreich erstellt!',
+        });
+      }
+
+      if (props.onSuccess) {
+        props.onSuccess(res.data);
+      }
+
+      router.push('/dashboard/clients');
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Fehler beim Erstellen des Kunden',
+        description: getErrorMessage(error),
+      });
+    }
+  };
+
+  const isSubmitting = form.formState.isSubmitting;
+  const isGuardianshipTakenOver = form.watch('isGuardianshipTakenOver') === 'true' ? true : false;
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col space-y-4">
+        <CreateClientStepper
+          stepsContent={[
+            <fieldset key={0} className="flex flex-col space-y-4">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                <FormField
+                  control={form.control}
+                  name="gender"
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Anrede*</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="bitte wählen" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="male">Herr</SelectItem>
+                          <SelectItem value="female">Frau</SelectItem>
+                          <SelectItem value="other">Andere</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="title"
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Titel</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Titel des Kunden" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <FormField
+                control={form.control}
+                name="firstname"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Vorname*</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Vorname des Kunden" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="lastname"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Nachname*</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Nachname des Kunden" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="birthday"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Geboren am*</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={'outline'}
+                            className={cn(
+                              'pl-3 text-left font-normal',
+                              !field.value && 'text-muted-foreground',
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, 'PPP')
+                            ) : (
+                              <Typography variant="small" color="slate-500">
+                                TT.MM.JJJJ
+                              </Typography>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          captionLayout="dropdown"
+                          fromDate={new Date('1900-01-01')}
+                          toDate={new Date()}
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
+                          classNames={{
+                            caption: 'flex p-2',
+                            caption_label: 'hidden',
+                            vhidden: 'hidden',
+                          }}
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </fieldset>,
+            <fieldset key={1} className="flex flex-col space-y-4">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                <FormField
+                  control={form.control}
+                  name="localCourt"
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Amtsgericht</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="bitte wählen" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {Object.entries(LOCAL_COURTS_LABELS).map(([key, value]) => (
+                            <SelectItem key={key} value={key}>
+                              {value}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="caseNumber"
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Aktenzeichen d. Gerichts</FormLabel>
+                      <FormControl>
+                        <Input placeholder="AktZ" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <FormField
+                control={form.control}
+                name="scopeOfDuties"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Aufgabenkreise</FormLabel>
+                    <CreatableSelect
+                      onValueChange={field.onChange}
+                      options={SCOPE_OF_DUTIES_OPTIONS}
+                      isMulti
+                      placeholder="bitte wählen"
+                    />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="guardianshipStartedAt"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Betreuungsbeginn*</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={'outline'}
+                            className={cn(
+                              'pl-3 text-left font-normal',
+                              !field.value && 'text-muted-foreground',
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, 'PPP')
+                            ) : (
+                              <Typography variant="small" color="slate-500">
+                                TT.MM.JJJJ
+                              </Typography>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          captionLayout="dropdown"
+                          fromDate={new Date('1900-01-01')}
+                          toDate={new Date()}
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
+                          classNames={{
+                            caption: 'flex p-2',
+                            caption_label: 'hidden',
+                            vhidden: 'hidden',
+                          }}
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </fieldset>,
+            <fieldset key={2} className="flex flex-col space-y-4">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                <FormField
+                  control={form.control}
+                  name="livingArrangement"
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Wohnform</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="bitte wählen" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {Object.entries(LIVING_ARRANGEMENT_LABELS).map(([key, value]) => (
+                            <SelectItem key={key} value={key}>
+                              {value}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="wealthStatus"
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Vermögensstatus</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="bitte wählen" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {Object.entries(WEALTH_STATUS_LABELS).map(([key, value]) => (
+                            <SelectItem key={key} value={key}>
+                              {value}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <FormField
+                control={form.control}
+                name="typeOfGuardianship"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Art der Betreuung</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="bitte wählen" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {Object.entries(TYPE_OF_GUARDIANSHIP_LABELS).map(([key, value]) => (
+                          <SelectItem key={key} value={key}>
+                            {value}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="isGuardianshipTakenOver"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Hast du die Betreuung von jemand anderem übernommen?*</FormLabel>
+                    <FormControl>
+                      <ToggleGroup
+                        type="single"
+                        variant="outline"
+                        defaultValue={field.value}
+                        onValueChange={field.onChange}
+                        className="w-fit"
+                      >
+                        <FormItem>
+                          <FormControl>
+                            <ToggleGroupItem value="true" className="w-24">
+                              Ja
+                            </ToggleGroupItem>
+                          </FormControl>
+                        </FormItem>
+                        <FormItem>
+                          <FormControl>
+                            <ToggleGroupItem value="false" className="w-24">
+                              Nein
+                            </ToggleGroupItem>
+                          </FormControl>
+                        </FormItem>
+                      </ToggleGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {isGuardianshipTakenOver && (
+                <>
+                  <FormField
+                    control={form.control}
+                    name="prevGuardianType"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <FormLabel>Von wem hast du die Betreuung übernommen?</FormLabel>
+                        <FormControl>
+                          <ToggleGroup
+                            type="single"
+                            variant="outline"
+                            defaultValue={field.value}
+                            onValueChange={field.onChange}
+                            className="w-fit"
+                          >
+                            <FormItem>
+                              <FormControl>
+                                <ToggleGroupItem value="professionalGuardianship" className="w-32">
+                                  {PREV_GUARDIAN_TYPE_LABELS.professionalGuardianship}
+                                </ToggleGroupItem>
+                              </FormControl>
+                            </FormItem>
+                            <FormItem>
+                              <FormControl>
+                                <ToggleGroupItem value="voluntaryGuardianship" className="w-32">
+                                  {PREV_GUARDIAN_TYPE_LABELS.voluntaryGuardianship}
+                                </ToggleGroupItem>
+                              </FormControl>
+                            </FormItem>
+                          </ToggleGroup>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="prevGuardianshipStartedAt"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <FormLabel>
+                          Seit wann ist die betreute Person in rechtlicher Betreuung?
+                        </FormLabel>
+                        <Popover>
+                          <FormControl>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant="outline"
+                                className={cn(
+                                  'w-full pl-3 text-left font-normal',
+                                  !field.value && 'text-muted-foreground',
+                                )}
+                              >
+                                {field.value ? (
+                                  format(field.value, 'PPP')
+                                ) : (
+                                  <Typography variant="small" color="slate-500">
+                                    TT.MM.JJJJ
+                                  </Typography>
+                                )}
+                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                              </Button>
+                            </PopoverTrigger>
+                          </FormControl>
+                          <PopoverContent className="p-0" align="start">
+                            <Calendar
+                              captionLayout="dropdown"
+                              fromDate={new Date('1900-01-01')}
+                              toDate={new Date()}
+                              mode="single"
+                              selected={field.value}
+                              onSelect={field.onChange}
+                              disabled={(date) =>
+                                date > new Date() || date < new Date('1900-01-01')
+                              }
+                              classNames={{
+                                caption: 'flex p-2',
+                                caption_label: 'hidden',
+                                vhidden: 'hidden',
+                              }}
+                            />
+                          </PopoverContent>
+                        </Popover>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </>
+              )}
+            </fieldset>,
+          ]}
+          submitButton={
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              isLoading={isSubmitting}
+              className="sm:min-w-40"
+            >
+              Betreuung hinzufügen
+            </Button>
+          }
+        />
+      </form>
+    </Form>
+  );
+}
