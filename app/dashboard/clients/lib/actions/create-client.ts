@@ -59,8 +59,6 @@ export async function createClientAction(
     };
   }
 
-  console.log({ dto });
-
   const guardianId = session.user._id;
   const url = `${process.env.API_URL}/clients`;
 
