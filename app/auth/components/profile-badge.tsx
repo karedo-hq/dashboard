@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Typography, typographyVariants } from '@/components/ui/typography';
+import { Typography } from '@/components/ui/typography';
 import LogoutButton from './logout-button';
 import { auth } from '../lib/utils/auth';
 import {
@@ -12,7 +12,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import { DropdownMenuPortal } from '@radix-ui/react-dropdown-menu';
 
 export default async function ProfileBadge() {
   const session = await auth();
@@ -34,7 +33,7 @@ export default async function ProfileBadge() {
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent sideOffset={16} className="min-w-32">
+      <DropdownMenuContent collisionPadding={24} align="start" side="bottom">
         <DropdownMenuGroup>
           <DropdownMenuLabel className="pb-0">
             {session.user.firstname} {session.user.lastname}

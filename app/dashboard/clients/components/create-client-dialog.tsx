@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { UserRoundPlusIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -11,7 +12,6 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import CreateClientForm from './create-client-form';
-import { UserRoundPlusIcon } from 'lucide-react';
 
 export default function CreateClientDialog() {
   const [open, setOpen] = useState(false);
@@ -27,7 +27,7 @@ export default function CreateClientDialog() {
           <UserRoundPlusIcon size={16} className="mr-2" /> Neue Betreuung
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-3xl">
+      <DialogContent className="sm:max-w-3xl">
         <DialogHeader>
           <DialogTitle>Neue Betreuung</DialogTitle>
           <DialogDescription>Felder mit (*) sind Pflichtfelder.</DialogDescription>

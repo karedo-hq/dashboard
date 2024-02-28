@@ -149,7 +149,7 @@ export default function CreateClientForm(props: CreateClientFormProps) {
         <CreateClientStepper
           stepsContent={[
             <fieldset key={0} className="flex flex-col space-y-4">
-              <div className="flex items-center space-x-2">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                 <FormField
                   control={form.control}
                   name="gender"
@@ -262,7 +262,7 @@ export default function CreateClientForm(props: CreateClientFormProps) {
               />
             </fieldset>,
             <fieldset key={1} className="flex flex-col space-y-4">
-              <div className="flex items-center space-x-2">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                 <FormField
                   control={form.control}
                   name="localCourt"
@@ -367,7 +367,7 @@ export default function CreateClientForm(props: CreateClientFormProps) {
               />
             </fieldset>,
             <fieldset key={2} className="flex flex-col space-y-4">
-              <div className="flex items-center space-x-2">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                 <FormField
                   control={form.control}
                   name="livingArrangement"
@@ -572,7 +572,7 @@ export default function CreateClientForm(props: CreateClientFormProps) {
               type="submit"
               disabled={isSubmitting}
               isLoading={isSubmitting}
-              className="min-w-40"
+              className="sm:min-w-40"
             >
               Betreuung hinzufügen
             </Button>

@@ -1,5 +1,8 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import { Stepper, StepperFooter, StepperItem, useStepper } from '@/components/ui/stepper';
+import { useBreakpoint } from '@/lib/hooks/use-breakpoint';
 import React from 'react';
 
 const steps = [
@@ -15,9 +18,10 @@ export default function CreateClientStepper({
   stepsContent: React.ReactNode[];
   submitButton: React.ReactNode;
 }) {
+  const isDesktop = useBreakpoint('md');
   return (
     <div className="flex w-full flex-col gap-4">
-      <Stepper initialStep={0} steps={steps}>
+      <Stepper initialStep={0} steps={steps} hideSteps={!isDesktop}>
         {steps.map((step, index) => {
           return <StepperItem key={step.id}>{stepsContent[index]}</StepperItem>;
         })}

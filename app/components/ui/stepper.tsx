@@ -24,6 +24,7 @@ interface StepperProps {
   variant?: 'default' | 'ghost' | 'outline' | 'secondary';
   status?: 'default' | 'success' | 'error' | 'loading';
   isClickable?: boolean;
+  hideSteps?: boolean;
 }
 
 interface ContextStepperProps extends StepperProps {
@@ -120,6 +121,7 @@ export const Stepper = React.forwardRef<
       children,
       variant = 'default',
       isClickable = true,
+      hideSteps = false,
       className,
       ...props
     },
@@ -157,14 +159,16 @@ export const Stepper = React.forwardRef<
         }}
       >
         <div ref={ref} className={cn('space-y-4', className)} {...props}>
-          <div
-            className={cn(
-              'flex w-full flex-1 justify-between gap-2 text-center',
-              orientation === 'vertical' ? 'flex-col' : 'flex-row',
-            )}
-          >
-            {items}
-          </div>
+          {!hideSteps && (
+            <div
+              className={cn(
+                'flex w-full flex-1 justify-between gap-2 text-center',
+                orientation === 'vertical' ? 'flex-col' : 'flex-row',
+              )}
+            >
+              {items}
+            </div>
+          )}
           {orientation === 'horizontal' && <HorizontalContent>{children}</HorizontalContent>}
           {footer}
         </div>
