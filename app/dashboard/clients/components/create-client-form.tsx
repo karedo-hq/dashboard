@@ -41,23 +41,27 @@ import { PREV_GUARDIAN_TYPE_LABELS } from '../lib/consts/prev-guardian-type-labe
 import { CreateClientActionResult, createClientAction } from '../lib/actions/create-client';
 
 const formSchema = z.object({
-  gender: z.enum(['male', 'female', 'other']),
+  gender: z.enum(['male', 'female', 'other'], {
+    required_error: 'Bitte wähle einen Titel',
+  }),
   title: z.string().optional(),
   firstname: z
     .string()
-    .min(2, 'Der Vorname muss mindestens 2 Zeichen lang sein')
-    .max(45, 'Der Vorname muss weniger als 45 Zeichen lang sein')
-    .regex(new RegExp('^[a-zA-Z\\s]+$'), 'Keine Sonderzeichen erlaubt!'),
+    .min(2, 'Dein Vorname muss mindestens 2 Zeichen lang sein.')
+    .max(45, 'Dein Vorname darf nicht länger als 45 Zeichen sein.'),
   lastname: z
     .string()
-    .min(2, 'Der Nachname muss mindestens 2 Zeichen lang sein')
-    .max(45, 'Der Nachname muss weniger als 45 Zeichen lang sein')
-    .regex(new RegExp('^[a-zA-Z\\s]+$'), 'Keine Sonderzeichen erlaubt!'),
-  birthday: z.date(),
+    .min(2, 'Dein Nachname muss mindestens 2 Zeichen lang sein.')
+    .max(45, 'Dein Nachname darf nicht länger als 45 Zeichen sein.'),
+  birthday: z.date({
+    required_error: 'Bitte gib ein gültiges Geburtsdatum ein.',
+  }),
   localCourt: z.string().optional(),
   caseNumber: z.string().optional(),
-  scopeOfDuties: z.array(z.string()),
-  guardianshipStartedAt: z.date(),
+  scopeOfDuties: z.array(z.string()).nonempty('Bitte gib mindestens einen Aufgabenbereich an.'),
+  guardianshipStartedAt: z.date({
+    required_error: 'Bitte gib einen gültigen Betreuungsbeginn für die Vormundschaft an.',
+  }),
   livingArrangement: z
     .enum(['inpatient', 'outpatientEquivalent', 'otherLivingArrangement'])
     .optional(),
@@ -76,7 +80,9 @@ const formSchema = z.object({
       'healthcareProxy',
     ])
     .optional(),
-  isGuardianshipTakenOver: z.enum(['true', 'false']),
+  isGuardianshipTakenOver: z.enum(['true', 'false'], {
+    required_error: 'Bitte gib an, ob die Vormundschaft übernommen wurde.',
+  }),
   prevGuardianType: z.enum(['professionalGuardianship', 'voluntaryGuardianship']).optional(),
   prevGuardianshipStartedAt: z.date().optional(),
 });
@@ -564,6 +570,11 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                     )}
                   />
                 </>
+              )}
+              {form.formState.errors && form.formState.isSubmitted && (
+                <Typography variant="small" color="error-500" className="font-medium">
+                  Bitte fülle alle Pflichtfelder aus.
+                </Typography>
               )}
             </fieldset>,
           ]}
