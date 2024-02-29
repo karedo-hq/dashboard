@@ -32,7 +32,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { CreatableSelect } from '@/components/ui/creatable-select';
 import { Typography } from '@/components/ui/typography';
 import CreateClientStepper from './create-client-stepper';
-import { LOCAL_COURTS_LABELS } from '../lib/consts/local-courts-labels';
+import { LOCAL_COURTS_OPTIONS } from '../lib/consts/local-courts-options';
 import { SCOPE_OF_DUTIES_OPTIONS } from '../lib/consts/scope-of-duties-options';
 import { LIVING_ARRANGEMENT_LABELS } from '../lib/consts/living-arrangement-labels';
 import { WEALTH_STATUS_LABELS } from '../lib/consts/wealth-status-labels';
@@ -41,23 +41,30 @@ import { PREV_GUARDIAN_TYPE_LABELS } from '../lib/consts/prev-guardian-type-labe
 import { CreateClientActionResult, createClientAction } from '../lib/actions/create-client';
 
 const formSchema = z.object({
-  gender: z.enum(['male', 'female', 'other']),
+  gender: z.enum(['male', 'female', 'other'], {
+    required_error: 'Bitte wähle einen Titel',
+  }),
   title: z.string().optional(),
   firstname: z
     .string()
-    .min(2, 'Der Vorname muss mindestens 2 Zeichen lang sein')
-    .max(45, 'Der Vorname muss weniger als 45 Zeichen lang sein')
-    .regex(new RegExp('^[a-zA-Z\\s]+$'), 'Keine Sonderzeichen erlaubt!'),
+    .min(2, 'Dein Vorname muss mindestens 2 Zeichen lang sein.')
+    .max(45, 'Dein Vorname darf nicht länger als 45 Zeichen sein.'),
   lastname: z
     .string()
-    .min(2, 'Der Nachname muss mindestens 2 Zeichen lang sein')
-    .max(45, 'Der Nachname muss weniger als 45 Zeichen lang sein')
-    .regex(new RegExp('^[a-zA-Z\\s]+$'), 'Keine Sonderzeichen erlaubt!'),
-  birthday: z.date(),
+    .min(2, 'Dein Nachname muss mindestens 2 Zeichen lang sein.')
+    .max(45, 'Dein Nachname darf nicht länger als 45 Zeichen sein.'),
+  birthday: z.date({
+    required_error: 'Bitte gib ein gültiges Geburtsdatum ein.',
+  }),
   localCourt: z.string().optional(),
-  caseNumber: z.string().optional(),
-  scopeOfDuties: z.array(z.string()),
-  guardianshipStartedAt: z.date(),
+  caseNumber: z
+    .string()
+    .max(40, 'Das Aktenzeichen darf nicht länger als 40 Zeichen sein.')
+    .optional(),
+  scopeOfDuties: z.array(z.string()).nonempty('Bitte gib mindestens einen Aufgabenbereich an.'),
+  guardianshipStartedAt: z.date({
+    required_error: 'Bitte gib einen gültigen Betreuungsbeginn für die Vormundschaft an.',
+  }),
   livingArrangement: z
     .enum(['inpatient', 'outpatientEquivalent', 'otherLivingArrangement'])
     .optional(),
@@ -76,7 +83,9 @@ const formSchema = z.object({
       'healthcareProxy',
     ])
     .optional(),
-  isGuardianshipTakenOver: z.enum(['true', 'false']),
+  isGuardianshipTakenOver: z.enum(['true', 'false'], {
+    required_error: 'Bitte gib an, ob die Vormundschaft übernommen wurde.',
+  }),
   prevGuardianType: z.enum(['professionalGuardianship', 'voluntaryGuardianship']).optional(),
   prevGuardianshipStartedAt: z.date().optional(),
 });
@@ -121,8 +130,8 @@ export default function CreateClientForm(props: CreateClientFormProps) {
       if (res.isSuccess) {
         toast({
           variant: 'default',
-          title: 'Kunde erstellt',
-          description: 'Kunde wurde erfolgreich erstellt!',
+          title: 'Betreuung erstellt',
+          description: 'Betreuung wurde erfolgreich erstellt!',
         });
       }
 
@@ -269,20 +278,13 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                   render={({ field }) => (
                     <FormItem className="flex-1">
                       <FormLabel>Amtsgericht</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="bitte wählen" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {Object.entries(LOCAL_COURTS_LABELS).map(([key, value]) => (
-                            <SelectItem key={key} value={key}>
-                              {value}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <CreatableSelect
+                        value={field.value}
+                        onValueChange={field.onChange}
+                        options={LOCAL_COURTS_OPTIONS}
+                        placeholder="bitte wählen"
+                        closeMenuOnSelect
+                      />
                       <FormMessage />
                     </FormItem>
                   )}
@@ -294,7 +296,7 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                     <FormItem className="flex-1">
                       <FormLabel>Aktenzeichen d. Gerichts</FormLabel>
                       <FormControl>
-                        <Input placeholder="AktZ" {...field} />
+                        <Input placeholder="Az." {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -308,6 +310,7 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                   <FormItem className="flex-1">
                     <FormLabel>Aufgabenkreise</FormLabel>
                     <CreatableSelect
+                      value={field.value}
                       onValueChange={field.onChange}
                       options={SCOPE_OF_DUTIES_OPTIONS}
                       isMulti
@@ -564,6 +567,11 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                     )}
                   />
                 </>
+              )}
+              {form.formState.errors && form.formState.isSubmitted && (
+                <Typography variant="small" color="error-500" className="font-medium">
+                  Bitte fülle alle Pflichtfelder aus.
+                </Typography>
               )}
             </fieldset>,
           ]}
