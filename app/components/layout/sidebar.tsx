@@ -7,12 +7,11 @@ import SidebarToggler from './sidebar-toggler';
 import Footer from './footer';
 import { SidebarLink } from '@/lib/types';
 import SidebarItem from './sidebar-item';
-import HomeIcon from '../icons/home-icon';
-import ContactsIcon from '../icons/contacts-icon';
+import { HomeIcon, UsersIcon } from 'lucide-react';
 
 const LINKS: SidebarLink[] = [
   { href: '/dashboard', label: 'Übersicht', icon: HomeIcon },
-  { href: '/dashboard/customers', label: 'Betreute', icon: ContactsIcon },
+  { href: '/dashboard/clients', label: 'Betreuungen', icon: UsersIcon },
 ];
 
 export default function Sidebar() {
