@@ -27,13 +27,11 @@ const formSchema = z
     firstname: z
       .string()
       .min(2, 'Der Vorname muss mindestens 2 Zeichen lang sein')
-      .max(45, 'Der Vorname muss weniger als 45 Zeichen lang sein')
-      .regex(new RegExp('^[a-zA-Z\\s]+$'), 'Keine Sonderzeichen erlaubt!'),
+      .max(45, 'Der Vorname muss weniger als 45 Zeichen lang sein'),
     lastname: z
       .string()
       .min(2, 'Der Nachname muss mindestens 2 Zeichen lang sein')
-      .max(45, 'Der Nachname muss weniger als 45 Zeichen lang sein')
-      .regex(new RegExp('^[a-zA-Z\\s]+$'), 'Keine Sonderzeichen erlaubt!'),
+      .max(45, 'Der Nachname muss weniger als 45 Zeichen lang sein'),
     email: z.string().email('Bitte gib eine gültige E-Mail-Adresse ein'),
     password: z
       .string()

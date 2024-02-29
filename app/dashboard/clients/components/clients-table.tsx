@@ -74,8 +74,8 @@ export function ClientsTable<TData, TValue>({ columns, data }: ClientsTableProps
             className="mb-4 max-w-sm text-center [&:not(:first-child)]:mt-2"
             color="slate-500"
           >
-            Leg los und füg deinen ersten Klienten hinzu, um alles rund um die Betreuung easy zu
-            organisieren.
+            Leg los und füge Deinen ersten Klienten hinzu, um alle Belange rund um Deine Betreuung
+            zu organisieren.
           </Typography>
 
           <CreateClientDialog />
