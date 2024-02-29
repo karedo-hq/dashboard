@@ -9,6 +9,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { CLIENTS_TABLE_COL_LABELS } from '../lib/consts/clients-table-col-labels';
 import { ParsedClientForTable } from '../lib/utils/parse-clients-for-table';
 import { TableColumnHeader } from '@/components/ui/table';
+import { formatDate } from '@/lib/utils/format-date';
 
 export const clientsCols: ColumnDef<ParsedClientForTable>[] = [
   {
@@ -45,7 +46,7 @@ export const clientsCols: ColumnDef<ParsedClientForTable>[] = [
           <Typography variant="paragraph">{fullname}</Typography>
 
           <Typography variant="small" color="slate-400">
-            {new Date(birthday).toLocaleDateString('de-DE')}
+            {formatDate(birthday)}
           </Typography>
         </div>
       );
@@ -58,7 +59,7 @@ export const clientsCols: ColumnDef<ParsedClientForTable>[] = [
     ),
     cell: ({ row }) => {
       const { guardianshipStartedAt } = row.original;
-      return new Date(guardianshipStartedAt).toLocaleDateString('de-DE');
+      return formatDate(guardianshipStartedAt);
     },
   },
   {
@@ -68,7 +69,7 @@ export const clientsCols: ColumnDef<ParsedClientForTable>[] = [
     ),
     cell: ({ row }) => {
       const { guardianshipEndedAt } = row.original;
-      return guardianshipEndedAt ? new Date(guardianshipEndedAt).toLocaleDateString('de-DE') : '-';
+      return guardianshipEndedAt ? formatDate(guardianshipEndedAt) : '-';
     },
   },
   {

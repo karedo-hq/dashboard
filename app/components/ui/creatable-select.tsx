@@ -1,4 +1,7 @@
+'use client';
+
 import { cn } from '@/lib/utils/cn';
+import { useEffect, useState } from 'react';
 import CreatableSelectPrimitive from 'react-select/creatable';
 
 export type CreatableSelectOption = {
@@ -7,6 +10,7 @@ export type CreatableSelectOption = {
 };
 
 type CreatableSelectProps = {
+  value?: string[] | string;
   options: CreatableSelectOption[];
   onValueChange: (newValue: string[] | string) => void;
   isMulti?: boolean;
@@ -15,12 +19,19 @@ type CreatableSelectProps = {
 };
 
 export function CreatableSelect({
+  value,
   options,
   onValueChange,
   isMulti,
   placeholder,
   closeMenuOnSelect = false,
 }: CreatableSelectProps) {
+  const [internalOptions, setInternalOptions] = useState<CreatableSelectOption[]>(options);
+
+  useEffect(() => {
+    setInternalOptions(options);
+  }, [options]);
+
   const handleChange = (newValue: CreatableSelectOption[] | CreatableSelectOption | null) => {
     if (newValue === null) {
       onValueChange(isMulti ? [] : '');
@@ -33,14 +44,32 @@ export function CreatableSelect({
     }
   };
 
+  const handleCreate = (inputValue: string) => {
+    const newOption = { label: inputValue, value: inputValue.toLowerCase().replace(/\W/g, '') };
+    setInternalOptions((prevOptions) => [newOption, ...prevOptions]);
+    if (isMulti) {
+      const newValue = Array.isArray(value) ? [...value, newOption.value] : [newOption.value];
+      onValueChange(newValue);
+    } else {
+      onValueChange(newOption.value);
+    }
+  };
+
+  const formattedValue = isMulti
+    ? internalOptions.filter((opt) => Array.isArray(value) && value.includes(opt.value))
+    : internalOptions.find((opt) => typeof value === 'string' && opt.value === value);
+
   return (
     <CreatableSelectPrimitive
       isMulti={isMulti}
-      options={options}
+      options={internalOptions}
       onChange={handleChange as any}
+      onCreateOption={handleCreate}
       placeholder={placeholder}
       closeMenuOnSelect={closeMenuOnSelect}
+      value={formattedValue} // Use the formatted value here
       unstyled
+      formatCreateLabel={(inputText) => `füge "${inputText}" hinzu`}
       styles={{
         option: (base) => ({
           ...base,
@@ -100,7 +129,7 @@ export function CreatableSelect({
           cn(
             'text-sm',
             isSelected ? 'bg-slate-200' : isFocused ? 'bg-slate-100' : 'bg-transparent',
-            isDisabled ? 'text-slate-200' : isSelected ? 'text-white' : 'text-slate-950',
+            isDisabled ? 'text-slate-200' : 'text-slate-950',
             'py-2',
             'px-3',
             'rounded-md',
@@ -109,7 +138,7 @@ export function CreatableSelect({
 
         placeholder: () => cn('text-slate-500 font-normal text-sm', 'mx-0.5'),
         singleValue: ({ isDisabled }) =>
-          cn(isDisabled ? 'text-slate-400' : 'text-slate-700', 'mx-0.5'),
+          cn('text-sm', isDisabled ? 'text-slate-400' : 'text-slate-950', 'mx-0.5'),
         valueContainer: () => cn('py-0.5', 'px-2'),
       }}
     />
