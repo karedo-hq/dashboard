@@ -7,22 +7,8 @@ import { PrevGuardianType } from '../types/prev-guardian-type.types';
 import { TypeOfGuardianship } from '../types/type-of-guardianship.type';
 import { UserGender } from '../types/user-gender.type';
 import { WealthStatus } from '../types/wealth-status.type';
-import { APIResponse } from '@/lib/types/api-response.types';
+import { APIResponse, ErrorResponse, SuccessResponse } from '@/lib/types/api-responses.types';
 import { Client } from '../types/client.type';
-
-type SuccessResponse<T> = {
-  isSuccess: true;
-  isError: false;
-  error: null;
-  data: T;
-};
-
-type ErrorResponse = {
-  isSuccess: false;
-  isError: true;
-  error: Error;
-  data?: undefined;
-};
 
 export type CreateClientActionResult = SuccessResponse<Client> | ErrorResponse;
 
