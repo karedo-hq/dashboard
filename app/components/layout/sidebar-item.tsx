@@ -10,7 +10,14 @@ type SidebarItemProps = SidebarLink;
 
 export default function SidebarItem({ href, label, icon: Icon }: SidebarItemProps) {
   const pathname = usePathname();
-  const isActive = pathname === href;
+
+  let isActive = false;
+  if (href === '/dashboard') {
+    isActive = pathname === href;
+  } else {
+    isActive =
+      pathname.startsWith(href) && (pathname === href || pathname.charAt(href.length) === '/');
+  }
 
   return (
     <Link
