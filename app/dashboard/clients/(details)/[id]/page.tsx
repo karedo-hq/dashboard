@@ -1,3 +1,4 @@
+import ClientDetailsHeader from '../../components/clients-details-header';
 import { findClientAction } from '../../lib/actions/find-client';
 
 type ClientDetailsPageProps = {
@@ -15,5 +16,11 @@ export default async function ClientDetailsPage(props: ClientDetailsPageProps) {
     return <div>Error: {error?.message}</div>;
   }
 
-  return <div>Client details for ID: {JSON.stringify(data)}</div>;
+  const client = data;
+
+  return (
+    <section className="flex flex-col">
+      <ClientDetailsHeader client={client} />
+    </section>
+  );
 }
