@@ -12,7 +12,7 @@ import { Client } from '../types/client.type';
 
 export type CreateClientActionResult = SuccessResponse<Client> | ErrorResponse;
 
-type CreateClientActionDto = {
+export type CreateClientActionDto = {
   gender: UserGender;
   title?: string;
   firstname: string;
