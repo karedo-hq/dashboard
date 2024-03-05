@@ -1,6 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ClientDetailsHeader from '../../components/clients-details-header';
 import { findClientAction } from '../../lib/actions/find-client';
+import { EditClientGeneralInfoCard } from '../../components/edit-profile-cards';
 
 type ClientDetailsPageProps = {
   params: {
@@ -14,7 +15,7 @@ export default async function ClientDetailsPage(props: ClientDetailsPageProps) {
   const { isError, error, data } = await findClientAction(id);
 
   if (isError) {
-    return <div>Error: {error?.message}</div>;
+    return <div>Error: {error.message}</div>;
   }
 
   const client = data;
@@ -23,14 +24,16 @@ export default async function ClientDetailsPage(props: ClientDetailsPageProps) {
     <section className="flex flex-col">
       <ClientDetailsHeader client={client} />
       <Tabs defaultValue="profile" className="p-8 pt-0">
-        <TabsList className="w-full">
+        <TabsList className="mb-4 w-full">
           <TabsTrigger value="profile">Persönlich</TabsTrigger>
           <TabsTrigger value="guardianship">Betreuung</TabsTrigger>
           <TabsTrigger value="health">Gesundheit</TabsTrigger>
           <TabsTrigger value="residence">Aufenthalt</TabsTrigger>
           <TabsTrigger value="wealth">Vermögen</TabsTrigger>
         </TabsList>
-        <TabsContent value="profile">Make changes to your account here.</TabsContent>
+        <TabsContent value="profile" className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+          <EditClientGeneralInfoCard client={client} />
+        </TabsContent>
         <TabsContent value="guardianship">Make changes to your account here.</TabsContent>
         <TabsContent value="health">Make changes to your account here.</TabsContent>
         <TabsContent value="residence">Make changes to your account here.</TabsContent>
