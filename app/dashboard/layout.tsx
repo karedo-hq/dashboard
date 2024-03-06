@@ -14,7 +14,6 @@ export default async function DashboardLayout({ children }: { children: React.Re
       <main className="group w-full overflow-auto pl-0 md:pl-[240px]">
         <Header />
         {children}
-
         {sessionExpired && <SessionExpiredDialog />}
       </main>
     </div>

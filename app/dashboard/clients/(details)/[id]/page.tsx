@@ -1,7 +1,10 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ClientDetailsHeader from '../../components/clients-details-header';
 import { findClientAction } from '../../lib/actions/find-client';
-import { EditClientGeneralInfoCard } from '../../components/edit-profile-cards';
+import {
+  EditClientExtendedInfoCard,
+  EditClientGeneralInfoCard,
+} from '../../components/edit-profile-cards';
 
 type ClientDetailsPageProps = {
   params: {
@@ -12,10 +15,10 @@ type ClientDetailsPageProps = {
 export default async function ClientDetailsPage(props: ClientDetailsPageProps) {
   const { id } = props.params;
 
-  const { isError, error, data } = await findClientAction(id);
+  const { data, isError, errorMessage } = await findClientAction(id);
 
   if (isError) {
-    return <div>Error: {error.message}</div>;
+    return <div>Error: {errorMessage}</div>;
   }
 
   const client = data;
@@ -33,6 +36,7 @@ export default async function ClientDetailsPage(props: ClientDetailsPageProps) {
         </TabsList>
         <TabsContent value="profile" className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           <EditClientGeneralInfoCard client={client} />
+          <EditClientExtendedInfoCard client={client} />
         </TabsContent>
         <TabsContent value="guardianship">Make changes to your account here.</TabsContent>
         <TabsContent value="health">Make changes to your account here.</TabsContent>

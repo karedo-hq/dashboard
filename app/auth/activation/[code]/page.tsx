@@ -13,7 +13,7 @@ type ActivationPageProps = {
 export default async function ActivationPage(props: ActivationPageProps) {
   const { code } = props.params;
 
-  const { isError, error } = await activateAccountAction(code);
+  const { isError, errorMessage } = await activateAccountAction(code);
 
   if (isError) {
     return (
@@ -23,7 +23,7 @@ export default async function ActivationPage(props: ActivationPageProps) {
         </Typography>
 
         <Typography variant="paragraph" className="text-center">
-          {error!.message}
+          {errorMessage}
         </Typography>
       </section>
     );

@@ -31,6 +31,7 @@ import { cn } from '@/lib/utils/cn';
 import { useToast } from '@/lib/hooks/use-toast';
 import { getErrorMessage } from '@/lib/utils/get-error-message';
 import { updateClientAction } from '../lib/actions/update-client';
+import { CLIENT_MARITAL_STATUS_LABELS } from '../lib/consts/client-marital-status-labels';
 
 type EditClientProfileCardProps = {
   client: Client;
@@ -76,7 +77,7 @@ export function EditClientGeneralInfoCard({ client }: EditClientProfileCardProps
       const res = await updateClientAction(client._id, values);
 
       if (res.isError) {
-        throw res.error;
+        throw new Error(res.errorMessage);
       }
 
       if (res.isSuccess) {
@@ -173,15 +174,15 @@ export function EditClientGeneralInfoCard({ client }: EditClientProfileCardProps
                 control={form.control}
                 name="birthday"
                 render={({ field }) => (
-                  <FormItem className="flex flex-1 flex-col">
+                  <FormItem className="flex-1">
                     <FormLabel>Geboren am*</FormLabel>
                     <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
+                      <FormControl>
+                        <PopoverTrigger asChild>
                           <Button
                             variant="outline"
                             className={cn(
-                              'pl-3 text-left font-normal',
+                              'w-full font-normal',
                               !field.value && 'text-muted-foreground',
                             )}
                           >
@@ -194,8 +195,8 @@ export function EditClientGeneralInfoCard({ client }: EditClientProfileCardProps
                             )}
                             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                           </Button>
-                        </FormControl>
-                      </PopoverTrigger>
+                        </PopoverTrigger>
+                      </FormControl>
                       <PopoverContent className="w-auto p-0" align="start">
                         <Calendar
                           captionLayout="dropdown"
@@ -221,15 +222,15 @@ export function EditClientGeneralInfoCard({ client }: EditClientProfileCardProps
                 control={form.control}
                 name="deathday"
                 render={({ field }) => (
-                  <FormItem className="flex flex-1 flex-col">
+                  <FormItem className="flex-1">
                     <FormLabel>Gestorben am</FormLabel>
                     <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
+                      <FormControl>
+                        <PopoverTrigger asChild>
                           <Button
                             variant="outline"
                             className={cn(
-                              'pl-3 text-left font-normal',
+                              'w-full font-normal',
                               !field.value && 'text-muted-foreground',
                             )}
                           >
@@ -242,8 +243,8 @@ export function EditClientGeneralInfoCard({ client }: EditClientProfileCardProps
                             )}
                             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                           </Button>
-                        </FormControl>
-                      </PopoverTrigger>
+                        </PopoverTrigger>
+                      </FormControl>
                       <PopoverContent className="w-auto p-0" align="start">
                         <Calendar
                           captionLayout="dropdown"
@@ -266,6 +267,188 @@ export function EditClientGeneralInfoCard({ client }: EditClientProfileCardProps
                 )}
               />
             </div>
+            <footer className="flex items-center justify-end">
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                isLoading={isSubmitting}
+                className="sm:min-w-24"
+              >
+                Save
+              </Button>
+            </footer>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
+  );
+}
+
+const extendedInfoFormSchema = z.object({
+  maritalStatus: z
+    .enum([
+      'single',
+      'married',
+      'widowed',
+      'registeredPartnership',
+      'livingSeparately',
+      'divorced',
+      'partnershipInDissolution',
+    ])
+    .optional(),
+  maritalStatusStartedAt: z.date().optional(),
+  numberOfChildren: z
+    .string()
+    .optional()
+    .refine(
+      (val) => {
+        if (!val) return true;
+        const number = parseInt(val, 10);
+        return Number.isInteger(number) && number >= 0;
+      },
+      {
+        message: 'Number of children must be a non-negative integer',
+      },
+    ),
+});
+
+type EditClientExtendedInfoFormValues = z.infer<typeof extendedInfoFormSchema>;
+
+export function EditClientExtendedInfoCard({ client }: EditClientProfileCardProps) {
+  const form = useForm<EditClientExtendedInfoFormValues>({
+    resolver: zodResolver(extendedInfoFormSchema),
+    defaultValues: {
+      maritalStatus: client.maritalStatus,
+      maritalStatusStartedAt:
+        client.maritalStatusStartedAt && new Date(client.maritalStatusStartedAt),
+      numberOfChildren: client.numberOfChildren ? client.numberOfChildren.toString() : '',
+    },
+  });
+  const { toast } = useToast();
+
+  const handleSubmit: SubmitHandler<EditClientExtendedInfoFormValues> = async (values) => {
+    try {
+      const res = await updateClientAction(client._id, values);
+
+      if (res.isError) {
+        throw new Error(res.errorMessage);
+      }
+
+      if (res.isSuccess) {
+        toast({
+          variant: 'default',
+          title: 'Client updated',
+          description: "Client's extended information has been updated.",
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Error updating client',
+        description: getErrorMessage(error),
+      });
+    }
+  };
+
+  const isSubmitting = form.formState.isSubmitting;
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Erweiterte Personendaten</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-4">
+            <div className="flex items-center gap-4">
+              <FormField
+                control={form.control}
+                name="maritalStatus"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Familienstand</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="bitte wählen" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {Object.entries(CLIENT_MARITAL_STATUS_LABELS).map(([key, value]) => (
+                          <SelectItem key={key} value={key}>
+                            {value}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="maritalStatusStartedAt"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Seit</FormLabel>
+                    <Popover>
+                      <FormControl>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="outline"
+                            className={cn(
+                              'w-full font-normal',
+                              !field.value && 'text-muted-foreground',
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, 'PPP')
+                            ) : (
+                              <Typography variant="small" color="slate-500">
+                                TT.MM.JJJJ
+                              </Typography>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </PopoverTrigger>
+                      </FormControl>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          captionLayout="dropdown"
+                          fromDate={new Date('1900-01-01')}
+                          toDate={new Date()}
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
+                          classNames={{
+                            caption: 'flex p-2',
+                            caption_label: 'hidden',
+                            vhidden: 'hidden',
+                          }}
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <FormField
+              control={form.control}
+              name="numberOfChildren"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Anzahl Kinder</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Input the number of children..." type="number" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <footer className="flex items-center justify-end">
               <Button
                 type="submit"

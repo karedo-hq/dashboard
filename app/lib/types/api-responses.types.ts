@@ -3,16 +3,16 @@ export type APIResponse<D = any, M = any> = {
   meta: M;
 };
 
-export type SuccessResponse<T> = {
+export type SuccessResponse<T = any> = {
+  data: T;
   isSuccess: true;
   isError: false;
-  error: null;
-  data: T;
+  errorMessage: null;
 };
 
 export type ErrorResponse = {
+  data?: undefined;
   isSuccess: false;
   isError: true;
-  error: Error;
-  data?: undefined;
+  errorMessage: string;
 };

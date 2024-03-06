@@ -1,3 +1,4 @@
+import { ClientMaritalStatus } from './client-marital-status.type';
 import { ClientStatus } from './client-status.type';
 import { LivingArrangements } from './living-arrangements.type';
 import { TypeOfGuardianship } from './type-of-guardianship.type';
@@ -28,4 +29,7 @@ export type Client = {
   createdAt?: Date;
   updatedAt?: Date;
   status: ClientStatus;
+  maritalStatus?: ClientMaritalStatus;
+  maritalStatusStartedAt?: Date;
+  numberOfChildren?: number;
 };

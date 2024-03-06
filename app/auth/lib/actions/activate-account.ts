@@ -3,7 +3,7 @@
 type ActivateAccountResult = {
   isSuccess: boolean;
   isError: boolean;
-  error: Error | null;
+  errorMessage: string | null;
 };
 
 export async function activateAccountAction(code: string): Promise<ActivateAccountResult> {
@@ -14,12 +14,12 @@ export async function activateAccountAction(code: string): Promise<ActivateAccou
   });
 
   if (res.status === 404) {
-    return { isError: true, error: new Error('Konto nicht gefunden'), isSuccess: false };
+    return { isError: true, errorMessage: 'Konto nicht gefunden', isSuccess: false };
   }
 
   if (res.status === 409) {
-    return { isError: true, error: new Error('Konto bereits aktiviert'), isSuccess: false };
+    return { isError: true, errorMessage: 'Konto bereits aktiviert', isSuccess: false };
   }
 
-  return { isSuccess: true, isError: false, error: null };
+  return { isSuccess: true, isError: false, errorMessage: null };
 }

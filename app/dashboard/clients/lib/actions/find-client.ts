@@ -13,7 +13,7 @@ export async function findClientAction(_id: string): Promise<FindClientActionRes
     return {
       isSuccess: false,
       isError: true,
-      error: new Error('Not authenticated'),
+      errorMessage: 'Not authenticated',
     };
   }
 
@@ -27,14 +27,16 @@ export async function findClientAction(_id: string): Promise<FindClientActionRes
   });
 
   if (!res.ok) {
+    const resJSON = await res.json();
+    const errorMessage = resJSON.message;
     return {
       isSuccess: false,
       isError: true,
-      error: new Error('Error fetching client details'),
+      errorMessage,
     };
   }
 
   const resJSON: APIResponse<Client> = await res.json();
 
-  return { isSuccess: true, isError: false, error: null, ...resJSON };
+  return { isSuccess: true, isError: false, errorMessage: null, ...resJSON };
 }

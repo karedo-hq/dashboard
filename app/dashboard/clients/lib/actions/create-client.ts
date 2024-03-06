@@ -41,7 +41,7 @@ export async function createClientAction(
     return {
       isSuccess: false,
       isError: true,
-      error: new Error('Not authenticated'),
+      errorMessage: 'Not authenticated',
     };
   }
 
@@ -58,10 +58,12 @@ export async function createClientAction(
   });
 
   if (!res.ok) {
+    const resJSON = await res.json();
+    const errorMessage = resJSON.message;
     return {
       isSuccess: false,
       isError: true,
-      error: new Error('Error creating client'),
+      errorMessage,
     };
   }
 
@@ -69,5 +71,5 @@ export async function createClientAction(
 
   revalidatePath('/dashboard/clients');
 
-  return { isSuccess: true, isError: false, error: null, ...resJSON };
+  return { isSuccess: true, isError: false, errorMessage: null, ...resJSON };
 }

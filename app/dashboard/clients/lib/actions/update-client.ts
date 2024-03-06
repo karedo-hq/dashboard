@@ -5,11 +5,13 @@ import { auth } from '@/auth/lib/utils/auth';
 import { APIResponse, ErrorResponse, SuccessResponse } from '@/lib/types/api-responses.types';
 import { Client } from '../types/client.type';
 import { CreateClientActionDto } from './create-client';
+import { ClientMaritalStatus } from '../types/client-marital-status.type';
 
 export type UpdateClientActionResult = SuccessResponse<Client> | ErrorResponse;
 
 type UpdateClientActionDto = Partial<CreateClientActionDto> & {
   deathday?: Date;
+  maritalStatus?: ClientMaritalStatus;
 };
 
 export async function updateClientAction(
@@ -22,7 +24,7 @@ export async function updateClientAction(
     return {
       isSuccess: false,
       isError: true,
-      error: new Error('Not authenticated'),
+      errorMessage: 'Not authenticated',
     };
   }
 
@@ -38,10 +40,12 @@ export async function updateClientAction(
   });
 
   if (!res.ok) {
+    const resJSON = await res.json();
+    const errorMessage = resJSON.message;
     return {
       isSuccess: false,
       isError: true,
-      error: new Error('Error updating client'),
+      errorMessage,
     };
   }
 
@@ -50,5 +54,5 @@ export async function updateClientAction(
   revalidatePath('/dashboard/clients');
   revalidatePath(`/dashboard/clients/${_id}`);
 
-  return { isSuccess: true, isError: false, error: null, ...resJSON };
+  return { isSuccess: true, isError: false, errorMessage: null, ...resJSON };
 }

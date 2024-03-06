@@ -1,12 +1,9 @@
 'use server';
 
+import { ErrorResponse, SuccessResponse } from '@/lib/types/api-responses.types';
 import jwt from 'jsonwebtoken';
 
-type ResetPasswordResult = {
-  isSuccess: boolean;
-  isError: boolean;
-  error: Error | null;
-};
+type ResetPasswordResult = Omit<SuccessResponse, 'data'> | ErrorResponse;
 
 export async function resetPasswordAction(
   userId: string,
@@ -25,8 +22,8 @@ export async function resetPasswordAction(
   if (!res.ok) {
     const resJSON = await res.json();
     const errorMessage = resJSON.message;
-    return { isError: true, error: new Error(errorMessage), isSuccess: false };
+    return { isError: true, errorMessage, isSuccess: false };
   }
 
-  return { isSuccess: true, isError: false, error: null };
+  return { isSuccess: true, isError: false, errorMessage: null };
 }

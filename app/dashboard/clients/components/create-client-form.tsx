@@ -124,7 +124,7 @@ export default function CreateClientForm(props: CreateClientFormProps) {
       });
 
       if (res.isError) {
-        throw res.error;
+        throw new Error(res.errorMessage);
       }
 
       if (res.isSuccess) {
