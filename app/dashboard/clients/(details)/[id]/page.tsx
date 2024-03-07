@@ -1,10 +1,11 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import ClientDetailsHeader from '../../components/clients-details-header';
-import { findClientAction } from '../../lib/actions/find-client';
+import ClientDetailsHeader from '@/dashboard/clients/components/clients-details-header';
+import { findClientAction } from '@/dashboard/clients/lib/actions/find-client';
 import {
   ClientGeneralInfoCard,
   ClientExtendedInfoCard,
-} from '../../components/client-profile-cards';
+  ClientContactCard,
+} from '@/dashboard/clients/components/client-profile-cards';
 
 type ClientDetailsPageProps = {
   params: {
@@ -34,9 +35,13 @@ export default async function ClientDetailsPage(props: ClientDetailsPageProps) {
           <TabsTrigger value="residence">Aufenthalt</TabsTrigger>
           <TabsTrigger value="wealth">Vermögen</TabsTrigger>
         </TabsList>
-        <TabsContent value="profile" className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <TabsContent
+          value="profile"
+          className="grid grid-cols-1 gap-4 overflow-auto lg:grid-cols-2"
+        >
           <ClientGeneralInfoCard client={client} />
           <ClientExtendedInfoCard client={client} />
+          <ClientContactCard client={client} />
         </TabsContent>
         <TabsContent value="guardianship">Make changes to your account here.</TabsContent>
         <TabsContent value="health">Make changes to your account here.</TabsContent>

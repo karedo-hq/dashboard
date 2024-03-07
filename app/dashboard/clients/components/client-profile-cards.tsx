@@ -26,7 +26,7 @@ import { Client } from '@/dashboard/clients/lib/types/client.type';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Typography } from '@/components/ui/typography';
 import { Calendar } from '@/components/ui/calendar';
-import { CalendarIcon, CheckIcon, ChevronsUpDownIcon } from 'lucide-react';
+import { CalendarIcon, CheckIcon, ChevronDownIcon } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 import { useToast } from '@/lib/hooks/use-toast';
 import { getErrorMessage } from '@/lib/utils/get-error-message';
@@ -46,6 +46,7 @@ type ClientProfileCardProps = {
   client: Client;
 };
 
+// General info card.
 const generalInfoFormSchema = z.object({
   gender: z.enum(['male', 'female', 'other'], {
     required_error: 'Bitte wähle einen Titel',
@@ -283,7 +284,7 @@ export function ClientGeneralInfoCard({ client }: ClientProfileCardProps) {
                 isLoading={isSubmitting}
                 className="sm:min-w-24"
               >
-                Save
+                Speichern
               </Button>
             </footer>
           </form>
@@ -293,6 +294,7 @@ export function ClientGeneralInfoCard({ client }: ClientProfileCardProps) {
   );
 }
 
+// Extended info card.
 const extendedInfoFormSchema = z.object({
   maritalStatus: z
     .enum([
@@ -316,7 +318,7 @@ const extendedInfoFormSchema = z.object({
         return Number.isInteger(number) && number >= 0;
       },
       {
-        message: 'Number of children must be a non-negative integer',
+        message: 'Die Anzahl der Kinder muss eine nicht-negative Ganzzahl sein',
       },
     ),
   isSingleParent: z.enum(['true', 'false']).optional(),
@@ -380,14 +382,14 @@ export function ClientExtendedInfoCard({ client }: ClientProfileCardProps) {
       if (res.isSuccess) {
         toast({
           variant: 'default',
-          title: 'Client updated',
-          description: "Client's extended information has been updated.",
+          title: 'Kunde aktualisiert',
+          description: 'Die erweiterten Personendaten des Kunden wurden aktualisiert.',
         });
       }
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Error updating client',
+        title: 'Fehler beim Aktualisieren des Kunden',
         description: getErrorMessage(error),
       });
     }
@@ -485,11 +487,7 @@ export function ClientExtendedInfoCard({ client }: ClientProfileCardProps) {
                   <FormItem className="flex-1">
                     <FormLabel>Anzahl Kinder</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Input the number of children..."
-                        type="number"
-                        {...field}
-                      />
+                      <Input placeholder="Anzahl Kinder des Kunden" type="number" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -536,7 +534,7 @@ export function ClientExtendedInfoCard({ client }: ClientProfileCardProps) {
                 <FormItem className="flex-1">
                   <FormLabel>Geburtsname</FormLabel>
                   <FormControl>
-                    <Input placeholder="Birthname of the client" {...field} />
+                    <Input placeholder="Geburtsname des Kunden" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -556,22 +554,22 @@ export function ClientExtendedInfoCard({ client }: ClientProfileCardProps) {
                             variant="outline"
                             role="combobox"
                             className={cn(
-                              'w-full justify-between',
-                              !field.value && 'text-muted-foreground',
+                              'w-full justify-between font-normal',
+                              !field.value && 'text-slate-500',
                             )}
                           >
                             {field.value
                               ? COUNTRIES_OPTIONS.find((country) => country.value === field.value)
                                   ?.label
                               : 'bitte wählen'}
-                            <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            <ChevronDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
                       <PopoverContent className="p-0">
                         <Command>
-                          <CommandInput placeholder="Search country..." />
-                          <CommandEmpty>No country found.</CommandEmpty>
+                          <CommandInput placeholder="Land suchen..." />
+                          <CommandEmpty>Kein Land gefunden.</CommandEmpty>
                           <CommandGroup className="max-h-96 w-full overflow-scroll">
                             {COUNTRIES_OPTIONS.map((country) => (
                               <CommandItem
@@ -609,22 +607,22 @@ export function ClientExtendedInfoCard({ client }: ClientProfileCardProps) {
                             variant="outline"
                             role="combobox"
                             className={cn(
-                              'w-full justify-between',
-                              !field.value && 'text-muted-foreground',
+                              'w-full justify-between font-normal',
+                              !field.value && 'text-slate-500',
                             )}
                           >
                             {field.value
                               ? COUNTRIES_OPTIONS.find((country) => country.value === field.value)
                                   ?.label
                               : 'bitte wählen'}
-                            <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            <ChevronDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
                       <PopoverContent className="p-0">
                         <Command>
-                          <CommandInput placeholder="Search country..." />
-                          <CommandEmpty>No country found.</CommandEmpty>
+                          <CommandInput placeholder="Land suchen..." />
+                          <CommandEmpty>Kein Land gefunden.</CommandEmpty>
                           <CommandGroup className="max-h-96 w-full overflow-scroll">
                             {COUNTRIES_OPTIONS.map((country) => (
                               <CommandItem
@@ -666,22 +664,22 @@ export function ClientExtendedInfoCard({ client }: ClientProfileCardProps) {
                             variant="outline"
                             role="combobox"
                             className={cn(
-                              'w-full justify-between',
-                              !field.value && 'text-muted-foreground',
+                              'w-full justify-between font-normal',
+                              !field.value && 'text-slate-500',
                             )}
                           >
                             {field.value
                               ? COUNTRIES_OPTIONS.find((country) => country.value === field.value)
                                   ?.label
                               : 'bitte wählen'}
-                            <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            <ChevronDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
                       <PopoverContent className="p-0">
                         <Command>
-                          <CommandInput placeholder="Search country..." />
-                          <CommandEmpty>No country found.</CommandEmpty>
+                          <CommandInput placeholder="Land suchen..." />
+                          <CommandEmpty>Kein Land gefunden.</CommandEmpty>
                           <CommandGroup className="max-h-96 w-full overflow-scroll">
                             {COUNTRIES_OPTIONS.map((country) => (
                               <CommandItem
@@ -713,7 +711,7 @@ export function ClientExtendedInfoCard({ client }: ClientProfileCardProps) {
                   <FormItem className="flex-1">
                     <FormLabel>Geburtsort</FormLabel>
                     <FormControl>
-                      <Input placeholder="City of birth of the client" {...field} />
+                      <Input placeholder="Geburtsort des Kunden" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -750,7 +748,7 @@ export function ClientExtendedInfoCard({ client }: ClientProfileCardProps) {
                   <FormItem className="flex-1">
                     <FormLabel>Identifikations-Nr. / Steuer-ID</FormLabel>
                     <FormControl>
-                      <Input placeholder="Tax ID of the client" {...field} />
+                      <Input placeholder="Identifikationsnummer/ Steuer-ID des Kunden" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -764,7 +762,317 @@ export function ClientExtendedInfoCard({ client }: ClientProfileCardProps) {
                 isLoading={isSubmitting}
                 className="sm:min-w-24"
               >
-                Save
+                Speichern
+              </Button>
+            </footer>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
+  );
+}
+
+// Contact card.
+const contactFormSchema = z.object({
+  street: z.string().optional(),
+  streetNo: z.string().optional(),
+  postalCode: z.string().optional(),
+  city: z.string().optional(),
+  phone: z.string().optional(),
+  mobile: z.string().optional(),
+  email: z.string().optional(),
+  fax: z.string().optional(),
+  isAlternativeAddressActive: z.enum(['true', 'false']).optional(),
+  alternativeStreet: z.string().optional(),
+  alternativeStreetNo: z.string().optional(),
+  alternativePostalCode: z.string().optional(),
+  alternativeCity: z.string().optional(),
+});
+
+type UpdateClientContactFormValues = z.infer<typeof contactFormSchema>;
+
+export function ClientContactCard({ client }: ClientProfileCardProps) {
+  const form = useForm<UpdateClientContactFormValues>({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      street: client.street || '',
+      streetNo: client.streetNo || '',
+      postalCode: client.postalCode || '',
+      city: client.city || '',
+      phone: client.phone || '',
+      mobile: client.mobile || '',
+      email: client.email || '',
+      fax: client.fax || '',
+      isAlternativeAddressActive:
+        client.isAlternativeAddressActive !== undefined
+          ? (client.isAlternativeAddressActive.toString() as 'true' | 'false')
+          : undefined,
+      alternativeStreet: client.alternativeStreet || '',
+      alternativeStreetNo: client.alternativeStreetNo || '',
+      alternativePostalCode: client.alternativePostalCode || '',
+      alternativeCity: client.alternativeCity || '',
+    },
+  });
+  const { toast } = useToast();
+
+  const handleSubmit: SubmitHandler<UpdateClientContactFormValues> = async ({
+    isAlternativeAddressActive,
+    ...values
+  }) => {
+    const parsedIsAlternativeAddressActive = isAlternativeAddressActive
+      ? isAlternativeAddressActive === 'true'
+        ? true
+        : false
+      : undefined;
+
+    try {
+      const res = await updateClientAction(client._id, {
+        isAlternativeAddressActive: parsedIsAlternativeAddressActive,
+        ...values,
+      });
+
+      if (res.isError) {
+        throw new Error(res.errorMessage);
+      }
+
+      if (res.isSuccess) {
+        toast({
+          variant: 'default',
+          title: 'Kunde aktualisiert',
+          description: 'Die Kontaktdaten des Kunden wurden aktualisiert.',
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Fehler beim Aktualisieren des Kunden',
+        description: getErrorMessage(error),
+      });
+    }
+  };
+
+  const isSubmitting = form.formState.isSubmitting;
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Kontaktinformationen</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-4">
+            <div className="flex items-center gap-4">
+              <FormField
+                control={form.control}
+                name="street"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Straße</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Straße des Kunden" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="streetNo"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Nr.</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Hausnummer des Kunden" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex items-center gap-4">
+              <FormField
+                control={form.control}
+                name="postalCode"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>PLZ</FormLabel>
+                    <FormControl>
+                      <Input placeholder="PLZ des Kunden" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="city"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Ort</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Ort des Kunden" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex items-center gap-4">
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Telefon</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Telefonnummer des Kunden" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="mobile"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Mobil</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Mobilnummer des Kunden" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>E-Mail</FormLabel>
+                  <FormControl>
+                    <Input placeholder="E-Mail des Kunden" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="fax"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Fax</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Faxnummer des Kunden" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="isAlternativeAddressActive"
+              render={({ field }) => (
+                <FormItem className="flex-1">
+                  <FormLabel>Abweichende Postadresse</FormLabel>
+                  <FormControl>
+                    <ToggleGroup
+                      type="single"
+                      variant="outline"
+                      defaultValue={field.value}
+                      onValueChange={field.onChange}
+                    >
+                      <FormItem className="flex-1">
+                        <FormControl>
+                          <ToggleGroupItem value="true" className="w-full">
+                            Ja
+                          </ToggleGroupItem>
+                        </FormControl>
+                      </FormItem>
+                      <FormItem className="flex-1">
+                        <FormControl>
+                          <ToggleGroupItem value="false" className="w-full">
+                            Nein
+                          </ToggleGroupItem>
+                        </FormControl>
+                      </FormItem>
+                    </ToggleGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {form.watch('isAlternativeAddressActive') === 'true' && (
+              <>
+                <div className="flex items-center gap-4">
+                  <FormField
+                    control={form.control}
+                    name="alternativeStreet"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <FormLabel>Straße</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Straße des Kunden" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="alternativeStreetNo"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <FormLabel>Hausnummer</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Hausnummer des Kunden" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="flex items-center gap-4">
+                  <FormField
+                    control={form.control}
+                    name="alternativePostalCode"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <FormLabel>PLZ</FormLabel>
+                        <FormControl>
+                          <Input placeholder="PLZ des Kunden" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="alternativeCity"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <FormLabel>Ort</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Ort des Kunden" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </>
+            )}
+            <footer className="flex items-center justify-end">
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                isLoading={isSubmitting}
+                className="sm:min-w-24"
+              >
+                Speichern
               </Button>
             </footer>
           </form>

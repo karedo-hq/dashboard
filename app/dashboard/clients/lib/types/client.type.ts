@@ -41,4 +41,17 @@ export type Client = {
   cityOfBirth?: string;
   religion?: ClientReligion;
   taxId?: string;
+  street?: string;
+  streetNo?: string;
+  postalCode?: string;
+  city?: string;
+  phone?: string;
+  mobile?: string;
+  email?: string;
+  fax?: string;
+  isAlternativeAddressActive?: boolean;
+  alternativeStreet?: string;
+  alternativeStreetNo?: string;
+  alternativePostalCode?: string;
+  alternativeCity?: string;
 };

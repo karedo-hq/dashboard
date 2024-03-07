@@ -6,6 +6,7 @@ import { APIResponse, ErrorResponse, SuccessResponse } from '@/lib/types/api-res
 import { Client } from '../types/client.type';
 import { CreateClientActionDto } from './create-client';
 import { ClientMaritalStatus } from '../types/client-marital-status.type';
+import { ClientReligion } from '../types/client-religion.types';
 
 export type UpdateClientActionResult = SuccessResponse<Client> | ErrorResponse;
 
@@ -14,6 +15,26 @@ type UpdateClientActionDto = Partial<CreateClientActionDto> & {
   maritalStatus?: ClientMaritalStatus;
   numberOfChildren?: number;
   isSingleParent?: boolean;
+  birthname?: string;
+  citizenship?: string;
+  additionalCitizenship?: string;
+  countryOfBirth?: string;
+  cityOfBirth?: string;
+  religion?: ClientReligion;
+  taxId?: string;
+  street?: string;
+  streetNo?: string;
+  postalCode?: string;
+  city?: string;
+  phone?: string;
+  mobile?: string;
+  email?: string;
+  fax?: string;
+  isAlternativeAddressActive?: boolean;
+  alternativeStreet?: string;
+  alternativeStreetNo?: string;
+  alternativePostalCode?: string;
+  alternativeCity?: string;
 };
 
 export async function updateClientAction(
