@@ -1,3 +1,5 @@
+import { ClientCareLevel } from './client-care-level.type';
+import { ClientLevelOfDisability } from './client-level-of-disability.type';
 import { ClientMaritalStatus } from './client-marital-status.type';
 import { ClientReligion } from './client-religion.types';
 import { ClientStatus } from './client-status.type';
@@ -54,4 +56,12 @@ export type Client = {
   alternativeStreetNo?: string;
   alternativePostalCode?: string;
   alternativeCity?: string;
+  diagnosis?: string;
+  levelOfDisability?: ClientLevelOfDisability;
+  disabilityRecognizedAt?: Date;
+  severeDisabilityMark?: string;
+  careLevel?: ClientCareLevel;
+  careLevelRecognizedAt?: Date;
+  isLivingWillAvailable?: boolean;
+  contentOfLivingWill?: string;
 };

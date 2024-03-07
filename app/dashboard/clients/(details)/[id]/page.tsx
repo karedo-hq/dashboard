@@ -7,6 +7,7 @@ import {
   UpdateClientContactForm,
 } from '@/dashboard/clients/components/update-client-profile-forms';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { UpdateClientHealthInfoForm } from '../../components/update-client-health-info-form';
 
 type ClientDetailsPageProps = {
   params: {
@@ -36,10 +37,7 @@ export default async function ClientDetailsPage(props: ClientDetailsPageProps) {
           <TabsTrigger value="residence">Aufenthalt</TabsTrigger>
           <TabsTrigger value="wealth">Vermögen</TabsTrigger>
         </TabsList>
-        <TabsContent
-          value="profile"
-          className="grid grid-cols-1 gap-4 overflow-auto lg:grid-cols-2"
-        >
+        <TabsContent value="profile" className="m-auto flex max-w-2xl flex-col gap-4">
           <Card>
             <CardHeader>
               <CardTitle>Allgemeine Informationen</CardTitle>
@@ -48,7 +46,6 @@ export default async function ClientDetailsPage(props: ClientDetailsPageProps) {
               <UpdateClientGeneralInfoForm client={client} />
             </CardContent>
           </Card>
-
           <Card>
             <CardHeader>
               <CardTitle>Erweiterte Personendaten</CardTitle>
@@ -57,7 +54,6 @@ export default async function ClientDetailsPage(props: ClientDetailsPageProps) {
               <UpdateClientExtendedInfoForm client={client} />
             </CardContent>
           </Card>
-
           <Card>
             <CardHeader>
               <CardTitle>Kontaktinformationen</CardTitle>
@@ -68,7 +64,16 @@ export default async function ClientDetailsPage(props: ClientDetailsPageProps) {
           </Card>
         </TabsContent>
         <TabsContent value="guardianship">Make changes to your account here.</TabsContent>
-        <TabsContent value="health">Make changes to your account here.</TabsContent>
+        <TabsContent value="health" className="m-auto flex max-w-2xl flex-col gap-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Gesundheit Informationen</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <UpdateClientHealthInfoForm client={client} />
+            </CardContent>
+          </Card>
+        </TabsContent>
         <TabsContent value="residence">Make changes to your account here.</TabsContent>
         <TabsContent value="wealth">Make changes to your account here.</TabsContent>
       </Tabs>

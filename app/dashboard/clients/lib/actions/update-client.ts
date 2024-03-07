@@ -7,6 +7,8 @@ import { Client } from '../types/client.type';
 import { CreateClientActionDto } from './create-client';
 import { ClientMaritalStatus } from '../types/client-marital-status.type';
 import { ClientReligion } from '../types/client-religion.types';
+import { ClientLevelOfDisability } from '../types/client-level-of-disability.type';
+import { ClientCareLevel } from '../types/client-care-level.type';
 
 export type UpdateClientActionResult = SuccessResponse<Client> | ErrorResponse;
 
@@ -35,6 +37,14 @@ type UpdateClientActionDto = Partial<CreateClientActionDto> & {
   alternativeStreetNo?: string;
   alternativePostalCode?: string;
   alternativeCity?: string;
+  diagnosis?: string;
+  levelOfDisability?: ClientLevelOfDisability;
+  disabilityRecognizedAt?: Date;
+  severeDisabilityMark?: string;
+  careLevel?: ClientCareLevel;
+  careLevelRecognizedAt?: Date;
+  isLivingWillAvailable?: boolean;
+  contentOfLivingWill?: string;
 };
 
 export async function updateClientAction(

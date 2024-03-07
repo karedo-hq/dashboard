@@ -92,14 +92,14 @@ export function UpdateClientGeneralInfoForm({ client }: UpdateClientProfileProps
       if (res.isSuccess) {
         toast({
           variant: 'default',
-          title: 'Client updated',
-          description: "Client's general information has been updated.",
+          title: 'Kunde aktualisiert',
+          description: 'Die allgemeinen Informationen des Kunden wurden aktualisiert.',
         });
       }
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Error updating client',
+        title: 'Fehler beim Aktualisieren des Kunden',
         description: getErrorMessage(error),
       });
     }
