@@ -26,14 +26,23 @@ import { Client } from '@/dashboard/clients/lib/types/client.type';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Typography } from '@/components/ui/typography';
 import { Calendar } from '@/components/ui/calendar';
-import { CalendarIcon } from 'lucide-react';
+import { CalendarIcon, CheckIcon, ChevronsUpDownIcon } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 import { useToast } from '@/lib/hooks/use-toast';
 import { getErrorMessage } from '@/lib/utils/get-error-message';
 import { updateClientAction } from '../lib/actions/update-client';
 import { CLIENT_MARITAL_STATUS_LABELS } from '../lib/consts/client-marital-status-labels';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { COUNTRIES_OPTIONS } from '@/lib/consts/countries-options';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from '@/components/ui/command';
 
-type EditClientProfileCardProps = {
+type ClientProfileCardProps = {
   client: Client;
 };
 
@@ -56,10 +65,10 @@ const generalInfoFormSchema = z.object({
   deathday: z.date().optional(),
 });
 
-type EditClientGeneralInfoFormValues = z.infer<typeof generalInfoFormSchema>;
+type UpdateClientGeneralInfoFormValues = z.infer<typeof generalInfoFormSchema>;
 
-export function EditClientGeneralInfoCard({ client }: EditClientProfileCardProps) {
-  const form = useForm<EditClientGeneralInfoFormValues>({
+export function ClientGeneralInfoCard({ client }: ClientProfileCardProps) {
+  const form = useForm<UpdateClientGeneralInfoFormValues>({
     resolver: zodResolver(generalInfoFormSchema),
     defaultValues: {
       gender: client.gender,
@@ -72,7 +81,7 @@ export function EditClientGeneralInfoCard({ client }: EditClientProfileCardProps
   });
   const { toast } = useToast();
 
-  const handleSubmit: SubmitHandler<EditClientGeneralInfoFormValues> = async (values) => {
+  const handleSubmit: SubmitHandler<UpdateClientGeneralInfoFormValues> = async (values) => {
     try {
       const res = await updateClientAction(client._id, values);
 
@@ -310,25 +319,59 @@ const extendedInfoFormSchema = z.object({
         message: 'Number of children must be a non-negative integer',
       },
     ),
+  isSingleParent: z.enum(['true', 'false']).optional(),
+  birthname: z.string().optional(),
+  citizenship: z.string().optional(),
+  cityOfBirth: z.string().optional(),
+  countryOfBirth: z.string().optional(),
+  additionalCitizenship: z.string().optional(),
+  religion: z.enum(['protestant', 'catholic', 'other']).optional(),
+  taxId: z.string().optional(),
 });
 
-type EditClientExtendedInfoFormValues = z.infer<typeof extendedInfoFormSchema>;
+type UpdateClientExtendedInfoFormValues = z.infer<typeof extendedInfoFormSchema>;
 
-export function EditClientExtendedInfoCard({ client }: EditClientProfileCardProps) {
-  const form = useForm<EditClientExtendedInfoFormValues>({
+export function ClientExtendedInfoCard({ client }: ClientProfileCardProps) {
+  const form = useForm<UpdateClientExtendedInfoFormValues>({
     resolver: zodResolver(extendedInfoFormSchema),
     defaultValues: {
       maritalStatus: client.maritalStatus,
       maritalStatusStartedAt:
         client.maritalStatusStartedAt && new Date(client.maritalStatusStartedAt),
       numberOfChildren: client.numberOfChildren ? client.numberOfChildren.toString() : '',
+      isSingleParent:
+        client.isSingleParent !== undefined
+          ? (client.isSingleParent.toString() as 'true' | 'false')
+          : undefined,
+      birthname: client.birthname || '',
+      citizenship: client.citizenship || '',
+      additionalCitizenship: client.additionalCitizenship || '',
+      countryOfBirth: client.countryOfBirth || '',
+      cityOfBirth: client.cityOfBirth || '',
+      religion: client.religion,
+      taxId: client.taxId || '',
     },
   });
   const { toast } = useToast();
 
-  const handleSubmit: SubmitHandler<EditClientExtendedInfoFormValues> = async (values) => {
+  const handleSubmit: SubmitHandler<UpdateClientExtendedInfoFormValues> = async ({
+    numberOfChildren,
+    isSingleParent,
+    ...values
+  }) => {
+    const parsedNumberOfChildren = numberOfChildren ? parseInt(numberOfChildren, 10) : undefined;
+    const parsedIsSingleParent = isSingleParent
+      ? isSingleParent === 'true'
+        ? true
+        : false
+      : undefined;
+
     try {
-      const res = await updateClientAction(client._id, values);
+      const res = await updateClientAction(client._id, {
+        ...values,
+        numberOfChildren: parsedNumberOfChildren,
+        isSingleParent: parsedIsSingleParent,
+      });
 
       if (res.isError) {
         throw new Error(res.errorMessage);
@@ -434,21 +477,286 @@ export function EditClientExtendedInfoCard({ client }: EditClientProfileCardProp
                 )}
               />
             </div>
-
+            <div className="flex items-center gap-4">
+              <FormField
+                control={form.control}
+                name="numberOfChildren"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Anzahl Kinder</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Input the number of children..."
+                        type="number"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="isSingleParent"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Alleinerziehend</FormLabel>
+                    <FormControl>
+                      <ToggleGroup
+                        type="single"
+                        variant="outline"
+                        defaultValue={field.value}
+                        onValueChange={field.onChange}
+                      >
+                        <FormItem className="flex-1">
+                          <FormControl>
+                            <ToggleGroupItem value="true" className="w-full">
+                              Ja
+                            </ToggleGroupItem>
+                          </FormControl>
+                        </FormItem>
+                        <FormItem className="flex-1">
+                          <FormControl>
+                            <ToggleGroupItem value="false" className="w-full">
+                              Nein
+                            </ToggleGroupItem>
+                          </FormControl>
+                        </FormItem>
+                      </ToggleGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <FormField
               control={form.control}
-              name="numberOfChildren"
+              name="birthname"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Anzahl Kinder</FormLabel>
+                <FormItem className="flex-1">
+                  <FormLabel>Geburtsname</FormLabel>
                   <FormControl>
-                    <Input placeholder="Input the number of children..." type="number" {...field} />
+                    <Input placeholder="Birthname of the client" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-
+            <div className="flex items-center gap-4">
+              <FormField
+                control={form.control}
+                name="citizenship"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Staatsangehörigkeit</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            className={cn(
+                              'w-full justify-between',
+                              !field.value && 'text-muted-foreground',
+                            )}
+                          >
+                            {field.value
+                              ? COUNTRIES_OPTIONS.find((country) => country.value === field.value)
+                                  ?.label
+                              : 'bitte wählen'}
+                            <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="p-0">
+                        <Command>
+                          <CommandInput placeholder="Search country..." />
+                          <CommandEmpty>No country found.</CommandEmpty>
+                          <CommandGroup className="max-h-96 w-full overflow-scroll">
+                            {COUNTRIES_OPTIONS.map((country) => (
+                              <CommandItem
+                                value={country.label}
+                                key={country.value}
+                                onSelect={() => form.setValue('citizenship', country.value)}
+                              >
+                                <CheckIcon
+                                  className={cn(
+                                    'mr-2 h-4 w-4',
+                                    country.value === field.value ? 'opacity-100' : 'opacity-0',
+                                  )}
+                                />
+                                {country.label}
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="additionalCitizenship"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Weitere Staatsangehörigkeit</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            className={cn(
+                              'w-full justify-between',
+                              !field.value && 'text-muted-foreground',
+                            )}
+                          >
+                            {field.value
+                              ? COUNTRIES_OPTIONS.find((country) => country.value === field.value)
+                                  ?.label
+                              : 'bitte wählen'}
+                            <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="p-0">
+                        <Command>
+                          <CommandInput placeholder="Search country..." />
+                          <CommandEmpty>No country found.</CommandEmpty>
+                          <CommandGroup className="max-h-96 w-full overflow-scroll">
+                            {COUNTRIES_OPTIONS.map((country) => (
+                              <CommandItem
+                                value={country.label}
+                                key={country.value}
+                                onSelect={() =>
+                                  form.setValue('additionalCitizenship', country.value)
+                                }
+                              >
+                                <CheckIcon
+                                  className={cn(
+                                    'mr-2 h-4 w-4',
+                                    country.value === field.value ? 'opacity-100' : 'opacity-0',
+                                  )}
+                                />
+                                {country.label}
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex items-center gap-4">
+              <FormField
+                control={form.control}
+                name="countryOfBirth"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Geburtsland</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            className={cn(
+                              'w-full justify-between',
+                              !field.value && 'text-muted-foreground',
+                            )}
+                          >
+                            {field.value
+                              ? COUNTRIES_OPTIONS.find((country) => country.value === field.value)
+                                  ?.label
+                              : 'bitte wählen'}
+                            <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="p-0">
+                        <Command>
+                          <CommandInput placeholder="Search country..." />
+                          <CommandEmpty>No country found.</CommandEmpty>
+                          <CommandGroup className="max-h-96 w-full overflow-scroll">
+                            {COUNTRIES_OPTIONS.map((country) => (
+                              <CommandItem
+                                value={country.label}
+                                key={country.value}
+                                onSelect={() => form.setValue('countryOfBirth', country.value)}
+                              >
+                                <CheckIcon
+                                  className={cn(
+                                    'mr-2 h-4 w-4',
+                                    country.value === field.value ? 'opacity-100' : 'opacity-0',
+                                  )}
+                                />
+                                {country.label}
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="cityOfBirth"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Geburtsort</FormLabel>
+                    <FormControl>
+                      <Input placeholder="City of birth of the client" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex items-center gap-4">
+              <FormField
+                control={form.control}
+                name="religion"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Religionszugehörigkeit</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="bitte wählen" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="protestant">Evangelisch</SelectItem>
+                        <SelectItem value="catholic">Katholisch</SelectItem>
+                        <SelectItem value="other">Andere</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="taxId"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Identifikations-Nr. / Steuer-ID</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Tax ID of the client" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <footer className="flex items-center justify-end">
               <Button
                 type="submit"

@@ -2,9 +2,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ClientDetailsHeader from '../../components/clients-details-header';
 import { findClientAction } from '../../lib/actions/find-client';
 import {
-  EditClientExtendedInfoCard,
-  EditClientGeneralInfoCard,
-} from '../../components/edit-profile-cards';
+  ClientGeneralInfoCard,
+  ClientExtendedInfoCard,
+} from '../../components/client-profile-cards';
 
 type ClientDetailsPageProps = {
   params: {
@@ -35,8 +35,8 @@ export default async function ClientDetailsPage(props: ClientDetailsPageProps) {
           <TabsTrigger value="wealth">Vermögen</TabsTrigger>
         </TabsList>
         <TabsContent value="profile" className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-          <EditClientGeneralInfoCard client={client} />
-          <EditClientExtendedInfoCard client={client} />
+          <ClientGeneralInfoCard client={client} />
+          <ClientExtendedInfoCard client={client} />
         </TabsContent>
         <TabsContent value="guardianship">Make changes to your account here.</TabsContent>
         <TabsContent value="health">Make changes to your account here.</TabsContent>

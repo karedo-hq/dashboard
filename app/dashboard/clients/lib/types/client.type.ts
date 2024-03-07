@@ -1,4 +1,5 @@
 import { ClientMaritalStatus } from './client-marital-status.type';
+import { ClientReligion } from './client-religion.types';
 import { ClientStatus } from './client-status.type';
 import { LivingArrangements } from './living-arrangements.type';
 import { TypeOfGuardianship } from './type-of-guardianship.type';
@@ -32,4 +33,12 @@ export type Client = {
   maritalStatus?: ClientMaritalStatus;
   maritalStatusStartedAt?: Date;
   numberOfChildren?: number;
+  isSingleParent?: boolean;
+  birthname?: string;
+  citizenship?: string;
+  additionalCitizenship?: string;
+  countryOfBirth?: string;
+  cityOfBirth?: string;
+  religion?: ClientReligion;
+  taxId?: string;
 };

@@ -12,6 +12,8 @@ export type UpdateClientActionResult = SuccessResponse<Client> | ErrorResponse;
 type UpdateClientActionDto = Partial<CreateClientActionDto> & {
   deathday?: Date;
   maritalStatus?: ClientMaritalStatus;
+  numberOfChildren?: number;
+  isSingleParent?: boolean;
 };
 
 export async function updateClientAction(
