@@ -2,10 +2,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ClientDetailsHeader from '@/dashboard/clients/components/clients-details-header';
 import { findClientAction } from '@/dashboard/clients/lib/actions/find-client';
 import {
-  ClientGeneralInfoCard,
-  ClientExtendedInfoCard,
-  ClientContactCard,
-} from '@/dashboard/clients/components/client-profile-cards';
+  UpdateClientGeneralInfoForm,
+  UpdateClientExtendedInfoForm,
+  UpdateClientContactForm,
+} from '@/dashboard/clients/components/update-client-profile-forms';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 type ClientDetailsPageProps = {
   params: {
@@ -39,9 +40,32 @@ export default async function ClientDetailsPage(props: ClientDetailsPageProps) {
           value="profile"
           className="grid grid-cols-1 gap-4 overflow-auto lg:grid-cols-2"
         >
-          <ClientGeneralInfoCard client={client} />
-          <ClientExtendedInfoCard client={client} />
-          <ClientContactCard client={client} />
+          <Card>
+            <CardHeader>
+              <CardTitle>Allgemeine Informationen</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <UpdateClientGeneralInfoForm client={client} />
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Erweiterte Personendaten</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <UpdateClientExtendedInfoForm client={client} />
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Kontaktinformationen</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <UpdateClientContactForm client={client} />
+            </CardContent>
+          </Card>
         </TabsContent>
         <TabsContent value="guardianship">Make changes to your account here.</TabsContent>
         <TabsContent value="health">Make changes to your account here.</TabsContent>
