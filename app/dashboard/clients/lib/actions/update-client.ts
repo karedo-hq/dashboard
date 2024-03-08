@@ -45,6 +45,7 @@ type UpdateClientActionDto = Partial<CreateClientActionDto> & {
   careLevelRecognizedAt?: Date;
   isLivingWillAvailable?: boolean;
   contentOfLivingWill?: string;
+  // @todo - Add missing fields.
 };
 
 export async function updateClientAction(

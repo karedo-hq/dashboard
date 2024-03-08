@@ -114,7 +114,7 @@ export function UpdateClientMainGuardianshipInfoForm({ client }: UpdateClientPro
         toast({
           variant: 'default',
           title: 'Kunde aktualisiert',
-          description: 'Die allgemeinen Informationen des Kunden wurden aktualisiert.',
+          description: 'Die Betreuungsinformationen wurden erfolgreich aktualisiert.',
         });
       }
     } catch (error) {
@@ -474,7 +474,7 @@ export function UpdateClientScopeOfDutiesForm({ client }: UpdateClientProfilePro
         toast({
           variant: 'default',
           title: 'Kunde aktualisiert',
-          description: 'Die allgemeinen Informationen des Kunden wurden aktualisiert.',
+          description: 'Die Aufgabenbereiche des Kunden wurden aktualisiert.',
         });
       }
     } catch (error) {
