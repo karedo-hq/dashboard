@@ -4,13 +4,17 @@ import { ClientMaritalStatus } from './client-marital-status.type';
 import { ClientReligion } from './client-religion.types';
 import { ClientStatus } from './client-status.type';
 import { LivingArrangements } from './living-arrangements.type';
+import { PrevGuardianType } from './prev-guardian-type.types';
 import { TypeOfGuardianship } from './type-of-guardianship.type';
 import { UserGender } from './user-gender.type';
 import { WealthStatus } from './wealth-status.type';
 
 export type Client = {
   _id: string;
-  guardianId: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  // General info:
+  status: ClientStatus;
   gender: UserGender;
   title?: string;
   firstname: string;
@@ -18,31 +22,19 @@ export type Client = {
   birthday: Date;
   deathday?: Date;
   avatar?: string;
-  localCourt?: string;
-  caseNumber?: string;
-  scopeOfDuties?: string[];
-  guardianshipStartedAt: Date;
-  guardianshipEndedAt?: Date;
-  livingArrangement?: LivingArrangements;
-  wealthStatus?: WealthStatus;
-  typeOfGuardianship?: TypeOfGuardianship;
-  isGuardianshipTakenOver: boolean;
-  prevGuardianType?: string;
-  prevGuardianshipStartedAt?: Date;
-  createdAt?: Date;
-  updatedAt?: Date;
-  status: ClientStatus;
+  // Extended info:
   maritalStatus?: ClientMaritalStatus;
   maritalStatusStartedAt?: Date;
   numberOfChildren?: number;
   isSingleParent?: boolean;
   birthname?: string;
   citizenship?: string;
-  additionalCitizenship?: string;
   countryOfBirth?: string;
   cityOfBirth?: string;
+  additionalCitizenship?: string;
   religion?: ClientReligion;
   taxId?: string;
+  // Contact info:
   street?: string;
   streetNo?: string;
   postalCode?: string;
@@ -56,6 +48,22 @@ export type Client = {
   alternativeStreetNo?: string;
   alternativePostalCode?: string;
   alternativeCity?: string;
+  // Guardianship info:
+  guardianId: string;
+  localCourt?: string;
+  caseNumber?: string;
+  scopeOfDuties?: string[];
+  guardianshipStartedAt: Date;
+  reasonOfGuardianship?: string;
+  guardianshipEndedAt?: Date;
+  livingArrangement?: LivingArrangements;
+  wealthStatus?: WealthStatus;
+  typeOfGuardianship?: TypeOfGuardianship;
+  isGuardianshipTakenOver: boolean;
+  prevGuardianType?: PrevGuardianType;
+  prevGuardianshipStartedAt?: Date;
+  reasonOfEndingGuardianship?: string;
+  // Health info:
   diagnosis?: string;
   levelOfDisability?: ClientLevelOfDisability;
   disabilityRecognizedAt?: Date;

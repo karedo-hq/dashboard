@@ -8,6 +8,10 @@ import {
 } from '@/dashboard/clients/components/update-client-profile-forms';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { UpdateClientHealthInfoForm } from '../../components/update-client-health-info-form';
+import {
+  UpdateClientMainGuardianshipInfoForm,
+  UpdateClientScopeOfDutiesForm,
+} from '../../components/update-client-guardianship-forms';
 
 type ClientDetailsPageProps = {
   params: {
@@ -63,7 +67,24 @@ export default async function ClientDetailsPage(props: ClientDetailsPageProps) {
             </CardContent>
           </Card>
         </TabsContent>
-        <TabsContent value="guardianship">Make changes to your account here.</TabsContent>
+        <TabsContent value="guardianship" className="m-auto flex max-w-2xl flex-col gap-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Informationen zur Betreuung</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <UpdateClientMainGuardianshipInfoForm client={client} />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>Aufgabenkreise</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <UpdateClientScopeOfDutiesForm client={client} />
+            </CardContent>
+          </Card>
+        </TabsContent>
         <TabsContent value="health" className="m-auto flex max-w-2xl flex-col gap-4">
           <Card>
             <CardHeader>
