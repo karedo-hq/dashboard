@@ -61,7 +61,7 @@ const formSchema = z.object({
     .string()
     .max(40, 'Das Aktenzeichen darf nicht länger als 40 Zeichen sein.')
     .optional(),
-  scopeOfDuties: z.array(z.string()).nonempty('Bitte gib mindestens einen Aufgabenbereich an.'),
+  scopeOfDuties: z.array(z.string()),
   guardianshipStartedAt: z.date({
     required_error: 'Bitte gib einen gültigen Betreuungsbeginn für die Vormundschaft an.',
   }),

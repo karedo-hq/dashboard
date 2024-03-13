@@ -447,7 +447,7 @@ export function UpdateClientMainGuardianshipInfoForm({ client }: UpdateClientPro
 
 // Scope of duties info form.
 const scopeOfDutiesFormSchema = z.object({
-  scopeOfDuties: z.array(z.string()).nonempty('Bitte gib mindestens einen Aufgabenbereich an.'),
+  scopeOfDuties: z.array(z.string()),
 });
 
 type ScopeOfDutiesFormValues = z.infer<typeof scopeOfDutiesFormSchema>;
