@@ -81,13 +81,15 @@ export const clientsCols: ColumnDef<ParsedClientForTable>[] = [
     },
   },
   {
-    accessorKey: 'livingArrangement',
+    accessorKey: 'livingArrangements',
     header: ({ column }) => (
-      <TableColumnHeader column={column} title={CLIENTS_TABLE_COL_LABELS.livingArrangement} />
+      <TableColumnHeader column={column} title={CLIENTS_TABLE_COL_LABELS.livingArrangements} />
     ),
     cell: ({ row }) => {
-      const { livingArrangement } = row.original;
-      return livingArrangement ? LIVING_ARRANGEMENTS_LABELS[livingArrangement] : '-';
+      const { livingArrangements } = row.original;
+      return livingArrangements && livingArrangements[0]
+        ? LIVING_ARRANGEMENTS_LABELS[livingArrangements[0].type]
+        : '-';
     },
   },
   {

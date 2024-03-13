@@ -12,25 +12,46 @@ import { Client } from '../types/client.type';
 
 export type CreateClientActionResult = SuccessResponse<Client> | ErrorResponse;
 
-export type CreateClientActionDto = {
-  gender: UserGender;
-  title?: string;
-  firstname: string;
-  lastname: string;
-  birthday: Date;
-  avatar?: string;
-  localCourt?: string;
-  caseNumber?: string;
-  scopeOfDuties?: string[];
-  guardianshipStartedAt: Date;
-  guardianshipEndedAt?: Date;
-  livingArrangement?: LivingArrangements;
-  wealthStatus?: WealthStatus;
-  typeOfGuardianship?: TypeOfGuardianship;
-  isGuardianshipTakenOver: boolean;
-  prevGuardianType?: PrevGuardianType;
-  prevGuardianshipStartedAt?: Date;
-};
+export type CreateClientActionDto = Pick<
+  Client,
+  | 'gender'
+  | 'title'
+  | 'firstname'
+  | 'lastname'
+  | 'birthday'
+  | 'avatar'
+  | 'localCourt'
+  | 'caseNumber'
+  | 'scopeOfDuties'
+  | 'guardianshipStartedAt'
+  | 'guardianshipEndedAt'
+  | 'livingArrangements'
+  | 'wealthStatus'
+  | 'typeOfGuardianship'
+  | 'isGuardianshipTakenOver'
+  | 'prevGuardianType'
+  | 'prevGuardianshipStartedAt'
+>;
+
+// {
+//   gender: UserGender;
+//   title?: string;
+//   firstname: string;
+//   lastname: string;
+//   birthday: Date;
+//   avatar?: string;
+//   localCourt?: string;
+//   caseNumber?: string;
+//   scopeOfDuties?: string[];
+//   guardianshipStartedAt: Date;
+//   guardianshipEndedAt?: Date;
+//   livingArrangement?: LivingArrangements;
+//   wealthStatus?: WealthStatus;
+//   typeOfGuardianship?: TypeOfGuardianship;
+//   isGuardianshipTakenOver: boolean;
+//   prevGuardianType?: PrevGuardianType;
+//   prevGuardianshipStartedAt?: Date;
+// };
 
 export async function createClientAction(
   dto: CreateClientActionDto,

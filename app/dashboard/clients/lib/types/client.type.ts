@@ -56,7 +56,6 @@ export type Client = {
   guardianshipStartedAt: Date;
   reasonOfGuardianship?: string;
   guardianshipEndedAt?: Date;
-  livingArrangement?: LivingArrangements;
   wealthStatus?: WealthStatus;
   typeOfGuardianship?: TypeOfGuardianship;
   isGuardianshipTakenOver: boolean;
@@ -72,4 +71,6 @@ export type Client = {
   careLevelRecognizedAt?: Date;
   isLivingWillAvailable?: boolean;
   contentOfLivingWill?: string;
+  // Residence info:
+  livingArrangements?: { type: LivingArrangements; startedAt: Date; endedAt?: Date }[];
 };

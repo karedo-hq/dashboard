@@ -12,6 +12,7 @@ import {
   UpdateClientMainGuardianshipInfoForm,
   UpdateClientScopeOfDutiesForm,
 } from '../../components/update-client-guardianship-forms';
+import { UpdateClientResidenceForm } from '../../components/update-client-residence-form';
 
 type ClientDetailsPageProps = {
   params: {
@@ -95,7 +96,16 @@ export default async function ClientDetailsPage(props: ClientDetailsPageProps) {
             </CardContent>
           </Card>
         </TabsContent>
-        <TabsContent value="residence">Make changes to your account here.</TabsContent>
+        <TabsContent value="residence" className="m-auto flex max-w-2xl flex-col gap-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Aufenthalt</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <UpdateClientResidenceForm client={client} />
+            </CardContent>
+          </Card>
+        </TabsContent>
         <TabsContent value="wealth">Make changes to your account here.</TabsContent>
       </Tabs>
     </section>
