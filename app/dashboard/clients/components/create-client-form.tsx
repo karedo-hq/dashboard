@@ -184,8 +184,6 @@ export default function CreateClientForm(props: CreateClientFormProps) {
   const isGuardianshipTakenOver = form.watch('isGuardianshipTakenOver') === 'true' ? true : false;
   const isError = Object.keys(form.formState.errors).length > 0 && form.formState.isSubmitted;
 
-  console.log({ form });
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col space-y-4">

@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { auth } from '@/auth/lib/utils/auth';
-import { LivingArrangements } from '../types/living-arrangements.type';
+import { LivingArrangementType } from '../types/living-arrangements.type';
 import { PrevGuardianType } from '../types/prev-guardian-type.types';
 import { TypeOfGuardianship } from '../types/type-of-guardianship.type';
 import { UserGender } from '../types/user-gender.type';
@@ -32,26 +32,6 @@ export type CreateClientActionDto = Pick<
   | 'prevGuardianType'
   | 'prevGuardianshipStartedAt'
 >;
-
-// {
-//   gender: UserGender;
-//   title?: string;
-//   firstname: string;
-//   lastname: string;
-//   birthday: Date;
-//   avatar?: string;
-//   localCourt?: string;
-//   caseNumber?: string;
-//   scopeOfDuties?: string[];
-//   guardianshipStartedAt: Date;
-//   guardianshipEndedAt?: Date;
-//   livingArrangement?: LivingArrangements;
-//   wealthStatus?: WealthStatus;
-//   typeOfGuardianship?: TypeOfGuardianship;
-//   isGuardianshipTakenOver: boolean;
-//   prevGuardianType?: PrevGuardianType;
-//   prevGuardianshipStartedAt?: Date;
-// };
 
 export async function createClientAction(
   dto: CreateClientActionDto,

@@ -6,7 +6,7 @@ import {
   UpdateClientExtendedInfoForm,
   UpdateClientContactForm,
 } from '@/dashboard/clients/components/update-client-profile-forms';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { UpdateClientHealthInfoForm } from '../../components/update-client-health-info-form';
 import {
   UpdateClientMainGuardianshipInfoForm,
@@ -100,13 +100,24 @@ export default async function ClientDetailsPage(props: ClientDetailsPageProps) {
           <Card>
             <CardHeader>
               <CardTitle>Aufenthalt</CardTitle>
+              <CardDescription>
+                Nur vollständige Einträge werden gespeichert. Bitte fülle alle Pflichtfelder für
+                jede Wohnform.
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <UpdateClientResidenceForm client={client} />
             </CardContent>
           </Card>
         </TabsContent>
-        <TabsContent value="wealth">Make changes to your account here.</TabsContent>
+        <TabsContent value="wealth" className="m-auto flex max-w-2xl flex-col gap-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Vermögen</CardTitle>
+            </CardHeader>
+            <CardContent>TODO.</CardContent>
+          </Card>
+        </TabsContent>
       </Tabs>
     </section>
   );

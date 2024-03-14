@@ -3,7 +3,7 @@ import { ClientLevelOfDisability } from './client-level-of-disability.type';
 import { ClientMaritalStatus } from './client-marital-status.type';
 import { ClientReligion } from './client-religion.types';
 import { ClientStatus } from './client-status.type';
-import { LivingArrangements } from './living-arrangements.type';
+import { LivingArrangement } from './living-arrangements.type';
 import { PrevGuardianType } from './prev-guardian-type.types';
 import { TypeOfGuardianship } from './type-of-guardianship.type';
 import { UserGender } from './user-gender.type';
@@ -72,5 +72,5 @@ export type Client = {
   isLivingWillAvailable?: boolean;
   contentOfLivingWill?: string;
   // Residence info:
-  livingArrangements?: { type: LivingArrangements; startedAt: Date; endedAt?: Date }[];
+  livingArrangements?: LivingArrangement[];
 };
