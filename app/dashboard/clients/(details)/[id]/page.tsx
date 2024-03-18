@@ -35,7 +35,7 @@ export default async function ClientDetailsPage(props: ClientDetailsPageProps) {
     <section className="flex flex-col">
       <ClientDetailsHeader client={client} />
       <Tabs defaultValue="profile" className="p-8 pt-0">
-        <TabsList className="mb-4 w-full">
+        <TabsList className="mb-4 w-full justify-start overflow-x-scroll sm:justify-center">
           <TabsTrigger value="profile">Persönlich</TabsTrigger>
           <TabsTrigger value="guardianship">Betreuung</TabsTrigger>
           <TabsTrigger value="health">Gesundheit</TabsTrigger>

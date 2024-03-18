@@ -136,6 +136,7 @@ export function UpdateClientResidenceForm({ client }: UpdateClientResidenceFormP
       <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-4">
         <Button
           variant="link"
+          size="sm"
           onClick={handleAddLivingArrangement}
           className="self-end hover:no-underline"
           type="button"
@@ -149,7 +150,7 @@ export function UpdateClientResidenceForm({ client }: UpdateClientResidenceFormP
             <FormItem className="space-y-4">
               {field.value.map((arrangement, index) => {
                 return (
-                  <fieldset key={index} className="flex items-end gap-4">
+                  <fieldset key={index} className="flex flex-col gap-4 sm:flex-row sm:items-end">
                     <FormItem className="flex-1">
                       <FormLabel>Wohnform*</FormLabel>
                       <Select
@@ -255,7 +256,7 @@ export function UpdateClientResidenceForm({ client }: UpdateClientResidenceFormP
 
                     <Button
                       type="button"
-                      variant="ghost"
+                      variant="outline"
                       onClick={() => handleDeleteLivingArrangement(index)}
                     >
                       <TrashIcon className="h-4 w-4" />

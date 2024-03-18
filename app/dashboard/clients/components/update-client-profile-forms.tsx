@@ -110,7 +110,7 @@ export function UpdateClientGeneralInfoForm({ client }: UpdateClientProfileProps
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-4">
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
           <FormField
             control={form.control}
             name="gender"
@@ -173,7 +173,7 @@ export function UpdateClientGeneralInfoForm({ client }: UpdateClientProfileProps
             </FormItem>
           )}
         />
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
           <FormField
             control={form.control}
             name="birthday"
@@ -392,7 +392,7 @@ export function UpdateClientExtendedInfoForm({ client }: UpdateClientProfileProp
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-4">
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
           <FormField
             control={form.control}
             name="maritalStatus"
@@ -466,7 +466,7 @@ export function UpdateClientExtendedInfoForm({ client }: UpdateClientProfileProp
             )}
           />
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
           <FormField
             control={form.control}
             name="numberOfChildren"
@@ -527,7 +527,7 @@ export function UpdateClientExtendedInfoForm({ client }: UpdateClientProfileProp
             </FormItem>
           )}
         />
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
           <FormField
             control={form.control}
             name="citizenship"
@@ -635,7 +635,7 @@ export function UpdateClientExtendedInfoForm({ client }: UpdateClientProfileProp
             )}
           />
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
           <FormField
             control={form.control}
             name="countryOfBirth"
@@ -703,7 +703,7 @@ export function UpdateClientExtendedInfoForm({ client }: UpdateClientProfileProp
             )}
           />
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
           <FormField
             control={form.control}
             name="religion"
@@ -839,7 +839,7 @@ export function UpdateClientContactForm({ client }: UpdateClientProfileProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-4">
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
           <FormField
             control={form.control}
             name="street"
@@ -867,7 +867,7 @@ export function UpdateClientContactForm({ client }: UpdateClientProfileProps) {
             )}
           />
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
           <FormField
             control={form.control}
             name="postalCode"
@@ -895,7 +895,7 @@ export function UpdateClientContactForm({ client }: UpdateClientProfileProps) {
             )}
           />
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
           <FormField
             control={form.control}
             name="phone"
@@ -985,7 +985,7 @@ export function UpdateClientContactForm({ client }: UpdateClientProfileProps) {
 
         {form.watch('isAlternativeAddressActive') === 'true' && (
           <>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
               <FormField
                 control={form.control}
                 name="alternativeStreet"
@@ -1013,7 +1013,7 @@ export function UpdateClientContactForm({ client }: UpdateClientProfileProps) {
                 )}
               />
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
               <FormField
                 control={form.control}
                 name="alternativePostalCode"

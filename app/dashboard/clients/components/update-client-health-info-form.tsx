@@ -135,7 +135,7 @@ export function UpdateClientHealthInfoForm({ client }: UpdateClientHealthInfoPro
             </FormItem>
           )}
         />
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
           <FormField
             control={form.control}
             name="levelOfDisability"
@@ -228,7 +228,7 @@ export function UpdateClientHealthInfoForm({ client }: UpdateClientHealthInfoPro
             </FormItem>
           )}
         />
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
           <FormField
             control={form.control}
             name="careLevel"

@@ -132,7 +132,7 @@ export function UpdateClientMainGuardianshipInfoForm({ client }: UpdateClientPro
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-4">
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
           <FormField
             control={form.control}
             name="localCourt"
