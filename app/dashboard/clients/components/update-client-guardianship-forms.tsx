@@ -462,7 +462,6 @@ export function UpdateClientScopeOfDutiesForm({ client }: UpdateClientProfilePro
   const { toast } = useToast();
 
   const handleSubmit: SubmitHandler<ScopeOfDutiesFormValues> = async (values) => {
-    console.log(values);
     try {
       const res = await updateClientAction(client._id, values);
 

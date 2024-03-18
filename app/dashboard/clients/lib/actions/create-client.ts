@@ -2,11 +2,6 @@
 
 import { revalidatePath } from 'next/cache';
 import { auth } from '@/auth/lib/utils/auth';
-import { LivingArrangementType } from '../types/living-arrangements.type';
-import { PrevGuardianType } from '../types/prev-guardian-type.types';
-import { TypeOfGuardianship } from '../types/type-of-guardianship.type';
-import { UserGender } from '../types/user-gender.type';
-import { WealthStatus } from '../types/wealth-status.type';
 import { APIResponse, ErrorResponse, SuccessResponse } from '@/lib/types/api-responses.types';
 import { Client } from '../types/client.type';
 

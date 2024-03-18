@@ -1,11 +1,11 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import Link from 'next/link';
+import { ArrowLeftIcon } from 'lucide-react';
+import { cn } from '@/lib/utils/cn';
 import { Typography } from '@/components/ui/typography';
+import { buttonVariants } from '@/components/ui/button';
 import { Client } from '@/dashboard/clients/lib/types/client.type';
 import ClientStatusBadge from './client-status-bagde';
-import { ArrowLeftIcon } from 'lucide-react';
-import Link from 'next/link';
-import { cn } from '@/lib/utils/cn';
-import { buttonVariants } from '@/components/ui/button';
+import { ClientAvatarInput } from './client-avatar-input';
 
 export default function ClientDetailsHeader({ client }: { client: Client }) {
   return (
@@ -20,10 +20,7 @@ export default function ClientDetailsHeader({ client }: { client: Client }) {
         <ArrowLeftIcon size={20} />
       </Link>
 
-      <Avatar className="h-16 w-16">
-        <AvatarImage src={client.avatar} alt={client.firstname} className="h-16 w-16" />
-        <AvatarFallback>{client.firstname[0]}</AvatarFallback>
-      </Avatar>
+      <ClientAvatarInput client={client} />
 
       <Typography as="h1" variant="title4">
         {client.firstname} {client.lastname}
