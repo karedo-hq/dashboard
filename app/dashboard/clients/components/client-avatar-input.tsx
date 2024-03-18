@@ -1,14 +1,14 @@
 'use client';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Client } from '../lib/types/client.type';
 import { useRef, useState } from 'react';
 import { EditIcon } from 'lucide-react';
 import { createPresignedUploadAction } from '@/lib/actions/create-presigned-upload';
 import { useToast } from '@/lib/hooks/use-toast';
-import { updateClientAction } from '../lib/actions/update-client';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Spinner from '@/components/ui/spinner';
 import { deleteFileAction } from '@/lib/actions/delete-file';
+import { updateClientAction } from '../lib/actions/update-client';
+import { Client } from '../lib/types/client.type';
 
 export function ClientAvatarInput({ client }: { client: Client }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -31,7 +31,7 @@ export function ClientAvatarInput({ client }: { client: Client }) {
       if (isError) {
         toast({
           variant: 'destructive',
-          title: 'Error presigning file upload.',
+          title: 'Fehler beim Vorbereiten des Datei-Uploads.',
           description: errorMessage,
         });
       } else {
@@ -49,8 +49,8 @@ export function ClientAvatarInput({ client }: { client: Client }) {
         if (!res.ok) {
           toast({
             variant: 'destructive',
-            title: 'Error uploading file.',
-            description: 'Please try again later.',
+            title: 'Fehler beim Hochladen der Datei.',
+            description: 'Bitte versuchen Sie es später erneut.',
           });
         } else {
           const avatarUrl = data.url + data.fields.key;
@@ -60,13 +60,13 @@ export function ClientAvatarInput({ client }: { client: Client }) {
           if (updateClientRes.isError) {
             toast({
               variant: 'destructive',
-              title: 'Error updating client avatar.',
+              title: 'Fehler beim Aktualisieren des Klienten-Avatars.',
               description: updateClientRes.errorMessage,
             });
           } else {
             toast({
               variant: 'default',
-              title: 'Client avatar updated.',
+              title: 'Klienten-Avatar aktualisiert.',
             });
 
             if (prevAvatar) {
