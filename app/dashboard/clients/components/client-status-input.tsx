@@ -1,6 +1,6 @@
 'use client';
 
-import { useOptimistic } from 'react';
+import { useOptimistic, startTransition } from 'react';
 import {
   Select,
   SelectContent,
@@ -48,7 +48,7 @@ export default function ClientStatusInput({ client }: ClientStatusInputProps) {
   }
 
   const handleChange = async (value: string) => {
-    setOptimisticStatus(value as ClientStatus);
+    startTransition(() => setOptimisticStatus(value as ClientStatus));
     try {
       const res = await updateClientAction(client._id, { status: value as ClientStatus });
 
