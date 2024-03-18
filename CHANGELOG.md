@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - Mar 18, 2024.
+
+### Added
+
+- Client details page (all fields with update actions):
+  - Main fields (name, status and avatar).
+  - Profile section.
+  - Guardianship section.
+  - Health section.
+  - Residence section.
+- Added avatar on fullname column of clients table
+- Added new components.
+
+### Changed
+
+- Adapt create client form with new living arrangement field data structure.
+- Refactor API response error handling on actions.
+- Fix sidebar items active styles calculation.
+
 ## [0.2.1] - Feb 29, 2024.
 
 ### Changed
