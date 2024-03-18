@@ -1,6 +1,6 @@
-import { LivingArrangements } from '../types/living-arrangements.type';
+import { LivingArrangementType } from '../types/living-arrangements.type';
 
-export const LIVING_ARRANGEMENT_LABELS: Record<LivingArrangements, string> = {
+export const LIVING_ARRANGEMENT_LABELS: Record<LivingArrangementType, string> = {
   inpatient: 'Stationär',
   outpatientEquivalent: 'Ambulant gleichgestellt',
   otherLivingArrangement: 'Andere Wohnform',

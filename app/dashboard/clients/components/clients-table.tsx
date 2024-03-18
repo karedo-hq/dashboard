@@ -12,7 +12,9 @@ import {
   SortingState,
   VisibilityState,
   getSortedRowModel,
+  Row,
 } from '@tanstack/react-table';
+import { useRouter } from 'next/navigation';
 import { UsersIcon } from 'lucide-react';
 import {
   Table,
@@ -26,17 +28,19 @@ import CreateClientDialog from './create-client-dialog';
 import { TablePagination } from '@/components/ui/pagination';
 import { Typography } from '@/components/ui/typography';
 import { ClientsTableHeader } from './clients-table-header';
+import { ParsedClientForTable } from '../lib/utils/parse-clients-for-table';
 
-type ClientsTableProps<TData, TValue> = {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+type ClientsTableProps = {
+  columns: ColumnDef<ParsedClientForTable>[];
+  data: ParsedClientForTable[];
 };
 
-export function ClientsTable<TData, TValue>({ columns, data }: ClientsTableProps<TData, TValue>) {
+export function ClientsTable<TData, TValue>({ columns, data }: ClientsTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
+  const router = useRouter();
 
   const table = useReactTable({
     data,

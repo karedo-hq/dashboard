@@ -40,11 +40,10 @@ const formSchema = z
 
 type ResetPasswordFormProps = {
   userId: string;
-  userEmail: string;
 };
 type ResetPasswordFormValues = z.infer<typeof formSchema>;
 
-export default function ResetPasswordForm({ userId, userEmail }: ResetPasswordFormProps) {
+export default function ResetPasswordForm({ userId }: ResetPasswordFormProps) {
   const form = useForm<ResetPasswordFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -63,8 +62,8 @@ export default function ResetPasswordForm({ userId, userEmail }: ResetPasswordFo
     try {
       const res = await resetPasswordAction(userId, newPassword);
 
-      if (!res.isSuccess) {
-        throw res.error;
+      if (res.isError) {
+        throw new Error(res.errorMessage);
       }
 
       setIsSuccess(true);

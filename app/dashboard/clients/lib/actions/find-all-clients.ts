@@ -4,12 +4,11 @@ import { auth } from '@/auth/lib/utils/auth';
 import { Client } from '../types/client.type';
 import { PaginationOptions, PaginatedResponse } from '@/lib/types/pagination.types';
 import { preparePaginationParams } from '@/lib/utils/prepare-pagination-params';
+import { ErrorResponse, SuccessResponse } from '@/lib/types/api-responses.types';
 
-type FindAllClientsActionResult = Partial<PaginatedResponse<Client>> & {
-  isSuccess: boolean;
-  isError: boolean;
-  error: Error | null;
-};
+type FindAllClientsActionResult =
+  | (PaginatedResponse<Client> & Omit<SuccessResponse, 'data'>)
+  | Omit<ErrorResponse, 'data'>;
 
 type FindAllClientsDto = PaginationOptions<
   | 'firstname'
@@ -29,7 +28,7 @@ export async function findAllClientsAction(
     return {
       isSuccess: false,
       isError: true,
-      error: new Error('Not authenticated'),
+      errorMessage: 'Not authenticated',
     };
   }
 
@@ -45,14 +44,16 @@ export async function findAllClientsAction(
   });
 
   if (!res.ok) {
+    const resJSON = await res.json();
+    const errorMessage = resJSON.message;
     return {
       isSuccess: false,
       isError: true,
-      error: new Error('Error fetching clients'),
+      errorMessage,
     };
   }
 
   const resJSON: PaginatedResponse<Client> = await res.json();
 
-  return { isSuccess: true, isError: false, error: null, ...resJSON };
+  return { isSuccess: true, isError: false, errorMessage: null, ...resJSON };
 }

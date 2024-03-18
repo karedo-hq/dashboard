@@ -38,7 +38,7 @@ export default async function ResetPasswordPage(props: ResetPasswordPageProps) {
         </Typography>
       </header>
 
-      <ResetPasswordForm userId={decodedCode._id} userEmail={decodedCode.email} />
+      <ResetPasswordForm userId={decodedCode._id} />
     </section>
   );
 }
