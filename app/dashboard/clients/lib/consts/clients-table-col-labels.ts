@@ -4,7 +4,7 @@ export const CLIENTS_TABLE_COL_LABELS: Record<ClientTableColKey, string> = {
   fullname: 'Betreute Person',
   guardianshipStartedAt: 'Betreuungsbeginn',
   guardianshipEndedAt: 'Betreuungsende',
-  livingArrangement: 'Aufenthalt',
+  livingArrangements: 'Aufenthalt',
   wealthStatus: 'Vermögensstatus',
   status: 'Status',
 };

@@ -1,4 +1,4 @@
-import { APIResponse } from './api-response.types';
+import { APIResponse } from './api-responses.types';
 
 export type PaginationOptions<T = string> = {
   page?: number;

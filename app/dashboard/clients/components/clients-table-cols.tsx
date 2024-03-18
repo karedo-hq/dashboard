@@ -3,13 +3,17 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { LIVING_ARRANGEMENTS_LABELS } from '../lib/consts/living-arrangements-labels';
 import { WEALTH_STATUS_LABELS } from '../lib/consts/wealth-status-labels';
-import { Typography } from '@/components/ui/typography';
+import { Typography, typographyVariants } from '@/components/ui/typography';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { CLIENTS_TABLE_COL_LABELS } from '../lib/consts/clients-table-col-labels';
 import { ParsedClientForTable } from '../lib/utils/parse-clients-for-table';
 import { TableColumnHeader } from '@/components/ui/table';
 import { formatDate } from '@/lib/utils/format-date';
+import ClientStatusBadge from './client-status-bagde';
+import Link from 'next/link';
+import { cn } from '@/lib/utils/cn';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export const clientsCols: ColumnDef<ParsedClientForTable>[] = [
   {
@@ -39,15 +43,26 @@ export const clientsCols: ColumnDef<ParsedClientForTable>[] = [
       <TableColumnHeader column={column} title={CLIENTS_TABLE_COL_LABELS.fullname} />
     ),
     cell: ({ row }) => {
-      const { fullname, birthday } = row.original;
+      const { _id, fullname, birthday, avatar, firstname } = row.original;
 
       return (
-        <div className="flex flex-col">
-          <Typography variant="paragraph">{fullname}</Typography>
+        <div className="flex items-center gap-3">
+          <Avatar>
+            <AvatarImage src={avatar} alt={fullname} />
+            <AvatarFallback>{firstname[0]}</AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col">
+            <Link
+              href={`/dashboard/clients/${_id}`}
+              className={cn(typographyVariants({ variant: 'paragraph' }), 'hover:underline')}
+            >
+              {fullname}
+            </Link>
 
-          <Typography variant="small" color="slate-400">
-            {formatDate(birthday)}
-          </Typography>
+            <Typography variant="small" color="slate-400">
+              {formatDate(birthday)}
+            </Typography>
+          </div>
         </div>
       );
     },
@@ -73,13 +88,15 @@ export const clientsCols: ColumnDef<ParsedClientForTable>[] = [
     },
   },
   {
-    accessorKey: 'livingArrangement',
+    accessorKey: 'livingArrangements',
     header: ({ column }) => (
-      <TableColumnHeader column={column} title={CLIENTS_TABLE_COL_LABELS.livingArrangement} />
+      <TableColumnHeader column={column} title={CLIENTS_TABLE_COL_LABELS.livingArrangements} />
     ),
     cell: ({ row }) => {
-      const { livingArrangement } = row.original;
-      return livingArrangement ? LIVING_ARRANGEMENTS_LABELS[livingArrangement] : '-';
+      const { livingArrangements } = row.original;
+      return livingArrangements && livingArrangements[0]
+        ? LIVING_ARRANGEMENTS_LABELS[livingArrangements[0].type]
+        : '-';
     },
   },
   {
@@ -99,13 +116,7 @@ export const clientsCols: ColumnDef<ParsedClientForTable>[] = [
     ),
     cell: ({ row }) => {
       const { status } = row.original;
-      return status === 'active' ? (
-        <Badge variant="success">Aktiv</Badge>
-      ) : status === 'inactive' ? (
-        <Badge variant="slate">Inaktiv</Badge>
-      ) : (
-        <Badge variant="error">Gelöscht</Badge>
-      );
+      return <ClientStatusBadge status={status} />;
     },
   },
 ];

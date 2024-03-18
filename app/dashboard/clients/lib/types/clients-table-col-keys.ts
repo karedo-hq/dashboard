@@ -2,6 +2,6 @@ export type ClientTableColKey =
   | 'fullname'
   | 'guardianshipStartedAt'
   | 'guardianshipEndedAt'
-  | 'livingArrangement'
+  | 'livingArrangements'
   | 'wealthStatus'
   | 'status';

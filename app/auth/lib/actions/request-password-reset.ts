@@ -1,10 +1,8 @@
 'use server';
 
-type RequestResetPasswordResult = {
-  isSuccess: boolean;
-  isError: boolean;
-  error: Error | null;
-};
+import { ErrorResponse, SuccessResponse } from '@/lib/types/api-responses.types';
+
+type RequestResetPasswordResult = Omit<SuccessResponse, 'data'> | ErrorResponse;
 
 export async function requestResetPasswordAction(
   email: string,
@@ -18,8 +16,8 @@ export async function requestResetPasswordAction(
   if (!res.ok) {
     const resJSON = await res.json();
     const errorMessage = resJSON.message;
-    return { isError: true, error: new Error(errorMessage), isSuccess: false };
+    return { isError: true, errorMessage, isSuccess: false };
   }
 
-  return { isSuccess: true, isError: false, error: null };
+  return { isSuccess: true, isError: false, errorMessage: null };
 }

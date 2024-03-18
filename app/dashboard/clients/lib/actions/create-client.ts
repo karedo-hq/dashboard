@@ -2,49 +2,31 @@
 
 import { revalidatePath } from 'next/cache';
 import { auth } from '@/auth/lib/utils/auth';
-import { LivingArrangements } from '../types/living-arrangements.type';
-import { PrevGuardianType } from '../types/prev-guardian-type.types';
-import { TypeOfGuardianship } from '../types/type-of-guardianship.type';
-import { UserGender } from '../types/user-gender.type';
-import { WealthStatus } from '../types/wealth-status.type';
-import { APIResponse } from '@/lib/types/api-response.types';
+import { APIResponse, ErrorResponse, SuccessResponse } from '@/lib/types/api-responses.types';
 import { Client } from '../types/client.type';
-
-type SuccessResponse<T> = {
-  isSuccess: true;
-  isError: false;
-  error: null;
-  data: T;
-};
-
-type ErrorResponse = {
-  isSuccess: false;
-  isError: true;
-  error: Error;
-  data?: undefined;
-};
 
 export type CreateClientActionResult = SuccessResponse<Client> | ErrorResponse;
 
-type CreateClientActionDto = {
-  gender: UserGender;
-  title?: string;
-  firstname: string;
-  lastname: string;
-  birthday: Date;
-  avatar?: string;
-  localCourt?: string;
-  caseNumber?: string;
-  scopeOfDuties?: string[];
-  guardianshipStartedAt: Date;
-  guardianshipEndedAt?: Date;
-  livingArrangement?: LivingArrangements;
-  wealthStatus?: WealthStatus;
-  typeOfGuardianship?: TypeOfGuardianship;
-  isGuardianshipTakenOver: boolean;
-  prevGuardianType?: PrevGuardianType;
-  prevGuardianshipStartedAt?: Date;
-};
+export type CreateClientActionDto = Pick<
+  Client,
+  | 'gender'
+  | 'title'
+  | 'firstname'
+  | 'lastname'
+  | 'birthday'
+  | 'avatar'
+  | 'localCourt'
+  | 'caseNumber'
+  | 'scopeOfDuties'
+  | 'guardianshipStartedAt'
+  | 'guardianshipEndedAt'
+  | 'livingArrangements'
+  | 'wealthStatus'
+  | 'typeOfGuardianship'
+  | 'isGuardianshipTakenOver'
+  | 'prevGuardianType'
+  | 'prevGuardianshipStartedAt'
+>;
 
 export async function createClientAction(
   dto: CreateClientActionDto,
@@ -55,7 +37,7 @@ export async function createClientAction(
     return {
       isSuccess: false,
       isError: true,
-      error: new Error('Not authenticated'),
+      errorMessage: 'Not authenticated',
     };
   }
 
@@ -72,10 +54,12 @@ export async function createClientAction(
   });
 
   if (!res.ok) {
+    const resJSON = await res.json();
+    const errorMessage = resJSON.message;
     return {
       isSuccess: false,
       isError: true,
-      error: new Error('Error creating client'),
+      errorMessage,
     };
   }
 
@@ -83,5 +67,5 @@ export async function createClientAction(
 
   revalidatePath('/dashboard/clients');
 
-  return { isSuccess: true, isError: false, error: null, ...resJSON };
+  return { isSuccess: true, isError: false, errorMessage: null, ...resJSON };
 }

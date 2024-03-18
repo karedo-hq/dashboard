@@ -20,7 +20,7 @@ export default function Sidebar() {
   return (
     <aside
       data-state={isSidebarOpen && !isLoading ? 'open' : 'closed'}
-      className="peer absolute inset-y-0 z-30 flex w-full -translate-x-full flex-col justify-between space-y-8 border-r border-slate-200 bg-white p-8 duration-300 ease-in-out data-[state=open]:translate-x-0 dark:bg-slate-800 md:w-[280px] md:-translate-x-0"
+      className="peer absolute inset-y-0 z-30 flex w-full -translate-x-full flex-col justify-between space-y-8 border-r border-slate-200 bg-white p-8 duration-300 ease-in-out data-[state=open]:translate-x-0 dark:bg-slate-800 md:w-[240px] md:-translate-x-0"
     >
       <div className="flex flex-col">
         <header className="mb-8 flex items-center justify-between">

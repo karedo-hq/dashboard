@@ -5,7 +5,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { JWT } from 'next-auth/jwt';
 import { AuthProfile } from '@/auth/lib/types/profile.types';
 import { AuthTokens } from '@/auth/lib/types/tokens.types';
-import { APIResponse } from '@/lib/types/api-response.types';
+import { APIResponse } from '@/lib/types/api-responses.types';
 
 export const authOptions: NextAuthOptions = {
   pages: {

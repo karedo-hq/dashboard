@@ -40,7 +40,11 @@ export default function ForgotPasswordForm() {
 
   const handleSubmit: SubmitHandler<ForgotPasswordFormValues> = async (values) => {
     try {
-      await requestResetPasswordAction(values.email);
+      const res = await requestResetPasswordAction(values.email);
+
+      if (res.isError) {
+        throw new Error(res.errorMessage);
+      }
 
       setIsSuccess(true);
     } catch (error) {
