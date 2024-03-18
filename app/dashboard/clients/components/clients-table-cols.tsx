@@ -13,6 +13,7 @@ import { formatDate } from '@/lib/utils/format-date';
 import ClientStatusBadge from './client-status-bagde';
 import Link from 'next/link';
 import { cn } from '@/lib/utils/cn';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export const clientsCols: ColumnDef<ParsedClientForTable>[] = [
   {
@@ -42,20 +43,26 @@ export const clientsCols: ColumnDef<ParsedClientForTable>[] = [
       <TableColumnHeader column={column} title={CLIENTS_TABLE_COL_LABELS.fullname} />
     ),
     cell: ({ row }) => {
-      const { _id, fullname, birthday } = row.original;
+      const { _id, fullname, birthday, avatar, firstname } = row.original;
 
       return (
-        <div className="flex flex-col">
-          <Link
-            href={`/dashboard/clients/${_id}`}
-            className={cn(typographyVariants({ variant: 'paragraph' }), 'hover:underline')}
-          >
-            {fullname}
-          </Link>
+        <div className="flex items-center gap-3">
+          <Avatar>
+            <AvatarImage src={avatar} alt={fullname} />
+            <AvatarFallback>{firstname[0]}</AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col">
+            <Link
+              href={`/dashboard/clients/${_id}`}
+              className={cn(typographyVariants({ variant: 'paragraph' }), 'hover:underline')}
+            >
+              {fullname}
+            </Link>
 
-          <Typography variant="small" color="slate-400">
-            {formatDate(birthday)}
-          </Typography>
+            <Typography variant="small" color="slate-400">
+              {formatDate(birthday)}
+            </Typography>
+          </div>
         </div>
       );
     },
