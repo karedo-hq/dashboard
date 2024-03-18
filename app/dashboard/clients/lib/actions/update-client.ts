@@ -9,6 +9,7 @@ import { ClientMaritalStatus } from '../types/client-marital-status.type';
 import { ClientReligion } from '../types/client-religion.types';
 import { ClientLevelOfDisability } from '../types/client-level-of-disability.type';
 import { ClientCareLevel } from '../types/client-care-level.type';
+import { ClientStatus } from '../types/client-status.type';
 
 export type UpdateClientActionResult = SuccessResponse<Client> | ErrorResponse;
 
@@ -45,6 +46,7 @@ type UpdateClientActionDto = Partial<CreateClientActionDto> & {
   careLevelRecognizedAt?: Date;
   isLivingWillAvailable?: boolean;
   contentOfLivingWill?: string;
+  status?: ClientStatus;
   // @todo - Add missing fields.
 };
 

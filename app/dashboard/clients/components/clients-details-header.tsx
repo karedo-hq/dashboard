@@ -4,8 +4,8 @@ import { cn } from '@/lib/utils/cn';
 import { Typography } from '@/components/ui/typography';
 import { buttonVariants } from '@/components/ui/button';
 import { Client } from '@/dashboard/clients/lib/types/client.type';
-import ClientStatusBadge from './client-status-bagde';
 import { ClientAvatarInput } from './client-avatar-input';
+import ClientStatusInput from './client-status-input';
 
 export default function ClientDetailsHeader({ client }: { client: Client }) {
   return (
@@ -26,7 +26,7 @@ export default function ClientDetailsHeader({ client }: { client: Client }) {
         {client.firstname} {client.lastname}
       </Typography>
 
-      <ClientStatusBadge status={client.status} />
+      <ClientStatusInput client={client} />
     </header>
   );
 }
