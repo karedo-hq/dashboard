@@ -91,7 +91,7 @@ export function ClientAvatarInput({ client }: { client: Client }) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <AvatarImage src={client.avatar} alt={client.firstname} className="h-16 w-16" />
+      <AvatarImage src={client.avatar} alt={client.firstname} className="h-16 w-16 object-cover" />
       <AvatarFallback>{client.firstname[0]}</AvatarFallback>
       <input
         type="file"
