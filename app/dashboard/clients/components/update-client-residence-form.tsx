@@ -3,7 +3,6 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { format } from 'date-fns';
 import { CalendarIcon, TrashIcon } from 'lucide-react';
 import { useToast } from '@/lib/hooks/use-toast';
 import { cn } from '@/lib/utils/cn';
@@ -31,6 +30,7 @@ import { Client } from '../lib/types/client.type';
 import { LivingArrangement, LivingArrangementType } from '../lib/types/living-arrangements.type';
 import { updateClient } from '../lib/actions/update-client';
 import { getErrorMessage } from '@/lib/utils/get-error-message';
+import { formatDate } from '@/lib/utils/format-date';
 
 type UpdateClientResidenceFormProps = {
   client: Client;
@@ -184,7 +184,7 @@ export function UpdateClientResidenceForm({ client }: UpdateClientResidenceFormP
                               )}
                             >
                               {arrangement.startedAt ? (
-                                format(arrangement.startedAt, 'PPP')
+                                formatDate(arrangement.startedAt)
                               ) : (
                                 <Typography variant="small" color="slate-500">
                                   TT.MM.JJJJ
@@ -225,7 +225,7 @@ export function UpdateClientResidenceForm({ client }: UpdateClientResidenceFormP
                               )}
                             >
                               {arrangement.endedAt ? (
-                                format(arrangement.endedAt, 'PPP')
+                                formatDate(arrangement.endedAt)
                               ) : (
                                 <Typography variant="small" color="slate-500">
                                   TT.MM.JJJJ

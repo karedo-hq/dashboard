@@ -3,7 +3,6 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import {
   Form,
@@ -32,6 +31,7 @@ import { getErrorMessage } from '@/lib/utils/get-error-message';
 import { updateClient } from '../lib/actions/update-client';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Textarea } from '@/components/ui/textarea';
+import { formatDate } from '@/lib/utils/format-date';
 
 type UpdateClientHealthInfoProps = {
   client: Client;
@@ -183,7 +183,7 @@ export function UpdateClientHealthInfoForm({ client }: UpdateClientHealthInfoPro
                         )}
                       >
                         {field.value ? (
-                          format(field.value, 'PPP')
+                          formatDate(field.value)
                         ) : (
                           <Typography variant="small" color="slate-500">
                             TT.MM.JJJJ
@@ -270,7 +270,7 @@ export function UpdateClientHealthInfoForm({ client }: UpdateClientHealthInfoPro
                         )}
                       >
                         {field.value ? (
-                          format(field.value, 'PPP')
+                          formatDate(field.value)
                         ) : (
                           <Typography variant="small" color="slate-500">
                             TT.MM.JJJJ

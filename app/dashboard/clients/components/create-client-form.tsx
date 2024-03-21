@@ -4,7 +4,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { useToast } from '@/lib/hooks/use-toast';
 import { getErrorMessage } from '@/lib/utils/get-error-message';
@@ -39,6 +38,8 @@ import { WEALTH_STATUS_LABELS } from '../lib/consts/wealth-status-labels';
 import { TYPE_OF_GUARDIANSHIP_LABELS } from '../lib/consts/type-of-guardianship-labels';
 import { PREV_GUARDIAN_TYPE_LABELS } from '../lib/consts/prev-guardian-type-labels';
 import { CreateClientResult, createClient } from '../lib/actions/create-client';
+import { de } from 'date-fns/locale';
+import { formatDate } from '@/lib/utils/format-date';
 
 const formSchema = z
   .object({
@@ -270,7 +271,7 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                             )}
                           >
                             {field.value ? (
-                              format(field.value, 'PPP')
+                              formatDate(field.value)
                             ) : (
                               <Typography variant="small" color="slate-500">
                                 TT.MM.JJJJ
@@ -369,7 +370,7 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                             )}
                           >
                             {field.value ? (
-                              format(field.value, 'PPP')
+                              formatDate(field.value)
                             ) : (
                               <Typography variant="small" color="slate-500">
                                 TT.MM.JJJJ
@@ -444,7 +445,7 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                               )}
                             >
                               {field.value ? (
-                                format(field.value, 'PPP')
+                                formatDate(field.value)
                               ) : (
                                 <Typography variant="small" color="slate-500">
                                   TT.MM.JJJJ
@@ -492,7 +493,7 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                               )}
                             >
                               {field.value ? (
-                                format(field.value, 'PPP')
+                                formatDate(field.value)
                               ) : (
                                 <Typography variant="small" color="slate-500">
                                   TT.MM.JJJJ
@@ -661,7 +662,7 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                                 )}
                               >
                                 {field.value ? (
-                                  format(field.value, 'PPP')
+                                  formatDate(field.value)
                                 ) : (
                                   <Typography variant="small" color="slate-500">
                                     TT.MM.JJJJ

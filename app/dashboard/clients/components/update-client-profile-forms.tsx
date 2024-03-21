@@ -3,7 +3,6 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { format } from 'date-fns';
 import {
   Form,
   FormControl,
@@ -40,6 +39,7 @@ import {
   CommandInput,
   CommandItem,
 } from '@/components/ui/command';
+import { formatDate } from '@/lib/utils/format-date';
 
 type UpdateClientProfileProps = {
   client: Client;
@@ -191,7 +191,7 @@ export function UpdateClientGeneralInfoForm({ client }: UpdateClientProfileProps
                         )}
                       >
                         {field.value ? (
-                          format(field.value, 'PPP')
+                          formatDate(field.value)
                         ) : (
                           <Typography variant="small" color="slate-500">
                             TT.MM.JJJJ
@@ -239,7 +239,7 @@ export function UpdateClientGeneralInfoForm({ client }: UpdateClientProfileProps
                         )}
                       >
                         {field.value ? (
-                          format(field.value, 'PPP')
+                          formatDate(field.value)
                         ) : (
                           <Typography variant="small" color="slate-500">
                             TT.MM.JJJJ
@@ -434,7 +434,7 @@ export function UpdateClientExtendedInfoForm({ client }: UpdateClientProfileProp
                         )}
                       >
                         {field.value ? (
-                          format(field.value, 'PPP')
+                          formatDate(field.value)
                         ) : (
                           <Typography variant="small" color="slate-500">
                             TT.MM.JJJJ
