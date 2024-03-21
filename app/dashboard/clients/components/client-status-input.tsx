@@ -59,14 +59,14 @@ export default function ClientStatusInput({ client }: ClientStatusInputProps) {
       if (res.isSuccess) {
         toast({
           variant: 'default',
-          title: 'Kunde aktualisiert',
-          description: 'Die Status des Kunden wurden aktualisiert.',
+          title: 'Informationen wurden aktualisiert',
+          description: 'Die Status des Betreuten wurden aktualisiert.',
         });
       }
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Fehler beim Aktualisieren des Kunden Status',
+        title: 'Fehler beim Aktualisieren des Betreuten Status',
         description: getErrorMessage(error),
       });
     }

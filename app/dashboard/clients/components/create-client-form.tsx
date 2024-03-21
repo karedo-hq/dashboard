@@ -48,12 +48,12 @@ const formSchema = z
     title: z.string().optional(),
     firstname: z
       .string()
-      .min(2, 'Dein Vorname muss mindestens 2 Zeichen lang sein.')
-      .max(45, 'Dein Vorname darf nicht länger als 45 Zeichen sein.'),
+      .min(2, 'Der Vorname muss mindestens 2 Zeichen lang sein.')
+      .max(45, 'Der Vorname darf nicht länger als 45 Zeichen sein.'),
     lastname: z
       .string()
-      .min(2, 'Dein Nachname muss mindestens 2 Zeichen lang sein.')
-      .max(45, 'Dein Nachname darf nicht länger als 45 Zeichen sein.'),
+      .min(2, 'Der Nachname muss mindestens 2 Zeichen lang sein.')
+      .max(45, 'Der Nachname darf nicht länger als 45 Zeichen sein.'),
     birthday: z.date({
       required_error: 'Bitte gib ein gültiges Geburtsdatum ein.',
     }),
@@ -174,7 +174,7 @@ export default function CreateClientForm(props: CreateClientFormProps) {
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Fehler beim Erstellen des Kunden',
+        title: 'Fehler beim Erstellen des Betreuten',
         description: getErrorMessage(error),
       });
     }
@@ -220,7 +220,7 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                     <FormItem className="flex-1">
                       <FormLabel>Titel</FormLabel>
                       <FormControl>
-                        <Input placeholder="Titel des Kunden" {...field} />
+                        <Input placeholder="Titel des Betreuten" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -234,7 +234,7 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                   <FormItem>
                     <FormLabel>Vorname*</FormLabel>
                     <FormControl>
-                      <Input placeholder="Vorname des Kunden" {...field} />
+                      <Input placeholder="Vorname des Betreuten" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -247,7 +247,7 @@ export default function CreateClientForm(props: CreateClientFormProps) {
                   <FormItem>
                     <FormLabel>Nachname*</FormLabel>
                     <FormControl>
-                      <Input placeholder="Nachname des Kunden" {...field} />
+                      <Input placeholder="Nachname des Betreuten" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

@@ -113,14 +113,14 @@ export function UpdateClientMainGuardianshipInfoForm({ client }: UpdateClientPro
       if (res.isSuccess) {
         toast({
           variant: 'default',
-          title: 'Kunde aktualisiert',
+          title: 'Informationen wurden aktualisiert',
           description: 'Die Betreuungsinformationen wurden erfolgreich aktualisiert.',
         });
       }
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Fehler beim Aktualisieren des Kunden',
+        title: 'Fehler beim Aktualisieren des Betreuten',
         description: getErrorMessage(error),
       });
     }
@@ -472,14 +472,14 @@ export function UpdateClientScopeOfDutiesForm({ client }: UpdateClientProfilePro
       if (res.isSuccess) {
         toast({
           variant: 'default',
-          title: 'Kunde aktualisiert',
-          description: 'Die Aufgabenbereiche des Kunden wurden aktualisiert.',
+          title: 'Informationen wurden aktualisiert',
+          description: 'Die Aufgabenbereiche des Betreuten wurden aktualisiert.',
         });
       }
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Fehler beim Aktualisieren des Kunden',
+        title: 'Fehler beim Aktualisieren des Betreuten',
         description: getErrorMessage(error),
       });
     }

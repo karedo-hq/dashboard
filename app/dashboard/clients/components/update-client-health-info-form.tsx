@@ -104,7 +104,7 @@ export function UpdateClientHealthInfoForm({ client }: UpdateClientHealthInfoPro
       if (res.isSuccess) {
         toast({
           variant: 'default',
-          title: 'Gesungheitsinformationen aktualisiert',
+          title: 'Gesundheitsinformationen aktualisiert',
           description: 'Die Gesundheitsinformationen des Klienten wurden erfolgreich aktualisiert.',
         });
       }
@@ -129,7 +129,7 @@ export function UpdateClientHealthInfoForm({ client }: UpdateClientHealthInfoPro
             <FormItem className="flex-1">
               <FormLabel>Diagnosen</FormLabel>
               <FormControl>
-                <Textarea placeholder="Diagnosen des Kunden" {...field} />
+                <Textarea placeholder="Diagnosen des Betreuten" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -222,7 +222,7 @@ export function UpdateClientHealthInfoForm({ client }: UpdateClientHealthInfoPro
             <FormItem>
               <FormLabel>Schwerbehinderung / Merkzeichen</FormLabel>
               <FormControl>
-                <Input placeholder="Schwerbehinderung / Merkzeichen des Kunden" {...field} />
+                <Input placeholder="Angabe über Schwerbehinderung" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

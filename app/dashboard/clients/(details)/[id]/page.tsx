@@ -101,8 +101,7 @@ export default async function ClientDetailsPage(props: ClientDetailsPageProps) {
             <CardHeader>
               <CardTitle>Aufenthalt</CardTitle>
               <CardDescription>
-                Nur vollständige Einträge werden gespeichert. Bitte fülle alle Pflichtfelder für
-                jede Wohnform.
+                Trage eine neue Wohnform ein, wenn sich die Wohnsituation des Betreuten ändert.
               </CardDescription>
             </CardHeader>
             <CardContent>
