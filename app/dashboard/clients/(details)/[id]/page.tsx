@@ -1,6 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ClientDetailsHeader from '@/dashboard/clients/components/clients-details-header';
-import { findClientAction } from '@/dashboard/clients/lib/actions/find-client';
+import { findClient } from '@/dashboard/clients/lib/data/find-client';
 import {
   UpdateClientGeneralInfoForm,
   UpdateClientExtendedInfoForm,
@@ -23,7 +23,7 @@ type ClientDetailsPageProps = {
 export default async function ClientDetailsPage(props: ClientDetailsPageProps) {
   const { id } = props.params;
 
-  const { data, isError, errorMessage } = await findClientAction(id);
+  const { data, isError, errorMessage } = await findClient(id);
 
   if (isError) {
     return <div>Error: {errorMessage}</div>;

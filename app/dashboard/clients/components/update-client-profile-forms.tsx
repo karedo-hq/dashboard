@@ -29,7 +29,7 @@ import { CalendarIcon, CheckIcon, ChevronDownIcon } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 import { useToast } from '@/lib/hooks/use-toast';
 import { getErrorMessage } from '@/lib/utils/get-error-message';
-import { updateClientAction } from '../lib/actions/update-client';
+import { updateClient } from '../lib/actions/update-client';
 import { CLIENT_MARITAL_STATUS_LABELS } from '../lib/consts/client-marital-status-labels';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { COUNTRIES_OPTIONS } from '@/lib/consts/countries-options';
@@ -83,7 +83,7 @@ export function UpdateClientGeneralInfoForm({ client }: UpdateClientProfileProps
 
   const handleSubmit: SubmitHandler<UpdateClientGeneralInfoFormValues> = async (values) => {
     try {
-      const res = await updateClientAction(client._id, values);
+      const res = await updateClient(client._id, values);
 
       if (res.isError) {
         throw new Error(res.errorMessage);
@@ -361,7 +361,7 @@ export function UpdateClientExtendedInfoForm({ client }: UpdateClientProfileProp
       : undefined;
 
     try {
-      const res = await updateClientAction(client._id, {
+      const res = await updateClient(client._id, {
         ...values,
         numberOfChildren: parsedNumberOfChildren,
         isSingleParent: parsedIsSingleParent,
@@ -809,7 +809,7 @@ export function UpdateClientContactForm({ client }: UpdateClientProfileProps) {
       : undefined;
 
     try {
-      const res = await updateClientAction(client._id, {
+      const res = await updateClient(client._id, {
         isAlternativeAddressActive: parsedIsAlternativeAddressActive,
         ...values,
       });

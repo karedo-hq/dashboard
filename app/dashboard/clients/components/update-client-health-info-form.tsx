@@ -29,7 +29,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils/cn';
 import { useToast } from '@/lib/hooks/use-toast';
 import { getErrorMessage } from '@/lib/utils/get-error-message';
-import { updateClientAction } from '../lib/actions/update-client';
+import { updateClient } from '../lib/actions/update-client';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Textarea } from '@/components/ui/textarea';
 
@@ -92,7 +92,7 @@ export function UpdateClientHealthInfoForm({ client }: UpdateClientHealthInfoPro
       : undefined;
 
     try {
-      const res = await updateClientAction(client._id, {
+      const res = await updateClient(client._id, {
         ...values,
         isLivingWillAvailable: parsedIsSingleParent,
       });

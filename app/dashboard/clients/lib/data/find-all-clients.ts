@@ -1,5 +1,3 @@
-'use server';
-
 import { auth } from '@/auth/lib/utils/auth';
 import { Client } from '../types/client.type';
 import { PaginationOptions, PaginatedResponse } from '@/lib/types/pagination.types';
@@ -19,9 +17,7 @@ type FindAllClientsDto = PaginationOptions<
   | 'creationDate'
 >;
 
-export async function findAllClientsAction(
-  dto?: FindAllClientsDto,
-): Promise<FindAllClientsActionResult> {
+export async function findAllClients(dto?: FindAllClientsDto): Promise<FindAllClientsActionResult> {
   const session = await auth();
 
   if (!session) {

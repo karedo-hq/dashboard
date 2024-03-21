@@ -4,16 +4,16 @@ import { revalidatePath } from 'next/cache';
 import { auth } from '@/auth/lib/utils/auth';
 import { APIResponse, ErrorResponse, SuccessResponse } from '@/lib/types/api-responses.types';
 import { Client } from '../types/client.type';
-import { CreateClientActionDto } from './create-client';
+import { CreateClientDto } from './create-client';
 import { ClientMaritalStatus } from '../types/client-marital-status.type';
 import { ClientReligion } from '../types/client-religion.types';
 import { ClientLevelOfDisability } from '../types/client-level-of-disability.type';
 import { ClientCareLevel } from '../types/client-care-level.type';
 import { ClientStatus } from '../types/client-status.type';
 
-export type UpdateClientActionResult = SuccessResponse<Client> | ErrorResponse;
+export type UpdateClientResult = SuccessResponse<Client> | ErrorResponse;
 
-type UpdateClientActionDto = Partial<CreateClientActionDto> & {
+type UpdateClientDto = Partial<CreateClientDto> & {
   deathday?: Date;
   maritalStatus?: ClientMaritalStatus;
   numberOfChildren?: number;
@@ -50,10 +50,7 @@ type UpdateClientActionDto = Partial<CreateClientActionDto> & {
   // @todo - Add missing fields.
 };
 
-export async function updateClientAction(
-  _id: string,
-  dto: UpdateClientActionDto,
-): Promise<UpdateClientActionResult> {
+export async function updateClient(_id: string, dto: UpdateClientDto): Promise<UpdateClientResult> {
   const session = await auth();
 
   if (!session) {

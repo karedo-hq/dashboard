@@ -29,7 +29,7 @@ import { Typography } from '@/components/ui/typography';
 import { LIVING_ARRANGEMENT_LABELS } from '../lib/consts/living-arrangement-labels';
 import { Client } from '../lib/types/client.type';
 import { LivingArrangement, LivingArrangementType } from '../lib/types/living-arrangements.type';
-import { updateClientAction } from '../lib/actions/update-client';
+import { updateClient } from '../lib/actions/update-client';
 import { getErrorMessage } from '@/lib/utils/get-error-message';
 
 type UpdateClientResidenceFormProps = {
@@ -80,7 +80,7 @@ export function UpdateClientResidenceForm({ client }: UpdateClientResidenceFormP
     }) as LivingArrangement[];
 
     try {
-      const res = await updateClientAction(client._id, {
+      const res = await updateClient(client._id, {
         livingArrangements,
       });
 

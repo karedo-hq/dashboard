@@ -38,7 +38,7 @@ import { LIVING_ARRANGEMENT_LABELS } from '../lib/consts/living-arrangement-labe
 import { WEALTH_STATUS_LABELS } from '../lib/consts/wealth-status-labels';
 import { TYPE_OF_GUARDIANSHIP_LABELS } from '../lib/consts/type-of-guardianship-labels';
 import { PREV_GUARDIAN_TYPE_LABELS } from '../lib/consts/prev-guardian-type-labels';
-import { CreateClientActionResult, createClientAction } from '../lib/actions/create-client';
+import { CreateClientResult, createClient } from '../lib/actions/create-client';
 
 const formSchema = z
   .object({
@@ -106,7 +106,7 @@ const formSchema = z
   );
 
 type CreateClientFormProps = {
-  onSuccess?: (data: CreateClientActionResult['data']) => void;
+  onSuccess?: (data: CreateClientResult['data']) => void;
 };
 
 type CreateClientFormValues = z.infer<typeof formSchema>;
@@ -148,7 +148,7 @@ export default function CreateClientForm(props: CreateClientFormProps) {
         ];
       }
 
-      const res = await createClientAction({
+      const res = await createClient({
         ...values,
         isGuardianshipTakenOver: parsedIsGuardianshipTakenOver,
         livingArrangements,

@@ -29,7 +29,7 @@ import { CalendarIcon } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 import { useToast } from '@/lib/hooks/use-toast';
 import { getErrorMessage } from '@/lib/utils/get-error-message';
-import { updateClientAction } from '../lib/actions/update-client';
+import { updateClient } from '../lib/actions/update-client';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { CreatableSelect } from '@/components/ui/creatable-select';
 import { LOCAL_COURTS_OPTIONS } from '../lib/consts/local-courts-options';
@@ -101,7 +101,7 @@ export function UpdateClientMainGuardianshipInfoForm({ client }: UpdateClientPro
     try {
       const parsedIsGuardianshipTakenOver = isGuardianshipTakenOver === 'true' ? true : false;
 
-      const res = await updateClientAction(client._id, {
+      const res = await updateClient(client._id, {
         ...values,
         isGuardianshipTakenOver: parsedIsGuardianshipTakenOver,
       });
@@ -463,7 +463,7 @@ export function UpdateClientScopeOfDutiesForm({ client }: UpdateClientProfilePro
 
   const handleSubmit: SubmitHandler<ScopeOfDutiesFormValues> = async (values) => {
     try {
-      const res = await updateClientAction(client._id, values);
+      const res = await updateClient(client._id, values);
 
       if (res.isError) {
         throw new Error(res.errorMessage);
