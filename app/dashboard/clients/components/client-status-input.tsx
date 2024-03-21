@@ -78,11 +78,8 @@ export default function ClientStatusInput({ client }: ClientStatusInputProps) {
         <SelectValue>{CLIENT_STATUS_LABELS[optimisticStatus]}</SelectValue>
       </SelectTrigger>
       <SelectContent>
-        {Object.entries(CLIENT_STATUS_LABELS).map(([value, label]) => (
-          <SelectItem key={value} value={value}>
-            {label}
-          </SelectItem>
-        ))}
+        <SelectItem value="active">{CLIENT_STATUS_LABELS.active}</SelectItem>
+        <SelectItem value="inactive">{CLIENT_STATUS_LABELS.inactive}</SelectItem>
       </SelectContent>
     </Select>
   );
