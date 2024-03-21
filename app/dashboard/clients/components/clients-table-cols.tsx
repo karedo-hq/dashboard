@@ -48,7 +48,7 @@ export const clientsCols: ColumnDef<ParsedClientForTable>[] = [
       return (
         <div className="flex items-center gap-3">
           <Avatar>
-            <AvatarImage src={avatar} alt={fullname} />
+            <AvatarImage src={avatar} alt={fullname} className="object-cover" />
             <AvatarFallback>{firstname[0]}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
