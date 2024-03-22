@@ -52,20 +52,28 @@ export function UpdateClientResidenceForm({ client }: UpdateClientResidenceFormP
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      livingArrangements: client.livingArrangements
+      livingArrangements: client.livingArrangements?.length
         ? client.livingArrangements.map((arrangement) => ({
             type: arrangement.type,
             startedAt: new Date(arrangement.startedAt),
             endedAt: arrangement.endedAt ? new Date(arrangement.endedAt) : undefined,
           }))
-        : [],
+        : [{}],
     },
   });
 
   const { toast } = useToast();
 
   const handleAddLivingArrangement = () => {
-    form.setValue('livingArrangements', [...form.getValues().livingArrangements, {}]);
+    const lastArrangement = form.getValues().livingArrangements[0];
+    const newArrangementStartedAt = lastArrangement.endedAt
+      ? new Date(lastArrangement.endedAt)
+      : undefined;
+    const newArrangement = {
+      type: lastArrangement?.type,
+      startedAt: newArrangementStartedAt,
+    };
+    form.setValue('livingArrangements', [newArrangement, ...form.getValues().livingArrangements]);
   };
 
   const handleDeleteLivingArrangement = (index: number) => {
@@ -130,6 +138,8 @@ export function UpdateClientResidenceForm({ client }: UpdateClientResidenceFormP
   };
 
   const isSubmitting = form.formState.isSubmitting;
+  const lastLivingArrangement = form.watch('livingArrangements')[0];
+  const canAddLivingArrangement = !!lastLivingArrangement.endedAt;
 
   return (
     <Form {...form}>
@@ -138,6 +148,7 @@ export function UpdateClientResidenceForm({ client }: UpdateClientResidenceFormP
           variant="link"
           size="sm"
           onClick={handleAddLivingArrangement}
+          disabled={!canAddLivingArrangement}
           className="self-end hover:no-underline"
           type="button"
         >
