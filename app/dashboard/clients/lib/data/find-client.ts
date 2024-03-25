@@ -1,12 +1,10 @@
-'use server';
-
 import { APIResponse, ErrorResponse, SuccessResponse } from '@/lib/types/api-responses.types';
 import { Client } from '../types/client.type';
 import { auth } from '@/auth/lib/utils/auth';
 
 type FindClientActionResult = SuccessResponse<Client> | ErrorResponse;
 
-export async function findClientAction(_id: string): Promise<FindClientActionResult> {
+export async function findClient(_id: string): Promise<FindClientActionResult> {
   const session = await auth();
 
   if (!session) {

@@ -48,7 +48,7 @@ export const clientsCols: ColumnDef<ParsedClientForTable>[] = [
       return (
         <div className="flex items-center gap-3">
           <Avatar>
-            <AvatarImage src={avatar} alt={fullname} />
+            <AvatarImage src={avatar} alt={fullname} className="object-cover" />
             <AvatarFallback>{firstname[0]}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
@@ -94,9 +94,7 @@ export const clientsCols: ColumnDef<ParsedClientForTable>[] = [
     ),
     cell: ({ row }) => {
       const { livingArrangements } = row.original;
-      return livingArrangements && livingArrangements[0]
-        ? LIVING_ARRANGEMENTS_LABELS[livingArrangements[0].type]
-        : '-';
+      return LIVING_ARRANGEMENTS_LABELS[livingArrangements[0].type];
     },
   },
   {

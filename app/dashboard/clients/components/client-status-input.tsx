@@ -12,7 +12,7 @@ import { Client } from '../lib/types/client.type';
 import { CLIENT_STATUS_LABELS } from '../lib/consts/client-status-labels';
 import { cn } from '@/lib/utils/cn';
 import { badgeVariants } from '@/components/ui/badge';
-import { updateClientAction } from '../lib/actions/update-client';
+import { updateClient } from '../lib/actions/update-client';
 import { ClientStatus } from '../lib/types/client-status.type';
 import { useToast } from '@/lib/hooks/use-toast';
 import { getErrorMessage } from '@/lib/utils/get-error-message';
@@ -50,7 +50,7 @@ export default function ClientStatusInput({ client }: ClientStatusInputProps) {
   const handleChange = async (value: string) => {
     startTransition(() => setOptimisticStatus(value as ClientStatus));
     try {
-      const res = await updateClientAction(client._id, { status: value as ClientStatus });
+      const res = await updateClient(client._id, { status: value as ClientStatus });
 
       if (res.isError) {
         throw new Error(res.errorMessage);
@@ -59,14 +59,14 @@ export default function ClientStatusInput({ client }: ClientStatusInputProps) {
       if (res.isSuccess) {
         toast({
           variant: 'default',
-          title: 'Kunde aktualisiert',
-          description: 'Die Status des Kunden wurden aktualisiert.',
+          title: 'Informationen wurden aktualisiert',
+          description: 'Die Status des Betreuten wurden aktualisiert.',
         });
       }
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Fehler beim Aktualisieren des Kunden Status',
+        title: 'Fehler beim Aktualisieren des Betreuten Status',
         description: getErrorMessage(error),
       });
     }
@@ -78,11 +78,8 @@ export default function ClientStatusInput({ client }: ClientStatusInputProps) {
         <SelectValue>{CLIENT_STATUS_LABELS[optimisticStatus]}</SelectValue>
       </SelectTrigger>
       <SelectContent>
-        {Object.entries(CLIENT_STATUS_LABELS).map(([value, label]) => (
-          <SelectItem key={value} value={value}>
-            {label}
-          </SelectItem>
-        ))}
+        <SelectItem value="active">{CLIENT_STATUS_LABELS.active}</SelectItem>
+        <SelectItem value="inactive">{CLIENT_STATUS_LABELS.inactive}</SelectItem>
       </SelectContent>
     </Select>
   );

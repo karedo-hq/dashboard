@@ -5,9 +5,9 @@ import { auth } from '@/auth/lib/utils/auth';
 import { APIResponse, ErrorResponse, SuccessResponse } from '@/lib/types/api-responses.types';
 import { Client } from '../types/client.type';
 
-export type CreateClientActionResult = SuccessResponse<Client> | ErrorResponse;
+export type CreateClientResult = SuccessResponse<Client> | ErrorResponse;
 
-export type CreateClientActionDto = Pick<
+export type CreateClientDto = Pick<
   Client,
   | 'gender'
   | 'title'
@@ -28,9 +28,7 @@ export type CreateClientActionDto = Pick<
   | 'prevGuardianshipStartedAt'
 >;
 
-export async function createClientAction(
-  dto: CreateClientActionDto,
-): Promise<CreateClientActionResult> {
+export async function createClient(dto: CreateClientDto): Promise<CreateClientResult> {
   const session = await auth();
 
   if (!session) {

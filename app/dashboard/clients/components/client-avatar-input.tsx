@@ -7,7 +7,7 @@ import { useToast } from '@/lib/hooks/use-toast';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Spinner from '@/components/ui/spinner';
 import { deleteFileAction } from '@/lib/actions/delete-file';
-import { updateClientAction } from '../lib/actions/update-client';
+import { updateClient } from '../lib/actions/update-client';
 import { Client } from '../lib/types/client.type';
 
 export function ClientAvatarInput({ client }: { client: Client }) {
@@ -55,7 +55,7 @@ export function ClientAvatarInput({ client }: { client: Client }) {
         } else {
           const avatarUrl = data.url + data.fields.key;
 
-          const updateClientRes = await updateClientAction(client._id, { avatar: avatarUrl });
+          const updateClientRes = await updateClient(client._id, { avatar: avatarUrl });
 
           if (updateClientRes.isError) {
             toast({
@@ -91,7 +91,7 @@ export function ClientAvatarInput({ client }: { client: Client }) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <AvatarImage src={client.avatar} alt={client.firstname} className="h-16 w-16" />
+      <AvatarImage src={client.avatar} alt={client.firstname} className="h-16 w-16 object-cover" />
       <AvatarFallback>{client.firstname[0]}</AvatarFallback>
       <input
         type="file"

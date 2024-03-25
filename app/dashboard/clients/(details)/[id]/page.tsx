@@ -1,6 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ClientDetailsHeader from '@/dashboard/clients/components/clients-details-header';
-import { findClientAction } from '@/dashboard/clients/lib/actions/find-client';
+import { findClient } from '@/dashboard/clients/lib/data/find-client';
 import {
   UpdateClientGeneralInfoForm,
   UpdateClientExtendedInfoForm,
@@ -23,7 +23,7 @@ type ClientDetailsPageProps = {
 export default async function ClientDetailsPage(props: ClientDetailsPageProps) {
   const { id } = props.params;
 
-  const { data, isError, errorMessage } = await findClientAction(id);
+  const { data, isError, errorMessage } = await findClient(id);
 
   if (isError) {
     return <div>Error: {errorMessage}</div>;
@@ -42,7 +42,7 @@ export default async function ClientDetailsPage(props: ClientDetailsPageProps) {
           <TabsTrigger value="residence">Aufenthalt</TabsTrigger>
           <TabsTrigger value="wealth">Vermögen</TabsTrigger>
         </TabsList>
-        <TabsContent value="profile" className="m-auto flex max-w-2xl flex-col gap-4">
+        <TabsContent value="profile" className="m-auto flex max-w-3xl flex-col gap-4">
           <Card>
             <CardHeader>
               <CardTitle>Allgemeine Informationen</CardTitle>
@@ -68,7 +68,7 @@ export default async function ClientDetailsPage(props: ClientDetailsPageProps) {
             </CardContent>
           </Card>
         </TabsContent>
-        <TabsContent value="guardianship" className="m-auto flex max-w-2xl flex-col gap-4">
+        <TabsContent value="guardianship" className="m-auto flex max-w-3xl flex-col gap-4">
           <Card>
             <CardHeader>
               <CardTitle>Informationen zur Betreuung</CardTitle>
@@ -86,7 +86,7 @@ export default async function ClientDetailsPage(props: ClientDetailsPageProps) {
             </CardContent>
           </Card>
         </TabsContent>
-        <TabsContent value="health" className="m-auto flex max-w-2xl flex-col gap-4">
+        <TabsContent value="health" className="m-auto flex max-w-3xl flex-col gap-4">
           <Card>
             <CardHeader>
               <CardTitle>Gesundheit Informationen</CardTitle>
@@ -96,13 +96,13 @@ export default async function ClientDetailsPage(props: ClientDetailsPageProps) {
             </CardContent>
           </Card>
         </TabsContent>
-        <TabsContent value="residence" className="m-auto flex max-w-2xl flex-col gap-4">
+        <TabsContent value="residence" className="m-auto flex max-w-3xl flex-col gap-4">
           <Card>
             <CardHeader>
               <CardTitle>Aufenthalt</CardTitle>
               <CardDescription>
-                Nur vollständige Einträge werden gespeichert. Bitte fülle alle Pflichtfelder für
-                jede Wohnform.
+                Bitte trage immer die aktuelle Wohnform ein, wenn sich die Wohnsituation deines
+                Betreuten ändert.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -110,7 +110,7 @@ export default async function ClientDetailsPage(props: ClientDetailsPageProps) {
             </CardContent>
           </Card>
         </TabsContent>
-        <TabsContent value="wealth" className="m-auto flex max-w-2xl flex-col gap-4">
+        <TabsContent value="wealth" className="m-auto flex max-w-3xl flex-col gap-4">
           <Card>
             <CardHeader>
               <CardTitle>Vermögen</CardTitle>
