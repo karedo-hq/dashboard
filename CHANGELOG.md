@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.1] - Mar 25, 2024.
+
+### Changed
+
+- Fix caching issue with API requests on clients module.
+- Fix client avatar img object fit.
+- Fix text grammar on client fields and messages.
+- Fix date formats (to german now).
+- Remove "delete" option from update client status select.
+- Fix client living arrangements date validations.
+- Improve client living arrangements update UX/UI.
+- Add extra height to textarea component.
+
 ## [0.3.0] - Mar 18, 2024.
 
 ### Added
