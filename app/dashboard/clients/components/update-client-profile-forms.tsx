@@ -3,7 +3,6 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { format } from 'date-fns';
 import {
   Form,
   FormControl,
@@ -29,7 +28,7 @@ import { CalendarIcon, CheckIcon, ChevronDownIcon } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 import { useToast } from '@/lib/hooks/use-toast';
 import { getErrorMessage } from '@/lib/utils/get-error-message';
-import { updateClientAction } from '../lib/actions/update-client';
+import { updateClient } from '../lib/actions/update-client';
 import { CLIENT_MARITAL_STATUS_LABELS } from '../lib/consts/client-marital-status-labels';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { COUNTRIES_OPTIONS } from '@/lib/consts/countries-options';
@@ -40,6 +39,7 @@ import {
   CommandInput,
   CommandItem,
 } from '@/components/ui/command';
+import { formatDate } from '@/lib/utils/format-date';
 
 type UpdateClientProfileProps = {
   client: Client;
@@ -53,12 +53,12 @@ const generalInfoFormSchema = z.object({
   title: z.string().optional(),
   firstname: z
     .string()
-    .min(2, 'Dein Vorname muss mindestens 2 Zeichen lang sein.')
-    .max(45, 'Dein Vorname darf nicht länger als 45 Zeichen sein.'),
+    .min(2, 'Der Vorname muss mindestens 2 Zeichen lang sein.')
+    .max(45, 'Der Vorname darf nicht länger als 45 Zeichen sein.'),
   lastname: z
     .string()
-    .min(2, 'Dein Nachname muss mindestens 2 Zeichen lang sein.')
-    .max(45, 'Dein Nachname darf nicht länger als 45 Zeichen sein.'),
+    .min(2, 'Der Nachname muss mindestens 2 Zeichen lang sein.')
+    .max(45, 'Der Nachname darf nicht länger als 45 Zeichen sein.'),
   birthday: z.date({
     required_error: 'Bitte gib ein gültiges Geburtsdatum ein.',
   }),
@@ -83,7 +83,7 @@ export function UpdateClientGeneralInfoForm({ client }: UpdateClientProfileProps
 
   const handleSubmit: SubmitHandler<UpdateClientGeneralInfoFormValues> = async (values) => {
     try {
-      const res = await updateClientAction(client._id, values);
+      const res = await updateClient(client._id, values);
 
       if (res.isError) {
         throw new Error(res.errorMessage);
@@ -92,14 +92,14 @@ export function UpdateClientGeneralInfoForm({ client }: UpdateClientProfileProps
       if (res.isSuccess) {
         toast({
           variant: 'default',
-          title: 'Kunde aktualisiert',
-          description: 'Die allgemeinen Informationen des Kunden wurden aktualisiert.',
+          title: 'Informationen wurden aktualisiert',
+          description: 'Die allgemeinen Informationen des Betreuten wurden aktualisiert.',
         });
       }
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Fehler beim Aktualisieren des Kunden',
+        title: 'Fehler beim Aktualisieren des Betreuten',
         description: getErrorMessage(error),
       });
     }
@@ -140,7 +140,7 @@ export function UpdateClientGeneralInfoForm({ client }: UpdateClientProfileProps
               <FormItem className="flex-1">
                 <FormLabel>Titel</FormLabel>
                 <FormControl>
-                  <Input placeholder="Titel des Kunden" {...field} />
+                  <Input placeholder="Titel des Betreuten" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -154,7 +154,7 @@ export function UpdateClientGeneralInfoForm({ client }: UpdateClientProfileProps
             <FormItem>
               <FormLabel>Vorname*</FormLabel>
               <FormControl>
-                <Input placeholder="Vorname des Kunden" {...field} />
+                <Input placeholder="Vorname des Betreuten" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -167,7 +167,7 @@ export function UpdateClientGeneralInfoForm({ client }: UpdateClientProfileProps
             <FormItem>
               <FormLabel>Nachname*</FormLabel>
               <FormControl>
-                <Input placeholder="Nachname des Kunden" {...field} />
+                <Input placeholder="Nachname des Betreuten" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -191,7 +191,7 @@ export function UpdateClientGeneralInfoForm({ client }: UpdateClientProfileProps
                         )}
                       >
                         {field.value ? (
-                          format(field.value, 'PPP')
+                          formatDate(field.value)
                         ) : (
                           <Typography variant="small" color="slate-500">
                             TT.MM.JJJJ
@@ -239,7 +239,7 @@ export function UpdateClientGeneralInfoForm({ client }: UpdateClientProfileProps
                         )}
                       >
                         {field.value ? (
-                          format(field.value, 'PPP')
+                          formatDate(field.value)
                         ) : (
                           <Typography variant="small" color="slate-500">
                             TT.MM.JJJJ
@@ -310,7 +310,7 @@ const extendedInfoFormSchema = z.object({
         return Number.isInteger(number) && number >= 0;
       },
       {
-        message: 'Die Anzahl der Kinder muss eine nicht-negative Ganzzahl sein',
+        message: 'Die Anzahl der Betreuten muss eine nicht-negative Ganzzahl sein',
       },
     ),
   isSingleParent: z.enum(['true', 'false']).optional(),
@@ -361,7 +361,7 @@ export function UpdateClientExtendedInfoForm({ client }: UpdateClientProfileProp
       : undefined;
 
     try {
-      const res = await updateClientAction(client._id, {
+      const res = await updateClient(client._id, {
         ...values,
         numberOfChildren: parsedNumberOfChildren,
         isSingleParent: parsedIsSingleParent,
@@ -374,14 +374,14 @@ export function UpdateClientExtendedInfoForm({ client }: UpdateClientProfileProp
       if (res.isSuccess) {
         toast({
           variant: 'default',
-          title: 'Kunde aktualisiert',
-          description: 'Die erweiterten Personendaten des Kunden wurden aktualisiert.',
+          title: 'Informationen wurden aktualisiert',
+          description: 'Die erweiterten Personendaten des Betreuten wurden aktualisiert.',
         });
       }
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Fehler beim Aktualisieren des Kunden',
+        title: 'Fehler beim Aktualisieren des Betreuten',
         description: getErrorMessage(error),
       });
     }
@@ -434,7 +434,7 @@ export function UpdateClientExtendedInfoForm({ client }: UpdateClientProfileProp
                         )}
                       >
                         {field.value ? (
-                          format(field.value, 'PPP')
+                          formatDate(field.value)
                         ) : (
                           <Typography variant="small" color="slate-500">
                             TT.MM.JJJJ
@@ -472,9 +472,9 @@ export function UpdateClientExtendedInfoForm({ client }: UpdateClientProfileProp
             name="numberOfChildren"
             render={({ field }) => (
               <FormItem className="flex-1">
-                <FormLabel>Anzahl Kinder</FormLabel>
+                <FormLabel>Anzahl Betreuten</FormLabel>
                 <FormControl>
-                  <Input placeholder="Anzahl Kinder des Kunden" type="number" {...field} />
+                  <Input placeholder="Anzahl Betreuten des Betreuten" type="number" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -521,7 +521,7 @@ export function UpdateClientExtendedInfoForm({ client }: UpdateClientProfileProp
             <FormItem className="flex-1">
               <FormLabel>Geburtsname</FormLabel>
               <FormControl>
-                <Input placeholder="Geburtsname des Kunden" {...field} />
+                <Input placeholder="Geburtsname des Betreuten" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -696,7 +696,7 @@ export function UpdateClientExtendedInfoForm({ client }: UpdateClientProfileProp
               <FormItem className="flex-1">
                 <FormLabel>Geburtsort</FormLabel>
                 <FormControl>
-                  <Input placeholder="Geburtsort des Kunden" {...field} />
+                  <Input placeholder="Geburtsort des Betreuten" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -733,7 +733,7 @@ export function UpdateClientExtendedInfoForm({ client }: UpdateClientProfileProp
               <FormItem className="flex-1">
                 <FormLabel>Identifikations-Nr. / Steuer-ID</FormLabel>
                 <FormControl>
-                  <Input placeholder="Identifikationsnummer/ Steuer-ID des Kunden" {...field} />
+                  <Input placeholder="Identifikationsnummer/ Steuer-ID des Betreuten" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -809,7 +809,7 @@ export function UpdateClientContactForm({ client }: UpdateClientProfileProps) {
       : undefined;
 
     try {
-      const res = await updateClientAction(client._id, {
+      const res = await updateClient(client._id, {
         isAlternativeAddressActive: parsedIsAlternativeAddressActive,
         ...values,
       });
@@ -821,14 +821,14 @@ export function UpdateClientContactForm({ client }: UpdateClientProfileProps) {
       if (res.isSuccess) {
         toast({
           variant: 'default',
-          title: 'Kunde aktualisiert',
-          description: 'Die Kontaktdaten des Kunden wurden aktualisiert.',
+          title: 'Informationen wurden aktualisiert',
+          description: 'Die Kontaktdaten des Betreuten wurden aktualisiert.',
         });
       }
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Fehler beim Aktualisieren des Kunden',
+        title: 'Fehler beim Aktualisieren des Betreuten',
         description: getErrorMessage(error),
       });
     }
@@ -847,7 +847,7 @@ export function UpdateClientContactForm({ client }: UpdateClientProfileProps) {
               <FormItem className="flex-1">
                 <FormLabel>Straße</FormLabel>
                 <FormControl>
-                  <Input placeholder="Straße des Kunden" {...field} />
+                  <Input placeholder="Straße des Betreuten" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -860,7 +860,7 @@ export function UpdateClientContactForm({ client }: UpdateClientProfileProps) {
               <FormItem className="flex-1">
                 <FormLabel>Nr.</FormLabel>
                 <FormControl>
-                  <Input placeholder="Hausnummer des Kunden" {...field} />
+                  <Input placeholder="Hausnummer des Betreuten" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -875,7 +875,7 @@ export function UpdateClientContactForm({ client }: UpdateClientProfileProps) {
               <FormItem className="flex-1">
                 <FormLabel>PLZ</FormLabel>
                 <FormControl>
-                  <Input placeholder="PLZ des Kunden" {...field} />
+                  <Input placeholder="PLZ des Betreuten" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -888,7 +888,7 @@ export function UpdateClientContactForm({ client }: UpdateClientProfileProps) {
               <FormItem className="flex-1">
                 <FormLabel>Ort</FormLabel>
                 <FormControl>
-                  <Input placeholder="Ort des Kunden" {...field} />
+                  <Input placeholder="Ort des Betreuten" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -903,7 +903,7 @@ export function UpdateClientContactForm({ client }: UpdateClientProfileProps) {
               <FormItem className="flex-1">
                 <FormLabel>Telefon</FormLabel>
                 <FormControl>
-                  <Input placeholder="Telefonnummer des Kunden" {...field} />
+                  <Input placeholder="Telefonnummer des Betreuten" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -916,7 +916,7 @@ export function UpdateClientContactForm({ client }: UpdateClientProfileProps) {
               <FormItem className="flex-1">
                 <FormLabel>Mobil</FormLabel>
                 <FormControl>
-                  <Input placeholder="Mobilnummer des Kunden" {...field} />
+                  <Input placeholder="Mobilnummer des Betreuten" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -930,7 +930,7 @@ export function UpdateClientContactForm({ client }: UpdateClientProfileProps) {
             <FormItem>
               <FormLabel>E-Mail</FormLabel>
               <FormControl>
-                <Input placeholder="E-Mail des Kunden" {...field} />
+                <Input placeholder="E-Mail des Betreuten" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -943,7 +943,7 @@ export function UpdateClientContactForm({ client }: UpdateClientProfileProps) {
             <FormItem>
               <FormLabel>Fax</FormLabel>
               <FormControl>
-                <Input placeholder="Faxnummer des Kunden" {...field} />
+                <Input placeholder="Faxnummer des Betreuten" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -993,7 +993,7 @@ export function UpdateClientContactForm({ client }: UpdateClientProfileProps) {
                   <FormItem className="flex-1">
                     <FormLabel>Straße</FormLabel>
                     <FormControl>
-                      <Input placeholder="Straße des Kunden" {...field} />
+                      <Input placeholder="Straße des Betreuten" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -1006,7 +1006,7 @@ export function UpdateClientContactForm({ client }: UpdateClientProfileProps) {
                   <FormItem className="flex-1">
                     <FormLabel>Hausnummer</FormLabel>
                     <FormControl>
-                      <Input placeholder="Hausnummer des Kunden" {...field} />
+                      <Input placeholder="Hausnummer des Betreuten" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -1021,7 +1021,7 @@ export function UpdateClientContactForm({ client }: UpdateClientProfileProps) {
                   <FormItem className="flex-1">
                     <FormLabel>PLZ</FormLabel>
                     <FormControl>
-                      <Input placeholder="PLZ des Kunden" {...field} />
+                      <Input placeholder="PLZ des Betreuten" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -1034,7 +1034,7 @@ export function UpdateClientContactForm({ client }: UpdateClientProfileProps) {
                   <FormItem className="flex-1">
                     <FormLabel>Ort</FormLabel>
                     <FormControl>
-                      <Input placeholder="Ort des Kunden" {...field} />
+                      <Input placeholder="Ort des Betreuten" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

@@ -3,7 +3,6 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import {
   Form,
@@ -29,9 +28,10 @@ import { Calendar } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils/cn';
 import { useToast } from '@/lib/hooks/use-toast';
 import { getErrorMessage } from '@/lib/utils/get-error-message';
-import { updateClientAction } from '../lib/actions/update-client';
+import { updateClient } from '../lib/actions/update-client';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Textarea } from '@/components/ui/textarea';
+import { formatDate } from '@/lib/utils/format-date';
 
 type UpdateClientHealthInfoProps = {
   client: Client;
@@ -92,7 +92,7 @@ export function UpdateClientHealthInfoForm({ client }: UpdateClientHealthInfoPro
       : undefined;
 
     try {
-      const res = await updateClientAction(client._id, {
+      const res = await updateClient(client._id, {
         ...values,
         isLivingWillAvailable: parsedIsSingleParent,
       });
@@ -104,7 +104,7 @@ export function UpdateClientHealthInfoForm({ client }: UpdateClientHealthInfoPro
       if (res.isSuccess) {
         toast({
           variant: 'default',
-          title: 'Gesungheitsinformationen aktualisiert',
+          title: 'Gesundheitsinformationen aktualisiert',
           description: 'Die Gesundheitsinformationen des Klienten wurden erfolgreich aktualisiert.',
         });
       }
@@ -129,7 +129,7 @@ export function UpdateClientHealthInfoForm({ client }: UpdateClientHealthInfoPro
             <FormItem className="flex-1">
               <FormLabel>Diagnosen</FormLabel>
               <FormControl>
-                <Textarea placeholder="Diagnosen des Kunden" {...field} />
+                <Textarea placeholder="Diagnosen des Betreuten" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -183,7 +183,7 @@ export function UpdateClientHealthInfoForm({ client }: UpdateClientHealthInfoPro
                         )}
                       >
                         {field.value ? (
-                          format(field.value, 'PPP')
+                          formatDate(field.value)
                         ) : (
                           <Typography variant="small" color="slate-500">
                             TT.MM.JJJJ
@@ -222,7 +222,7 @@ export function UpdateClientHealthInfoForm({ client }: UpdateClientHealthInfoPro
             <FormItem>
               <FormLabel>Schwerbehinderung / Merkzeichen</FormLabel>
               <FormControl>
-                <Input placeholder="Schwerbehinderung / Merkzeichen des Kunden" {...field} />
+                <Input placeholder="Angabe über Schwerbehinderung" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -270,7 +270,7 @@ export function UpdateClientHealthInfoForm({ client }: UpdateClientHealthInfoPro
                         )}
                       >
                         {field.value ? (
-                          format(field.value, 'PPP')
+                          formatDate(field.value)
                         ) : (
                           <Typography variant="small" color="slate-500">
                             TT.MM.JJJJ

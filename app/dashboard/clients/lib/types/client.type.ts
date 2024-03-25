@@ -72,5 +72,5 @@ export type Client = {
   isLivingWillAvailable?: boolean;
   contentOfLivingWill?: string;
   // Residence info:
-  livingArrangements?: LivingArrangement[];
+  livingArrangements: LivingArrangement[];
 };

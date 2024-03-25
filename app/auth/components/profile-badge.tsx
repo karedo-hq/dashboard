@@ -28,7 +28,11 @@ export default async function ProfileBadge() {
             {session.user.firstname}
           </Typography>
           <Avatar>
-            <AvatarImage src="https://github.com/you.png" alt="User avatar" />
+            <AvatarImage
+              src="https://github.com/you.png"
+              alt="User avatar"
+              className="object-cover"
+            />
             <AvatarFallback>...</AvatarFallback>
           </Avatar>
         </Button>

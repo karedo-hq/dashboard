@@ -3,7 +3,6 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { format } from 'date-fns';
 import {
   Form,
   FormControl,
@@ -29,7 +28,7 @@ import { CalendarIcon } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 import { useToast } from '@/lib/hooks/use-toast';
 import { getErrorMessage } from '@/lib/utils/get-error-message';
-import { updateClientAction } from '../lib/actions/update-client';
+import { updateClient } from '../lib/actions/update-client';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { CreatableSelect } from '@/components/ui/creatable-select';
 import { LOCAL_COURTS_OPTIONS } from '../lib/consts/local-courts-options';
@@ -37,6 +36,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { TYPE_OF_GUARDIANSHIP_LABELS } from '../lib/consts/type-of-guardianship-labels';
 import { PREV_GUARDIAN_TYPE_LABELS } from '../lib/consts/prev-guardian-type-labels';
 import { SCOPE_OF_DUTIES_OPTIONS } from '../lib/consts/scope-of-duties-options';
+import { formatDate } from '@/lib/utils/format-date';
 
 type UpdateClientProfileProps = {
   client: Client;
@@ -101,7 +101,7 @@ export function UpdateClientMainGuardianshipInfoForm({ client }: UpdateClientPro
     try {
       const parsedIsGuardianshipTakenOver = isGuardianshipTakenOver === 'true' ? true : false;
 
-      const res = await updateClientAction(client._id, {
+      const res = await updateClient(client._id, {
         ...values,
         isGuardianshipTakenOver: parsedIsGuardianshipTakenOver,
       });
@@ -113,14 +113,14 @@ export function UpdateClientMainGuardianshipInfoForm({ client }: UpdateClientPro
       if (res.isSuccess) {
         toast({
           variant: 'default',
-          title: 'Kunde aktualisiert',
+          title: 'Informationen wurden aktualisiert',
           description: 'Die Betreuungsinformationen wurden erfolgreich aktualisiert.',
         });
       }
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Fehler beim Aktualisieren des Kunden',
+        title: 'Fehler beim Aktualisieren des Betreuten',
         description: getErrorMessage(error),
       });
     }
@@ -181,7 +181,7 @@ export function UpdateClientMainGuardianshipInfoForm({ client }: UpdateClientPro
                       )}
                     >
                       {field.value ? (
-                        format(field.value, 'PPP')
+                        formatDate(field.value)
                       ) : (
                         <Typography variant="small" color="slate-500">
                           TT.MM.JJJJ
@@ -336,7 +336,7 @@ export function UpdateClientMainGuardianshipInfoForm({ client }: UpdateClientPro
                           )}
                         >
                           {field.value ? (
-                            format(field.value, 'PPP')
+                            formatDate(field.value)
                           ) : (
                             <Typography variant="small" color="slate-500">
                               TT.MM.JJJJ
@@ -386,7 +386,7 @@ export function UpdateClientMainGuardianshipInfoForm({ client }: UpdateClientPro
                       )}
                     >
                       {field.value ? (
-                        format(field.value, 'PPP')
+                        formatDate(field.value)
                       ) : (
                         <Typography variant="small" color="slate-500">
                           TT.MM.JJJJ
@@ -463,7 +463,7 @@ export function UpdateClientScopeOfDutiesForm({ client }: UpdateClientProfilePro
 
   const handleSubmit: SubmitHandler<ScopeOfDutiesFormValues> = async (values) => {
     try {
-      const res = await updateClientAction(client._id, values);
+      const res = await updateClient(client._id, values);
 
       if (res.isError) {
         throw new Error(res.errorMessage);
@@ -472,14 +472,14 @@ export function UpdateClientScopeOfDutiesForm({ client }: UpdateClientProfilePro
       if (res.isSuccess) {
         toast({
           variant: 'default',
-          title: 'Kunde aktualisiert',
-          description: 'Die Aufgabenbereiche des Kunden wurden aktualisiert.',
+          title: 'Informationen wurden aktualisiert',
+          description: 'Die Aufgabenbereiche des Betreuten wurden aktualisiert.',
         });
       }
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Fehler beim Aktualisieren des Kunden',
+        title: 'Fehler beim Aktualisieren des Betreuten',
         description: getErrorMessage(error),
       });
     }
