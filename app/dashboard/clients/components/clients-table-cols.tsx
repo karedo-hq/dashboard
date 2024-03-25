@@ -94,9 +94,7 @@ export const clientsCols: ColumnDef<ParsedClientForTable>[] = [
     ),
     cell: ({ row }) => {
       const { livingArrangements } = row.original;
-      return livingArrangements && livingArrangements[0]
-        ? LIVING_ARRANGEMENTS_LABELS[livingArrangements[0].type]
-        : '-';
+      return LIVING_ARRANGEMENTS_LABELS[livingArrangements[0].type];
     },
   },
   {

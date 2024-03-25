@@ -101,7 +101,8 @@ export default async function ClientDetailsPage(props: ClientDetailsPageProps) {
             <CardHeader>
               <CardTitle>Aufenthalt</CardTitle>
               <CardDescription>
-                Trage eine neue Wohnform ein, wenn sich die Wohnsituation des Betreuten ändert.
+                Bitte trage immer die aktuelle Wohnform ein, wenn sich die Wohnsituation deines
+                Betreuten ändert.
               </CardDescription>
             </CardHeader>
             <CardContent>
